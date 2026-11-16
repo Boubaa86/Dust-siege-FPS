@@ -1,0 +1,72 @@
+name: Patch Dust Siege login overlay
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "v20_login_fix.js"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate corrected login script
+        run: node --check v20_login_fix.js
+
+      - name: Replace login fix inside the game archive
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          import zipfile
+
+          archive = Path("Dust-Siege-Ultimate-War-Project-V23_2-CORRIGE.zip")
+          corrected_script = Path("v20_login_fix.js").read_bytes()
+          if not archive.is_file():
+              raise SystemExit(f"Archive not found: {archive}")
+
+          temp = archive.with_name(archive.name + ".tmp")
+          with zipfile.ZipFile(archive, "r") as source:
+              names = source.namelist()
+              if names.count("v20_login_fix.js") != 1:
+                  raise SystemExit("Expected exactly one v20_login_fix.js in archive")
+              with zipfile.ZipFile(temp, "w", compression=zipfile.ZIP_DEFLATED) as target:
+                  for info in source.infolist():
+                      data = corrected_script if info.filename == "v20_login_fix.js" else source.read(info.filename)
+                      target.writestr(info, data)
+
+          with zipfile.ZipFile(temp, "r") as check:
+              if check.testzip() is not None:
+                  raise SystemExit("ZIP integrity check failed")
+              actual = check.read("v20_login_fix.js").decode("utf-8")
+              if "setProperty('display','flex'" in actual:
+                  raise SystemExit("Old forced display rule still present")
+              if "setProperty('visibility','visible'" in actual:
+                  raise SystemExit("Old forced visibility rule still present")
+              if "setProperty('opacity','1'" in actual:
+                  raise SystemExit("Old forced opacity rule still present")
+              if len(check.namelist()) != len(names):
+                  raise SystemExit("Unexpected file-count change")
+          os.replace(temp, archive)
+          print(f"Validated archive with {len(names)} preserved entries")
+
+      - name: Commit patched archive
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Dust-Siege-Ultimate-War-Project-V23_2-CORRIGE.zip
+          if git diff --cached --quiet; then
+            echo "Archive already contains the corrected script"
+            exit 0
+          fi
+          git commit -m "Fix login overlay reopening after close"
+          git push
