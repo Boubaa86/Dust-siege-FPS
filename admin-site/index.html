@@ -11,10 +11,13 @@
 :root{color-scheme:dark;--bg:#0b0f15;--panel:#151d28;--line:#293646;--text:#f2f5f8;--muted:#9eacbc;--orange:#ff9b42;--green:#5de0a8}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(900px 450px at 70% -10%,#263648,transparent 65%),var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(1120px,92%);margin:auto}.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line)}.brand{font-weight:950;letter-spacing:.08em}.brand span{color:var(--orange)}.links{display:flex;gap:20px;color:var(--muted);font-size:14px}.hero{padding:76px 0 64px;display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center}.eyebrow{color:var(--orange);font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:12px}.hero h1{font-size:clamp(42px,7vw,76px);line-height:.98;letter-spacing:-.06em;margin:14px 0}.hero p{color:var(--muted);max-width:620px;font-size:18px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.btn{display:inline-flex;padding:13px 18px;border-radius:12px;font-weight:850;background:var(--orange);color:#1b130b}.btn.alt{background:#1c2938;color:var(--text);border:1px solid var(--line)}.visual{min-height:280px;border:1px solid #35465a;border-radius:26px;background:linear-gradient(145deg,#26384b,#121b27 62%,#372719);display:grid;place-items:center;position:relative;overflow:hidden}.visual:before,.visual:after{content:"";position:absolute;border:1px solid #ffffff18;border-radius:50%;width:260px;height:260px}.visual:after{width:360px;height:360px}.emblem{font-size:90px;font-weight:1000;color:var(--orange);text-shadow:0 15px 45px #000;z-index:1}.section{padding:36px 0}.section h2{font-size:28px;letter-spacing:-.03em;margin:0 0 8px}.lead{color:var(--muted);margin:0 0 22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:linear-gradient(145deg,#192432,#121923);border:1px solid var(--line);border-radius:18px;padding:20px}.card h3{margin:8px 0}.card p{color:var(--muted);margin:0}.tag{font-size:11px;color:var(--orange);font-weight:900;letter-spacing:.1em;text-transform:uppercase}.roadmap{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.road{display:flex;gap:12px;align-items:flex-start;padding:15px;background:#121a24;border:1px solid var(--line);border-radius:14px}.dot{width:10px;height:10px;border-radius:50%;background:var(--orange);margin-top:7px;flex:none}.road p{margin:3px 0 0;color:var(--muted);font-size:14px}.banner{margin:25px 0 55px;padding:26px;border:1px solid #67482c;border-radius:20px;background:linear-gradient(120deg,#332417,#17212d)}footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:13px}.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:48px 0}.visual{min-height:190px}.emblem{font-size:65px}.grid{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr}.links{gap:10px;font-size:12px}.links a:nth-child(3){display:none}}
+
+.menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.menu-tile{display:block;padding:17px;border:1px solid var(--line);border-radius:15px;background:#141e2a;transition:.2s}.menu-tile:hover{border-color:var(--orange);transform:translateY(-2px)}.menu-tile b{display:block;margin:5px 0}.menu-tile small{color:var(--muted)}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{padding:20px;border:1px solid var(--line);border-radius:16px;background:#121a24}.panel p{color:var(--muted)}.faq details{padding:15px 0;border-bottom:1px solid var(--line)}.faq summary{cursor:pointer;font-weight:800}.faq details p{color:var(--muted)}.pill{display:inline-block;border:1px solid #45566b;border-radius:99px;padding:4px 9px;font-size:11px;color:var(--muted);margin:3px}
+@media(max-width:760px){.menu-grid{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}.links{overflow:auto;max-width:72vw;white-space:nowrap}}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="#">DUST <span>SIEGE</span></a><nav class="links"><a href="#modes">Le jeu</a><a href="#news">Actualités</a><a href="#community">Communauté</a><a href="#guide">Guide</a><a href="/admin.html">Admin</a></nav></header>
+<header class="wrap nav"><a class="brand" href="#">DUST <span>SIEGE</span></a><nav class="links"><a href="#modes">Modes</a><a href="#news">Actus</a><a href="#community">Communauté</a><a href="#univers">Univers</a><a href="#guide">Guide</a><a href="/admin.html">Admin</a></nav></header>
 <main class="wrap">
 <section class="hero"><div><div class="eyebrow">Portail officiel · Communauté</div><h1>PRÉPARE-TOI.<br><span style="color:var(--orange)">ENTRE EN ZONE.</span></h1><p>Bienvenue sur le portail Dust Siege. Retrouve les accès au jeu, les informations utiles, les nouveautés et les prochaines étapes du projet.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Jouer à Dust Siege ↗</a><a class="btn alt" href="#news">Découvrir le portail</a></div></div><div class="visual" aria-label="Emblème Dust Siege"><div class="emblem">DS</div></div></section>
 <section class="section" id="modes"><h2>Le champ de bataille</h2><p class="lead">Les expériences de l'univers Dust Siege. Leur disponibilité dépend de la version actuelle du jeu.</p><div class="grid">
@@ -49,7 +52,61 @@
 <article class="card"><h3>Pourquoi un mode ne fonctionne pas ?</h3><p>Il peut être indisponible ou en maintenance. Réessaie plus tard si le serveur ne répond pas.</p></article>
 <article class="card"><h3>Où trouver les outils admin ?</h3><p>L'espace administrateur est séparé et réservé aux comptes autorisés.</p></article>
 </div></section>
-<section class="banner" id="infos"><div class="tag">Dust Siege · Portail officiel</div><h2>Prêt à entrer en zone ?</h2><p style="color:var(--muted)">Les nouveautés seront ajoutées ici au fur et à mesure. Les informations affichées distinguent les fonctions prévues de celles déjà disponibles.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Ouvrir le jeu ↗</a><a class="btn alt" href="/admin.html">Espace administrateur ↗</a></div></section>
+
+<section class="section" id="sommaire"><h2>Explorer Dust Siege</h2><p class="lead">Accès rapide aux différentes rubriques du portail.</p><div class="menu-grid">
+<a class="menu-tile" href="#news">📰 <b>Actualités</b><small>Annonces et nouvelles</small></a>
+<a class="menu-tile" href="#modes">🎮 <b>Modes de jeu</b><small>Découvrir les expériences</small></a>
+<a class="menu-tile" href="#univers">🗺️ <b>Univers & cartes</b><small>Les environnements</small></a>
+<a class="menu-tile" href="#arsenal">🔫 <b>Arsenal</b><small>Équipements et personnalisation</small></a>
+<a class="menu-tile" href="#community">👥 <b>Communauté</b><small>Amis et escouades</small></a>
+<a class="menu-tile" href="#events">🏆 <b>Événements</b><small>Défis et tournois prévus</small></a>
+<a class="menu-tile" href="#guide">📘 <b>Guide</b><small>Bien commencer</small></a>
+<a class="menu-tile" href="#faq">❓ <b>FAQ & aide</b><small>Questions fréquentes</small></a>
+<a class="menu-tile" href="#roadmap">🛠️ <b>Feuille de route</b><small>Les prochaines étapes</small></a>
+<a class="menu-tile" href="#patchnotes">📋 <b>Journal des mises à jour</b><small>Suivi du développement</small></a>
+<a class="menu-tile" href="#fairplay">🛡️ <b>Fair-play</b><small>Règles de bonne conduite</small></a>
+<a class="menu-tile" href="#support">💬 <b>Assistance</b><small>Que faire en cas de souci</small></a>
+</div></section>
+<section class="section" id="univers"><h2>Univers & cartes</h2><p class="lead">Les thèmes et environnements qui donnent son identité au champ de bataille.</p><div class="grid">
+<article class="card"><div class="tag">Environnement</div><h3>Zones urbaines</h3><p>Des rues, bâtiments et points de couverture pour imaginer des combats tactiques.</p></article>
+<article class="card"><div class="tag">Terrain</div><h3>Zones naturelles</h3><p>Des reliefs et espaces ouverts qui demandent de bien choisir ses déplacements.</p></article>
+<article class="card"><div class="tag">Entraînement</div><h3>Parcours</h3><p>Des espaces pour travailler sa précision, ses réflexes et sa mobilité.</p></article>
+</div></section>
+<section class="section" id="arsenal"><h2>Arsenal & équipement</h2><p class="lead">Présentation des catégories d'équipement envisagées dans le jeu.</p><div class="grid">
+<article class="card"><div class="tag">Équipement</div><h3>Armes principales</h3><p>Des catégories d'armes adaptées à différents styles de jeu.</p></article>
+<article class="card"><div class="tag">Personnalisation</div><h3>Apparences</h3><p>Personnalisation visuelle des équipements et des avatars, selon les fonctions disponibles.</p></article>
+<article class="card"><div class="tag">Tactique</div><h3>Accessoires</h3><p>Des options d'équipement pour varier les approches et les stratégies.</p></article>
+</div><p class="lead">Cette rubrique présente des idées de contenu : elle ne constitue pas une liste d'objets déjà débloquables.</p></section>
+<section class="section" id="events"><h2>Événements & compétitions</h2><p class="lead">Un espace destiné aux activités communautaires futures.</p><div class="grid">
+<article class="card"><div class="tag">Défis</div><h3>Défis hebdomadaires</h3><p>Objectifs à accomplir et progression personnelle — à mettre en place.</p></article>
+<article class="card"><div class="tag">Compétition</div><h3>Tournois</h3><p>Des rencontres organisées avec règles et calendrier annoncés à l'avance.</p></article>
+<article class="card"><div class="tag">Saison</div><h3>Saisons & récompenses</h3><p>Un suivi saisonnier des objectifs et des récompenses à développer.</p></article>
+</div></section>
+<section class="section" id="patchnotes"><h2>Journal de développement</h2><p class="lead">Les changements du portail sont distingués des mises à jour du jeu.</p><div class="roadmap">
+<div class="road"><span class="dot"></span><div><b>Portail — navigation enrichie</b><p>Ajout de raccourcis, rubriques univers, arsenal, événements et assistance.</p></div></div>
+<div class="road"><span class="dot"></span><div><b>Portail — informations joueurs</b><p>Ajout de règles de fair-play, conseils de dépannage et FAQ étendue.</p></div></div>
+<div class="road"><span class="dot"></span><div><b>Prochaine étape</b><p>Publier ici uniquement les mises à jour du jeu confirmées.</p></div></div>
+<div class="road"><span class="dot"></span><div><b>Transparence</b><p>Les idées et fonctions en préparation ne sont pas présentées comme déjà actives.</p></div></div>
+</div></section>
+<section class="section" id="fairplay"><h2>Fair-play & sécurité</h2><div class="split">
+<div class="panel"><h3>Respecte les autres joueurs</h3><p>Pas d'insultes, de harcèlement, de menaces ni de divulgation d'informations personnelles. Garde les échanges respectueux.</p></div>
+<div class="panel"><h3>Joue loyalement</h3><p>Évite les triches, scripts d'avantage, exploits volontaires et tentatives de perturber les serveurs. Signale les bugs sans les exploiter.</p></div>
+<div class="panel"><h3>Protège ton compte</h3><p>Ne partage jamais ton mot de passe, tes codes de connexion ou tes informations privées.</p></div>
+<div class="panel"><h3>Signale clairement un bug</h3><p>Indique le mode, l'appareil, le moment du problème et les étapes pour le reproduire. Ne publie pas de données personnelles.</p></div>
+</div></section>
+<section class="section" id="support"><h2>Centre d'assistance</h2><p class="lead">Quelques vérifications simples avant de signaler un problème.</p><div class="roadmap">
+<div class="road"><span class="dot"></span><div><b>Le jeu reste bloqué au chargement</b><p>Vérifie la connexion, actualise une fois la page et réessaie après quelques instants.</p></div></div>
+<div class="road"><span class="dot"></span><div><b>Le serveur semble inaccessible</b><p>Le service peut être temporairement indisponible. Évite de répéter rapidement les tentatives.</p></div></div>
+<div class="road"><span class="dot"></span><div><b>Écran noir ou éléments manquants</b><p>Note le navigateur, le modèle de téléphone et le mode concerné.</p></div></div>
+<div class="road"><span class="dot"></span><div><b>Un bouton ne répond pas</b><p>Décris le bouton, ce que tu attends et ce qui se passe réellement.</p></div></div>
+</div></section>
+<section class="section faq" id="faq-plus"><h2>Questions supplémentaires</h2>
+<details><summary>Les tournois sont-ils déjà ouverts ?</summary><p>Non, cette page présente une rubrique prévue. Les dates seront affichées uniquement lorsqu'un tournoi sera réellement organisé.</p></details>
+<details><summary>Les armes présentées sont-elles toutes disponibles ?</summary><p>Non. La rubrique Arsenal décrit des catégories et pistes de personnalisation, pas l'inventaire actuel du jeu.</p></details>
+<details><summary>Où puis-je jouer ?</summary><p>Utilise le bouton Jouer en haut du portail pour ouvrir le site du jeu.</p></details>
+<details><summary>Le portail fonctionne-t-il sur mobile ?</summary><p>Oui, sa mise en page s'adapte aux petits écrans et aux téléphones.</p></details>
+</section>
+\n<section class="banner" id="infos"><div class="tag">Dust Siege · Portail officiel</div><h2>Prêt à entrer en zone ?</h2><p style="color:var(--muted)">Les nouveautés seront ajoutées ici au fur et à mesure. Les informations affichées distinguent les fonctions prévues de celles déjà disponibles.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Ouvrir le jeu ↗</a><a class="btn alt" href="/admin.html">Espace administrateur ↗</a></div></section>
 </main>
-<footer><div class="wrap foot"><span>© Dust Siege · Projet en développement</span><span><a href="https://dust-siege-game-v9.onrender.com">Jeu</a> · <a href="#faq">FAQ</a> · <a href="/admin.html">Administration</a></span></div></footer>
+<footer><div class="wrap foot"><span>© Dust Siege · Projet en développement</span><span><a href="https://dust-siege-game-v9.onrender.com">Jeu</a> · <a href="#faq">FAQ</a> · <a href="#support">Assistance</a> · <a href="/admin.html">Administration</a></span></div></footer>
 </body></html>
