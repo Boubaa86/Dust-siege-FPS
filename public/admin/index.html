@@ -56,7 +56,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button data-page="tournaments"><span class="navIcon">♜</span>Tournois</button>
     <button data-page="notifications"><span class="navIcon">♧</span>Notifications</button>
     <button data-page="ads"><span class="navIcon">▣</span>Publicités</button>
-    <button data-page="assistant"><span class="navIcon">✧</span>Assistant IA</button>
+    <button data-page="assistant"><span class="navIcon">✧</span>Assistant diagnostic</button>
     <button data-page="godmode"><span class="navIcon">♛</span>Mode Dieu</button>
   </nav>
   <div class="sideFoot">DUST SIEGE · ADMIN<br><div class="connection"><span class="dot" id="sideDot"></span><span id="sideStatus">Connexion active</span></div><span>Commandes développeur protégées</span></div>
@@ -458,7 +458,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     $('analyticsBars').innerHTML=top.length?top.map((p,i)=>'<div class="listRow"><div style="flex:1;min-width:0"><div class="listTitle">#'+(i+1)+' '+esc(p.name)+'</div><div class="barTrack"><div class="barFill" style="width:'+Math.max(1,Math.min(100,Number(p.score||0)/max*100))+'%"></div></div></div><div class="score">'+fmt(p.score)+'</div></div>').join(''):'<div class="empty">Aucun score disponible.</div>';
   }
   async function loadEconomy(){
-    const d=await request('/api/admin/economy');$('ecoBank').textContent=fmt(d.bank);$('ecoXp').textContent=fmt(d.xp);$('ecoSaves').textContent=fmt(d.sampledSaves);$('ecoPlayers').textContent=fmt(d.topPlayers?.length||0);
+    const d=await request('/api/admin/economy');$('ecoBank').textContent=fmt(d.bank);$('ecoXp').textContent=fmt(d.xp);$('ecoSaves').textContent=fmt(d.sampledSaves);$('ecoPlayers').textContent=fmt(d.sampledPlayers||0);
   }
   const readDrafts=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}};
   const writeDrafts=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
