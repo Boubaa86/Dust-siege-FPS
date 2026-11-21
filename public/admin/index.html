@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101318">
+<title>Dust Siege — Administration</title>
+<style>
+:root{color-scheme:dark;--bg:#0c0f14;--panel:#151a22;--panel2:#1b222d;--line:#28313e;--text:#eef2f7;--muted:#98a4b5;--accent:#f28a32;--accent2:#ffb15d;--green:#4bd49b;--red:#ff6874;--blue:#76a9ff;--radius:16px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 80% -15%,#28303c 0,transparent 65%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,monospace}
+#loginWrap{min-height:100vh;display:grid;place-items:center;padding:22px}.login{width:min(100%,430px);background:linear-gradient(155deg,#1c2430,#12171f);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 24px 90px #0008}.brand{display:flex;align-items:center;gap:13px;font-weight:850;letter-spacing:.08em}.brandMark{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,var(--accent),#a94418);color:#17120e;font-size:20px;font-weight:950}.eyebrow{color:var(--accent2);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.login h1{font-size:25px;margin:24px 0 6px}.login p{color:var(--muted);margin:0 0 22px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:#c6cfda;font-weight:650}.field input,.search input{width:100%;background:#0d1117;border:1px solid var(--line);color:var(--text);padding:13px 14px;border-radius:11px;outline:none}.field input:focus,.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #f28a3220}.btn{border:1px solid transparent;border-radius:11px;padding:11px 15px;font-weight:750;background:var(--accent);color:#1b130c}.btn:hover{filter:brightness(1.08)}.btn.secondary{background:#202936;color:var(--text);border-color:#354252}.btn.ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn:disabled{opacity:.55;cursor:not-allowed}.wide{width:100%;margin-top:8px}.notice{font-size:12px;color:var(--muted);margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.error{color:var(--red);font-size:13px;margin-top:12px;min-height:20px}
+#app{min-height:100vh}.layout{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}.sidebar{background:#10151c;border-right:1px solid var(--line);padding:22px 15px;display:flex;flex-direction:column;gap:24px}.sideBrand{padding:2px 10px 15px;border-bottom:1px solid var(--line)}.sideBrand .brand{font-size:13px}.sideBrand small{display:block;margin:9px 0 0 57px;color:var(--muted);letter-spacing:.08em}.nav{display:grid;gap:7px}.nav button{border:1px solid transparent;background:transparent;color:#aeb9c8;text-align:left;padding:11px 12px;border-radius:11px;font-weight:650;display:flex;align-items:center;gap:11px}.nav button.active,.nav button:hover{background:#202936;color:var(--text);border-color:#303d4d}.nav button.active .navIcon{color:var(--accent2)}.navIcon{width:20px;text-align:center;font-size:16px}.sideFoot{margin-top:auto;border-top:1px solid var(--line);padding:15px 10px 0;color:var(--muted);font-size:12px}.connection{display:flex;align-items:center;gap:8px;margin:9px 0}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px #4bd49b88}.dot.off{background:var(--red);box-shadow:none}
+main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:28px}.topbar h1{font-size:clamp(22px,3vw,30px);margin:0;letter-spacing:-.03em}.topbar p{color:var(--muted);margin:4px 0 0}.topActions{display:flex;gap:8px;align-items:center}.userPill{border:1px solid var(--line);padding:8px 11px;border-radius:100px;font-size:12px;color:#c4ceda;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page{display:none}.page.active{display:block}.sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 0 16px}.sectionHead h2{font-size:18px;margin:0}.sectionHead p{margin:4px 0 0;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.card{background:linear-gradient(145deg,#19212b,#141a22);border:1px solid var(--line);border-radius:var(--radius);padding:17px;min-width:0}.metricLabel{color:var(--muted);font-size:12px;font-weight:650}.metric{font-size:30px;font-weight:850;letter-spacing:-.04em;margin:8px 0 2px}.metricFoot{font-size:11px;color:#7f8c9d}.metricIcon{float:right;width:34px;height:34px;border-radius:10px;background:#f28a3218;color:var(--accent2);display:grid;place-items:center;font-size:17px}
+.split{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:14px;margin-top:15px}.list{display:grid;gap:0}.listRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #27313c}.listRow:last-child{border:0}.listTitle{font-weight:700}.listSub{font-size:12px;color:var(--muted)}.score{font-weight:800;color:var(--accent2);font-variant-numeric:tabular-nums}.badge{display:inline-flex;align-items:center;gap:6px;border-radius:100px;background:#263241;color:#c4d0df;padding:4px 8px;font-size:11px;font-weight:700}.badge.good{background:#16352c;color:#70e0b1}.badge.warn{background:#40281a;color:#ffbd7c}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:15px 0}.search{display:flex;gap:8px;flex:1;min-width:220px}.search input{max-width:430px}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#141a22}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #27313c;font-size:13px}th{color:#aab6c5;background:#1a222d;font-size:11px;text-transform:uppercase;letter-spacing:.08em;position:sticky;top:0}td{color:#dbe2eb}tr:last-child td{border-bottom:0}.playerName{font-weight:750}.pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px;font-size:12px;color:var(--muted)}
+.serverGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.serverCard h3{margin:0 0 8px}.serverNum{font-size:29px;font-weight:850;margin:6px 0}.roomItem{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.roomItem:last-child{border:0}
+.securityGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.securityRow{display:flex;gap:11px;align-items:flex-start;margin:14px 0}.check{color:var(--green);font-weight:900}.infoBox{border:1px solid #5b442b;background:#291f16;border-radius:13px;padding:14px;color:#e6c39b;font-size:13px;margin-top:14px}
+.empty{color:var(--muted);padding:18px 0;text-align:center;font-size:13px}.small{font-size:12px}.mobileNav{display:none}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{position:sticky;top:0;z-index:5;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);gap:10px}.sideBrand{display:none}.nav{display:flex;overflow-x:auto;gap:6px}.nav button{white-space:nowrap;padding:9px 11px;font-size:12px}.navIcon{width:auto}.sideFoot{display:none}main{padding:17px 13px 34px}.topbar{align-items:flex-start;flex-direction:column;margin-bottom:20px}.topActions{width:100%;justify-content:space-between}.userPill{max-width:55vw}.metric{font-size:25px}.card{padding:14px}.grid{gap:9px}.serverGrid,.securityGrid{grid-template-columns:1fr}.sectionHead{align-items:flex-start;flex-direction:column}.toolbar .btn{flex:0 0 auto}}
+@media(max-width:390px){.grid{grid-template-columns:1fr 1fr}.metric{font-size:22px}.metricLabel{font-size:11px}.metricFoot{font-size:10px}}
+</style>
+</head>
+<body>
+<div id="loginWrap">
+  <form class="login" id="loginForm">
+    <div class="brand"><div class="brandMark">DS</div><div>DUST SIEGE<div class="eyebrow">ADMIN CONTROL</div></div></div>
+    <h1>Console d’administration</h1>
+    <p>Connecte-toi avec le compte développeur autorisé du projet.</p>
+    <div class="field"><label for="email">Adresse e-mail</label><input id="email" type="email" autocomplete="username" required placeholder="dev@exemple.fr"></div>
+    <div class="field"><label for="password">Mot de passe</label><input id="password" type="password" autocomplete="current-password" required placeholder="Mot de passe du compte"></div>
+    <button class="btn wide" id="loginBtn" type="submit">Se connecter</button>
+    <div class="error" id="loginError" role="alert"></div>
+    <div class="notice">Accès réservé aux adresses confirmées et autorisées côté serveur. Le mot de passe n’est jamais enregistré dans cette page.</div>
+  </form>
+</div>
+<div id="app" class="hidden">
+<div class="layout">
+<aside class="sidebar">
+  <div class="sideBrand"><div class="brand"><div class="brandMark">DS</div><div>DUST SIEGE</div></div><small>ADMIN CONTROL CENTER</small></div>
+  <nav class="nav" aria-label="Navigation administration">
+    <button class="active" data-page="overview"><span class="navIcon">◈</span>Vue globale</button>
+    <button data-page="players"><span class="navIcon">♙</span>Joueurs</button>
+    <button data-page="servers"><span class="navIcon">▦</span>Serveurs</button>
+    <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>
+  </nav>
+  <div class="sideFoot">DUST SIEGE · ADMIN<br><div class="connection"><span class="dot" id="sideDot"></span><span id="sideStatus">Connexion active</span></div><span>Vue protégée · lecture seule</span></div>
+</aside>
+<main>
+  <header class="topbar">
+    <div><div class="eyebrow">CENTRE DE COMMANDEMENT</div><h1 id="pageTitle">Vue globale</h1><p id="pageSubtitle">État du jeu et activité des joueurs.</p></div>
+    <div class="topActions"><span class="userPill" id="userEmail">Développeur</span><button class="btn secondary" id="refreshBtn">↻ Actualiser</button><button class="btn ghost" id="logoutBtn">Déconnexion</button></div>
+  </header>
+
+  <section class="page active" id="page-overview">
+    <div class="sectionHead"><div><h2>Indicateurs principaux</h2><p>Mesures issues de la base de données et des salons actuellement ouverts.</p></div><span class="badge good" id="apiBadge">● API connectée</span></div>
+    <div class="grid">
+      <article class="card"><span class="metricIcon">♙</span><div class="metricLabel">Comptes joueurs</div><div class="metric mono" id="totalPlayers">—</div><div class="metricFoot">Total retourné par la base</div></article>
+      <article class="card"><span class="metricIcon">◷</span><div class="metricLabel">Actifs sur 7 jours</div><div class="metric mono" id="activePlayers">—</div><div class="metricFoot">Sur les profils récents analysés</div></article>
+      <article class="card"><span class="metricIcon">⚡</span><div class="metricLabel">Joueurs en ligne</div><div class="metric mono" id="onlinePlayers">—</div><div class="metricFoot">Présents dans les salons actifs</div></article>
+      <article class="card"><span class="metricIcon">▦</span><div class="metricLabel">Salons actifs</div><div class="metric mono" id="activeRooms">—</div><div class="metricFoot">Arène et coopération</div></article>
+    </div>
+    <div class="split">
+      <article class="card"><div class="sectionHead"><div><h2>Joueurs récents</h2><p>Derniers profils mis à jour</p></div><button class="btn secondary" data-goto="players">Voir tout</button></div><div class="list" id="recentList"><div class="empty">Chargement…</div></div></article>
+      <article class="card"><div class="sectionHead"><div><h2>Meilleurs scores</h2><p>Classement enregistré</p></div></div><div class="list" id="topList"><div class="empty">Chargement…</div></div></article>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Activité enregistrée</h2><p>Les totaux de parties et éliminations sont calculés sur l’échantillon indiqué.</p></div></div><div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div><div class="metric mono" id="gamesCount">—</div><div class="metricLabel">Parties cumulées dans l’échantillon</div></div><div><div class="metric mono" id="killsCount">—</div><div class="metricLabel">Éliminations cumulées dans l’échantillon</div></div></div><p class="muted small" id="sampleNote" style="margin:14px 0 0">Les statistiques détaillées sont en cours de chargement.</p></div>
+  </section>
+
+  <section class="page" id="page-players">
+    <div class="sectionHead"><div><h2>Gestion et recherche des joueurs</h2><p>Consulte les profils enregistrés, leurs scores et leurs statistiques.</p></div><span class="badge">Lecture seule</span></div>
+    <div class="toolbar"><div class="search"><input id="playerSearch" type="search" placeholder="Rechercher par pseudo ou identifiant…"><button class="btn" id="searchBtn">Rechercher</button></div><button class="btn secondary" id="exportBtn">Exporter CSV</button></div>
+    <div class="tableWrap"><table><thead><tr><th>Joueur</th><th>Identifiant</th><th>Score</th><th>Vague</th><th>Parties</th><th>Éliminations</th><th>Dernière activité</th></tr></thead><tbody id="playersBody"><tr><td colspan="7" class="empty">Lance une recherche pour afficher les joueurs.</td></tr></tbody></table></div>
+    <div class="pagination"><span id="playerCount">Aucun résultat chargé</span><div><button class="btn secondary" id="prevBtn" disabled>← Précédent</button> <button class="btn secondary" id="nextBtn" disabled>Suivant →</button></div></div>
+  </section>
+
+  <section class="page" id="page-servers">
+    <div class="sectionHead"><div><h2>État des serveurs</h2><p>Surveillance en direct des connexions WebSocket et salons ouverts.</p></div><span class="badge good" id="serverState">● Surveillance active</span></div>
+    <div class="serverGrid">
+      <article class="card"><div class="metricLabel">Joueurs connectés</div><div class="serverNum mono" id="livePlayers">—</div><div class="metricFoot">Connexions présentes dans les salons</div></article>
+      <article class="card"><div class="metricLabel">Salons ouverts</div><div class="serverNum mono" id="liveRooms">—</div><div class="metricFoot">Sessions de jeu actives</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Salons en cours</h2><p>Les salons disparaissent automatiquement lorsqu’ils sont vides.</p></div><button class="btn secondary" id="liveRefreshBtn">Actualiser</button></div><div id="roomsList"><div class="empty">Chargement…</div></div></article>
+  </section>
+
+  <section class="page" id="page-security">
+    <div class="sectionHead"><div><h2>Sécurité et accès</h2><p>État des protections visibles dans la configuration actuelle.</p></div><span class="badge good">● Accès développeur</span></div>
+    <div class="securityGrid">
+      <article class="card"><h3>Protection de la console</h3><div class="securityRow"><span class="check">✓</span><div><b>Connexion par compte</b><div class="muted small">Authentification Supabase avec jeton d’accès.</div></div></div><div class="securityRow"><span class="check">✓</span><div><b>Liste blanche développeur</b><div class="muted small">Adresse confirmée et présente dans la configuration serveur.</div></div></div><div class="securityRow"><span class="check">✓</span><div><b>Requêtes protégées</b><div class="muted small">Chaque route admin vérifie le rôle côté serveur.</div></div></div></article>
+      <article class="card"><h3>Outils de modération</h3><div class="securityRow"><span class="check">✓</span><div><b>Consultation des profils</b><div class="muted small">Scores, activité et statistiques disponibles en lecture.</div></div></div><div class="securityRow"><span class="badge warn">À ajouter</span><div><b>Sanctions et bannissements</b><div class="muted small">Non activés : aucune action de sanction n’est simulée ici.</div></div></div><div class="securityRow"><span class="badge warn">À ajouter</span><div><b>Journal d’audit persistant</b><div class="muted small">Nécessite une table dédiée et une politique d’accès.</div></div></div></article>
+    </div>
+    <div class="infoBox">Cette première version est volontairement en lecture seule : elle ne modifie ni les comptes, ni les soldes, ni les sauvegardes des joueurs. Les commandes sensibles seront ajoutées seulement avec des protections et un historique vérifiable.</div>
+  </section>
+  <footer class="muted small" style="margin-top:24px">Dernière actualisation : <span id="lastUpdate">—</span> · Console Dust Siege</footer>
+</main>
+</div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const API = 'https://dust-siege-server-1.onrender.com';
+  const TOKEN_KEY = 'ds_admin_token';
+  const $ = (id) => document.getElementById(id);
+  let token = sessionStorage.getItem(TOKEN_KEY) || '';
+  let currentItems = [];
+  let playerOffset = 0;
+  let playerTotal = 0;
+  const pageInfo = {
+    overview: ['Vue globale', 'État du jeu et activité des joueurs.'],
+    players: ['Joueurs', 'Recherche et statistiques des profils enregistrés.'],
+    servers: ['Serveurs', 'État des salons multijoueurs en direct.'],
+    security: ['Sécurité', 'Contrôles d’accès et état des protections.']
+  };
+  const fmt = (n) => Number(n || 0).toLocaleString('fr-FR');
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const date = (v) => v ? new Date(v).toLocaleString('fr-FR', {dateStyle:'short',timeStyle:'short'}) : 'Inconnue';
+  function showLogin(message='') {
+    $('loginWrap').classList.remove('hidden'); $('app').classList.add('hidden');
+    $('loginError').textContent = message;
+    $('password').value = '';
+  }
+  function showApp(email='Développeur') {
+    $('loginWrap').classList.add('hidden'); $('app').classList.remove('hidden');
+    $('userEmail').textContent = email;
+  }
+  async function request(path, options={}) {
+    const response = await fetch(API + path, {
+      ...options,
+      headers: {'Content-Type':'application/json', ...(token ? {Authorization:'Bearer '+token} : {}), ...(options.headers||{})},
+      cache:'no-store'
+    });
+    let data = {};
+    try { data = await response.json(); } catch {}
+    if (response.status === 401 || response.status === 403) {
+      sessionStorage.removeItem(TOKEN_KEY); token = '';
+      showLogin(data.error || 'Accès refusé. Vérifie le compte développeur autorisé.');
+      throw new Error(data.error || 'Accès refusé');
+    }
+    if (!response.ok) throw new Error(data.error || 'Erreur serveur ('+response.status+')');
+    return data;
+  }
+  $('loginForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const btn=$('loginBtn'); btn.disabled=true; btn.textContent='Connexion…';
+    $('loginError').textContent='';
+    try {
+      const response=await fetch(API+'/api/marketing/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('email').value.trim(),password:$('password').value}),cache:'no-store'});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(data.error || 'Connexion impossible.');
+      token=data.access_token;
+      if(!token) throw new Error('Le serveur n’a pas fourni de jeton.');
+      sessionStorage.setItem(TOKEN_KEY,token);
+      showApp(data.user?.email || $('email').value.trim());
+      await refreshAll();
+    } catch(error) { $('loginError').textContent=error.message; }
+    finally { btn.disabled=false; btn.textContent='Se connecter'; }
+  });
+  function go(page) {
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+    document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
+    $('pageTitle').textContent=pageInfo[page][0]; $('pageSubtitle').textContent=pageInfo[page][1];
+    if(page==='players') loadPlayers();
+    if(page==='servers') loadLive();
+  }
+  document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+  document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
+  async function loadOverview() {
+    const data=await request('/api/admin/overview');
+    $('totalPlayers').textContent=fmt(data.totalPlayers);
+    $('activePlayers').textContent=fmt(data.activePlayers7d);
+    $('onlinePlayers').textContent=fmt(data.onlinePlayers);
+    $('activeRooms').textContent=fmt(data.activeRooms);
+    $('gamesCount').textContent=fmt(data.gamesInSample);
+    $('killsCount').textContent=fmt(data.killsInSample);
+    $('sampleNote').textContent='Échantillon analysé : '+fmt(data.sampledPlayers)+' profils sur '+fmt(data.totalPlayers)+' comptes au total.';
+    $('recentList').innerHTML=(data.recentPlayers||[]).length ? data.recentPlayers.map(p=>'<div class="listRow"><div><div class="listTitle">'+esc(p.name)+'</div><div class="listSub">'+date(p.updatedAt)+'</div></div><div class="score">'+fmt(p.score)+' pts</div></div>').join('') : '<div class="empty">Aucun joueur enregistré pour le moment.</div>';
+    $('topList').innerHTML=(data.topPlayers||[]).length ? data.topPlayers.map((p,i)=>'<div class="listRow"><div><div class="listTitle">#'+(i+1)+' '+esc(p.name)+'</div><div class="listSub">Vague '+fmt(p.wave)+'</div></div><div class="score">'+fmt(p.score)+'</div></div>').join('') : '<div class="empty">Aucun score enregistré.</div>';
+  }
+  async function loadLive() {
+    const data=await request('/api/admin/live');
+    $('livePlayers').textContent=fmt(data.onlinePlayers);
+    $('liveRooms').textContent=fmt(data.activeRooms);
+    $('onlinePlayers').textContent=fmt(data.onlinePlayers);
+    $('activeRooms').textContent=fmt(data.activeRooms);
+    $('roomsList').innerHTML=(data.rooms||[]).length ? data.rooms.map(r=>'<div class="roomItem"><div><b>'+esc(r.room)+'</b><div class="muted small">'+esc(r.mode)+(r.wave ? ' · vague '+fmt(r.wave) : '')+'</div></div><span class="badge good">'+fmt(r.players)+' joueur(s)</span></div>').join('') : '<div class="empty">Aucun salon actif actuellement.</div>';
+    $('serverState').textContent='● WebSocket opérationnel';
+  }
+  async function loadPlayers() {
+    const q=$('playerSearch').value.trim();
+    $('playersBody').innerHTML='<tr><td colspan="7" class="empty">Chargement…</td></tr>';
+    try {
+      const data=await request('/api/admin/players?q='+encodeURIComponent(q)+'&limit=25&offset='+playerOffset);
+      currentItems=data.items||[]; playerTotal=Number(data.total||0);
+      $('playersBody').innerHTML=currentItems.length ? currentItems.map(p=>'<tr><td class="playerName">'+esc(p.name)+'</td><td class="mono">'+esc(p.playerId)+'</td><td class="mono">'+fmt(p.score)+'</td><td>'+fmt(p.wave)+'</td><td>'+fmt(p.games)+'</td><td>'+fmt(p.kills)+'</td><td>'+date(p.updatedAt)+'</td></tr>').join('') : '<tr><td colspan="7" class="empty">Aucun joueur trouvé.</td></tr>';
+      $('playerCount').textContent=playerTotal ? (playerOffset+1)+'–'+Math.min(playerOffset+currentItems.length,playerTotal)+' sur '+fmt(playerTotal)+' joueur(s)' : 'Aucun résultat';
+      $('prevBtn').disabled=playerOffset===0;
+      $('nextBtn').disabled=playerOffset+currentItems.length>=playerTotal || currentItems.length===0;
+    } catch(error) { $('playersBody').innerHTML='<tr><td colspan="7" class="empty">'+esc(error.message)+'</td></tr>'; }
+  }
+  async function refreshAll() {
+    if(!token) return showLogin();
+    $('refreshBtn').disabled=true; $('apiBadge').textContent='● Actualisation…';
+    try {
+      await Promise.all([loadOverview(),loadLive()]);
+      $('apiBadge').textContent='● API connectée'; $('sideDot').classList.remove('off'); $('sideStatus').textContent='Connexion active';
+      $('lastUpdate').textContent=new Date().toLocaleString('fr-FR');
+    } catch(error) {
+      $('apiBadge').textContent='● Erreur API'; $('sideDot').classList.add('off'); $('sideStatus').textContent='À vérifier';
+      console.error(error);
+    } finally { $('refreshBtn').disabled=false; }
+  }
+  $('refreshBtn').addEventListener('click',refreshAll);
+  $('liveRefreshBtn').addEventListener('click',()=>loadLive().catch(e=>alert(e.message)));
+  $('searchBtn').addEventListener('click',()=>{playerOffset=0;loadPlayers();});
+  $('playerSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){playerOffset=0;loadPlayers();}});
+  $('prevBtn').addEventListener('click',()=>{playerOffset=Math.max(0,playerOffset-25);loadPlayers();});
+  $('nextBtn').addEventListener('click',()=>{playerOffset+=25;loadPlayers();});
+  $('exportBtn').addEventListener('click',()=>{
+    if(!currentItems.length) return alert('Aucun joueur à exporter. Charge d’abord la liste.');
+    const cols=['playerId','name','score','wave','games','kills','heads','hits','shots','damage','updatedAt'];
+    const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+    const csv=[cols.join(';'),...currentItems.map(p=>cols.map(k=>quote(p[k])).join(';'))].join('\n');
+    const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+    const a=document.createElement('a');a.href=url;a.download='dust-siege-joueurs.csv';a.click();URL.revokeObjectURL(url);
+  });
+  $('logoutBtn').addEventListener('click',()=>{sessionStorage.removeItem(TOKEN_KEY);token='';showLogin('Tu es déconnecté.');});
+  if(token) {
+    showApp();
+    refreshAll().catch(()=>showLogin('Session expirée. Reconnecte-toi.'));
+  }
+  setInterval(()=>{if(token && !$('app').classList.contains('hidden'))refreshAll();},30000);
+})();
+</script>
+</body>
+</html>
