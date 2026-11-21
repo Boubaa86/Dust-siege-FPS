@@ -58,6 +58,10 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button data-page="ads"><span class="navIcon">▣</span>Publicités</button>
     <button data-page="integrations"><span class="navIcon">⛓</span>Intégrations</button>
     <button data-page="studio"><span class="navIcon">✎</span>Studio & suivi</button>
+    <button data-page="operations"><span class="navIcon">⌁</span>Centre Ops</button>
+    <button data-page="qa"><span class="navIcon">✓</span>Laboratoire QA</button>
+    <button data-page="liveops"><span class="navIcon">◷</span>LiveOps & contenu</button>
+    <button data-page="backups"><span class="navIcon">▣</span>Sauvegardes</button>
     <button data-page="assistant"><span class="navIcon">✧</span>Assistant diagnostic</button>
     <button data-page="godmode"><span class="navIcon">♛</span>Mode Dieu</button>
   </nav>
@@ -332,6 +336,67 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
 </main>
 </div>
 </div>
+
+  <section class="page" id="page-operations">
+    <div class="sectionHead"><div><h2>Centre Ops — supervision</h2><p>Vue consolidée des services réellement vérifiés depuis le serveur.</p></div><button class="btn secondary" id="opsRefresh">Actualiser les contrôles</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">API & WebSocket</div><div class="metric" id="opsApi">—</div><div class="metricFoot" id="opsApiSub">En attente de vérification</div></article>
+      <article class="card"><div class="metricLabel">Base de données</div><div class="metric" id="opsDb">—</div><div class="metricFoot" id="opsDbSub">En attente de vérification</div></article>
+      <article class="card"><div class="metricLabel">Joueurs enregistrés</div><div class="metric" id="opsPlayers">—</div><div class="metricFoot">Donnée serveur</div></article>
+      <article class="card"><div class="metricLabel">Sauvegardes de jeu</div><div class="metric" id="opsSaves">—</div><div class="metricFoot">Donnée serveur</div></article>
+    </div>
+    <div class="split">
+      <article class="card"><h2>Services & dépôts</h2><div id="opsServices" class="list"><div class="empty">Lance une vérification.</div></div></article>
+      <article class="card"><h2>Activité multijoueur</h2><div class="metric" id="opsOnline">—</div><div class="metricFoot">Joueurs actuellement connectés</div><div class="metric" id="opsRooms">—</div><div class="metricFoot">Salons actifs</div><div class="infoBox">Les chiffres sont des instantanés. Ils ne garantissent pas la qualité d'une partie ni le rendu 3D sur chaque téléphone.</div></article>
+    </div>
+    <p class="small muted" id="opsChecked">Dernier contrôle : —</p>
+  </section>
+
+  <section class="page" id="page-qa">
+    <div class="sectionHead"><div><h2>Laboratoire QA</h2><p>Tests de santé de l'API et contrôles de cohérence de la console.</p></div><button class="btn" id="qaRun">Lancer tous les tests</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Tests réussis</div><div class="metric" id="qaPassed">—</div></article>
+      <article class="card"><div class="metricLabel">Tests à vérifier</div><div class="metric" id="qaFailed">—</div></article>
+      <article class="card"><div class="metricLabel">Dernière exécution</div><div class="metric" id="qaWhen" style="font-size:18px">—</div></article>
+      <article class="card"><div class="metricLabel">Historique local</div><div class="metric" id="qaRuns">0</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><h2>Résultats détaillés</h2><div id="qaResults" class="list"><div class="empty">Aucun test exécuté.</div></div></article>
+    <div class="infoBox">Ces tests vérifient la disponibilité HTTP, les diagnostics protégés et certains éléments de la console. Ils ne simulent pas un vrai joueur, ne valident pas les graphismes 3D et ne remplacent pas les essais sur téléphone.</div>
+  </section>
+
+  <section class="page" id="page-liveops">
+    <div class="sectionHead"><div><h2>LiveOps & calendrier éditorial</h2><p>Prépare les opérations, saisons et annonces avant leur publication.</p></div><span class="badge warn">Mode brouillon</span></div>
+    <div class="split">
+      <article class="card"><h2>Planifier une opération</h2>
+        <form id="liveopsForm">
+          <div class="field"><label for="liveopsTitle">Nom de l'opération</label><input id="liveopsTitle" required maxlength="90" placeholder="Ex. Week-end double XP"></div>
+          <div class="field"><label for="liveopsType">Type</label><select id="liveopsType"><option>Événement</option><option>Saison</option><option>Maintenance</option><option>Tournoi</option><option>Annonce</option></select></div>
+          <div class="field"><label for="liveopsDate">Date prévue</label><input id="liveopsDate" type="datetime-local" required></div>
+          <div class="field"><label for="liveopsNotes">Détails</label><textarea id="liveopsNotes" rows="3" maxlength="800" placeholder="Objectif, récompenses prévues, conditions…"></textarea></div>
+          <button class="btn" type="submit">Enregistrer le brouillon</button>
+        </form>
+        <p class="small muted" id="liveopsMsg">Aucune opération n'est publiée automatiquement.</p>
+      </article>
+      <article class="card"><h2>Calendrier préparatoire</h2><div id="liveopsList" class="list"><div class="empty">Aucun brouillon planifié.</div></div></article>
+    </div>
+  </section>
+
+  <section class="page" id="page-backups">
+    <div class="sectionHead"><div><h2>Centre de sauvegarde console</h2><p>Export et restauration des brouillons et préférences enregistrés dans ce navigateur.</p></div><span class="badge good">Export local</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Clés locales trouvées</div><div class="metric" id="backupKeys">—</div></article>
+      <article class="card"><div class="metricLabel">Taille estimée</div><div class="metric" id="backupSize">—</div></article>
+      <article class="card"><div class="metricLabel">Dernier export</div><div class="metric" id="backupLast" style="font-size:17px">—</div></article>
+      <article class="card"><div class="metricLabel">Restauration</div><div class="metric" id="backupRestore">Prête</div></article>
+    </div>
+    <div class="split">
+      <article class="card"><h2>Exporter</h2><p class="muted small">Crée un fichier JSON contenant les brouillons locaux connus de cette console.</p><button class="btn" id="backupExport">Télécharger une sauvegarde</button></article>
+      <article class="card"><h2>Restaurer</h2><p class="muted small">Importe un fichier JSON exporté depuis cette console. Les clés locales correspondantes seront remplacées.</p><input id="backupFile" type="file" accept="application/json,.json"><button class="btn secondary" id="backupImport" style="margin-top:10px">Restaurer ce fichier</button></article>
+    </div>
+    <div class="infoBox">Important : cet outil ne sauvegarde pas Supabase, les comptes, les statistiques serveur ni les fichiers GitHub. Pour ces données, il faut des sauvegardes côté serveur avec accès contrôlé.</div>
+    <p class="small muted" id="backupMsg">Aucune opération effectuée.</p>
+  </section>
+
 <script>
 (() => {
   'use strict';
@@ -358,6 +423,11 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     ads: ['Publicités', 'Mesure des publicités et revenus.'],
     integrations: ['Intégrations', 'Connexions de Dust Siege et services externes.'],
     studio: ['Studio & suivi', 'Notes de version, feuille de route, retours et checklist.'],
+
+    operations: ['Centre Ops', 'Supervision des services et activité en direct.'],
+    qa: ['Laboratoire QA', 'Tests de disponibilité et contrôles de cohérence.'],
+    liveops: ['LiveOps & contenu', 'Calendrier des opérations et événements.'],
+    backups: ['Sauvegardes', 'Export et restauration des brouillons locaux.'],
     assistant: ['Assistant développeur', 'Analyse et recommandations de dépannage.'],
     godmode: ['Mode Dieu', 'Espace privé et bac à sable développeur.']
   };
@@ -422,6 +492,10 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     if(page==='godmode') loadGodmode();
     if(page==='integrations') loadIntegrations();
     if(page==='studio') loadStudio();
+    if(page==='operations') loadOps().catch(showOpsError);
+    if(page==='qa') refreshQaSummary();
+    if(page==='liveops') renderLiveops();
+    if(page==='backups') refreshBackupSummary();
     if(page==='assistant') runAssistant();
 
   }
@@ -640,6 +714,55 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
   $('studioIdeaForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('ideas');a.unshift({title:$('studioIdeaTitle').value.trim(),priority:$('studioIdeaPriority').value,createdAt:new Date().toISOString()});studioWrite('ideas',a.slice(0,100));$('studioIdeaForm').reset();loadStudio()});
   $('studioFeedbackForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('feedback');a.unshift({title:$('studioFeedbackTitle').value.trim(),type:$('studioFeedbackType').value,body:$('studioFeedbackBody').value.trim(),createdAt:new Date().toISOString()});studioWrite('feedback',a.slice(0,100));$('studioFeedbackForm').reset();loadStudio()});
   $('studioChecklist').querySelectorAll('[data-studio-check]').forEach(el=>el.addEventListener('change',()=>{const a=JSON.parse(localStorage.getItem(studioKeys.checks)||'[]');a[Number(el.dataset.studioCheck)]=el.checked;localStorage.setItem(studioKeys.checks,JSON.stringify(a));$('studioChecks').textContent=a.filter(Boolean).length+'/6'}));
+
+
+  // Extensions console v2 : supervision, QA, LiveOps et sauvegardes locales.
+  const dsLocalPrefix=['ds_admin_','ds_studio_','ds_liveops_'];
+  const localSnapshot=()=>{const out={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(dsLocalPrefix.some(p=>k.startsWith(p))){out[k]=localStorage.getItem(k)}}return out};
+  const setStatus=(id,ok,label)=>{const el=$(id);if(!el)return;el.textContent=label;el.className='metric '+(ok?'statusOk':'statusBad')};
+  async function loadOps(){
+    $('opsServices').innerHTML='<div class="empty">Vérification des services…</div>';
+    const [d,i,l]=await Promise.all([request('/api/admin/diagnostics'),request('/api/admin/integrations'),request('/api/admin/live')]);
+    setStatus('opsApi',!!d.ok,'OK');$('opsApiSub').textContent='API et WebSocket : '+(d.websocket||'état inconnu');
+    setStatus('opsDb',d.database==='operational','OK');$('opsDbSub').textContent='Base : '+(d.database||'inconnue');
+    $('opsPlayers').textContent=fmt(d.playerRecords);$('opsSaves').textContent=fmt(d.saveRecords);
+    $('opsOnline').textContent=fmt(l.onlinePlayers);$('opsRooms').textContent=fmt(l.activeRooms);
+    const rows=[
+      ['API backend',d.ok,'Réponse du diagnostic serveur'],
+      ['Supabase',i.supabase?.connected,'Connexion et comptages'],
+      ['Site du jeu',i.render?.frontend,'Réponse HTTP du site'],
+      ['Dépôt GitHub du jeu',i.github?.game?.connected,'Dernier commit : '+(i.github?.game?.sha||'non disponible')],
+      ['Dépôt GitHub du serveur',i.github?.server?.connected,'Dernier commit : '+(i.github?.server?.sha||'non disponible')]
+    ];
+    $('opsServices').innerHTML=rows.map(x=>'<div class="listRow"><div><b>'+esc(x[0])+'</b><div class="listSub">'+esc(x[2])+'</div></div><span class="badge '+(x[1]?'good':'warn')+'">'+(x[1]?'Connecté':'À vérifier')+'</span></div>').join('');
+    $('opsChecked').textContent='Dernier contrôle : '+date(i.checkedAt||d.checkedAt);
+  }
+  function showOpsError(e){$('opsServices').innerHTML='<div class="empty">'+esc(e.message||'Erreur de contrôle')+'</div>'}
+  const qaRunsKey='ds_admin_qa_runs';
+  function getQaRuns(){try{return JSON.parse(localStorage.getItem(qaRunsKey)||'[]')}catch{return []}}
+  function refreshQaSummary(){const r=getQaRuns();$('qaRuns').textContent=r.length;$('qaWhen').textContent=r[0]?date(r[0].at):'—';if(r[0]){$('qaPassed').textContent=r[0].passed;$('qaFailed').textContent=r[0].failed}}
+  async function runQa(){
+    $('qaResults').innerHTML='<div class="empty">Tests en cours…</div>';
+    const tests=[];
+    try{const r=await fetch(API+'/health',{cache:'no-store'});const d=await r.json();tests.push({name:'API publique',ok:r.ok&&d.ok,detail:'HTTP '+r.status+' · WebSocket '+(d.websocket?'annoncé':'non confirmé')})}catch(e){tests.push({name:'API publique',ok:false,detail:e.message})}
+    try{const d=await request('/api/admin/diagnostics');tests.push({name:'Diagnostics protégés',ok:!!d.ok&&d.database==='operational',detail:'Base '+d.database+' · '+fmt(d.playerRecords)+' profils'})}catch(e){tests.push({name:'Diagnostics protégés',ok:false,detail:e.message})}
+    const ids=['page-operations','page-qa','page-liveops','page-backups','studioPatchForm','studioIdeaForm','studioFeedbackForm','notificationDraftForm'];
+    const missing=ids.filter(id=>!$(id));tests.push({name:'Éléments de console',ok:missing.length===0,detail:missing.length?'Manquants : '+missing.join(', '):ids.length+' éléments trouvés'});
+    tests.push({name:'Authentification développeur',ok:!!token,detail:token?'Jeton de session présent':'Session absente — reconnecte-toi si nécessaire'});
+    const passed=tests.filter(x=>x.ok).length,failed=tests.length-passed,at=new Date().toISOString();
+    const runs=getQaRuns();runs.unshift({at,passed,failed,tests});localStorage.setItem(qaRunsKey,JSON.stringify(runs.slice(0,20)));
+    $('qaPassed').textContent=passed;$('qaFailed').textContent=failed;$('qaWhen').textContent=date(at);$('qaRuns').textContent=Math.min(runs.length,20);
+    $('qaResults').innerHTML=tests.map(x=>'<div class="listRow"><div><b>'+esc(x.name)+'</b><div class="listSub">'+esc(x.detail)+'</div></div><span class="badge '+(x.ok?'good':'warn')+'">'+(x.ok?'Réussi':'À vérifier')+'</span></div>').join('');
+  }
+  $('qaRun').addEventListener('click',()=>runQa().catch(e=>alert(e.message)));
+  $('opsRefresh').addEventListener('click',()=>loadOps().catch(showOpsError));
+  const liveopsKey='ds_liveops_items';
+  const getLiveops=()=>{try{return JSON.parse(localStorage.getItem(liveopsKey)||'[]')}catch{return []}};
+  function renderLiveops(){const items=getLiveops().sort((a,b)=>String(a.date).localeCompare(String(b.date)));$('liveopsList').innerHTML=items.length?items.map((x,i)=>'<div class="listRow"><div><b>'+esc(x.title)+'</b><div class="listSub">'+esc(x.type)+' · '+esc(date(x.date))+'</div><div class="listSub">'+esc(x.notes||'Aucun détail')+'</div></div><button class="btn ghost" data-liveops-remove="'+i+'">Supprimer</button></div>').join(''):'<div class="empty">Aucun brouillon planifié.</div>';$('liveopsList').querySelectorAll('[data-liveops-remove]').forEach(b=>b.addEventListener('click',()=>{const a=getLiveops();a.splice(Number(b.dataset.liveopsRemove),1);localStorage.setItem(liveopsKey,JSON.stringify(a));renderLiveops()}))}
+  $('liveopsForm').addEventListener('submit',e=>{e.preventDefault();const a=getLiveops();a.push({title:$('liveopsTitle').value.trim(),type:$('liveopsType').value,date:$('liveopsDate').value,notes:$('liveopsNotes').value.trim(),createdAt:new Date().toISOString()});localStorage.setItem(liveopsKey,JSON.stringify(a.slice(0,100)));$('liveopsForm').reset();$('liveopsMsg').textContent='Brouillon enregistré localement. Rien n’a été publié.';renderLiveops()});
+  function refreshBackupSummary(){const d=localSnapshot(),raw=JSON.stringify(d);$('backupKeys').textContent=Object.keys(d).length;$('backupSize').textContent=(new Blob([raw]).size/1024).toFixed(1)+' Ko';$('backupLast').textContent=localStorage.getItem('ds_admin_backup_last')||'—';}
+  $('backupExport').addEventListener('click',()=>{const payload={format:'dust-siege-console-local-backup',version:1,createdAt:new Date().toISOString(),data:localSnapshot()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='dust-siege-console-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);localStorage.setItem('ds_admin_backup_last',new Date().toLocaleString('fr-FR'));$('backupMsg').textContent='Export local téléchargé.';refreshBackupSummary()});
+  $('backupImport').addEventListener('click',async()=>{const file=$('backupFile').files?.[0];if(!file)return alert('Choisis d’abord un fichier JSON.');try{if(file.size>2*1024*1024)throw new Error('Fichier trop volumineux (maximum 2 Mo).');const payload=JSON.parse(await file.text());if(payload.format!=='dust-siege-console-local-backup'||!payload.data||typeof payload.data!=='object'||Array.isArray(payload.data))throw new Error('Format de sauvegarde non reconnu.');const keys=Object.keys(payload.data);if(keys.some(k=>!dsLocalPrefix.some(p=>k.startsWith(p))))throw new Error('Le fichier contient des clés non autorisées.');if(!confirm('Restaurer '+keys.length+' élément(s) local(aux) ? Les clés correspondantes seront remplacées.'))return;keys.forEach(k=>{if(typeof payload.data[k]!=='string')throw new Error('Contenu invalide pour '+k);localStorage.setItem(k,payload.data[k])});$('backupMsg').textContent='Restauration locale terminée. Recharge la page si certains panneaux ne se mettent pas à jour.';refreshBackupSummary()}catch(e){$('backupMsg').textContent='Échec : '+e.message}});
 
   if(token) {
     showApp();
