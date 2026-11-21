@@ -44,7 +44,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button class="active" data-page="overview"><span class="navIcon">◈</span>Vue globale</button>
     <button data-page="players"><span class="navIcon">♙</span>Joueurs</button>
     <button data-page="servers"><span class="navIcon">▦</span>Serveurs</button>
-    <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>
+    <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>\n    <button data-page="codes"><span class="navIcon">⌘</span>Codes privés</button>
   </nav>
   <div class="sideFoot">DUST SIEGE · ADMIN<br><div class="connection"><span class="dot" id="sideDot"></span><span id="sideStatus">Connexion active</span></div><span>Vue protégée · lecture seule</span></div>
 </aside>
@@ -93,6 +93,44 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     </div>
     <div class="infoBox">Cette première version est volontairement en lecture seule : elle ne modifie ni les comptes, ni les soldes, ni les sauvegardes des joueurs. Les commandes sensibles seront ajoutées seulement avec des protections et un historique vérifiable.</div>
   </section>
+
+  <section class="page" id="page-codes">
+    <div class="sectionHead">
+      <div><h2>Codes de récompense privés</h2><p>Ces codes sont réservés à ton compte développeur. Les joueurs ne peuvent ni les consulter ni les utiliser.</p></div>
+      <span class="badge good">Compte administrateur uniquement</span>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:14px">
+      <article class="card"><div class="metricLabel">Argent du jeu</div><div class="metric mono" id="walletBank">—</div><div class="metricFoot">Solde enregistré (bank)</div></article>
+      <article class="card"><div class="metricLabel">Expérience</div><div class="metric mono" id="walletXp">—</div><div class="metricFoot">XP enregistrés</div></article>
+    </div>
+    <div class="split">
+      <article class="card">
+        <div class="sectionHead"><div><h2>Activer un code</h2><p>Entre un code que tu possèdes pour créditer ta propre sauvegarde.</p></div></div>
+        <form id="redeemForm">
+          <div class="field"><label for="redeemCode">Code de récompense</label><input id="redeemCode" type="text" minlength="6" maxlength="40" autocomplete="off" required placeholder="Ex. DS-AB12CD34"></div>
+          <button class="btn wide" id="redeemBtn" type="submit">Activer la récompense</button>
+        </form>
+        <p id="redeemMsg" class="muted small" role="status" aria-live="polite"></p>
+      </article>
+      <article class="card">
+        <div class="sectionHead"><div><h2>Créer un code privé</h2><p>Crée un code utilisable uniquement par le compte qui l’a créé.</p></div></div>
+        <form id="createCodeForm">
+          <div class="field"><label for="newRewardCode">Code personnalisé (facultatif)</label><input id="newRewardCode" type="text" maxlength="40" autocomplete="off" placeholder="Vide = code aléatoire"></div>
+          <div class="field"><label for="rewardType">Récompense</label><select id="rewardType"><option value="bank">Argent du jeu</option><option value="xp">Expérience (XP)</option></select></div>
+          <div class="field"><label for="rewardAmount">Quantité</label><input id="rewardAmount" type="number" min="1" max="1000000000" step="1" value="1000" required></div>
+          <div class="field"><label for="maxUses">Nombre d’activations maximum</label><input id="maxUses" type="number" min="1" max="100" step="1" value="1" required></div>
+          <div class="field"><label for="codeExpiry">Expiration (facultatif)</label><input id="codeExpiry" type="datetime-local"></div>
+          <button class="btn wide" id="createCodeBtn" type="submit">Créer le code</button>
+        </form>
+        <p id="createCodeMsg" class="muted small" role="status" aria-live="polite"></p>
+      </article>
+    </div>
+    <div class="split" style="margin-top:14px">
+      <article class="card"><div class="sectionHead"><div><h2>Mes codes</h2><p>Les codes complets ne sont affichés qu’au moment de leur création.</p></div><button class="btn secondary" id="reloadCodesBtn" type="button">Actualiser</button></div><div class="list" id="adminCodesList"><div class="empty">Chargement…</div></div></article>
+      <article class="card"><div class="sectionHead"><div><h2>Récompenses activées</h2><p>Historique des crédits sur ton compte.</p></div></div><div class="list" id="adminRedemptionsList"><div class="empty">Chargement…</div></div></article>
+    </div>
+    <div class="infoBox" style="margin-top:14px">Les crédits d’argent et d’XP sont appliqués directement à la sauvegarde du jeu, côté serveur, en une seule opération. Les skins et armes ne sont pas encore proposés car leur format de sauvegarde doit être vérifié avant toute modification.</div>
+  </section>
   <footer class="muted small" style="margin-top:24px">Dernière actualisation : <span id="lastUpdate">—</span> · Console Dust Siege</footer>
 </main>
 </div>
@@ -111,7 +149,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     overview: ['Vue globale', 'État du jeu et activité des joueurs.'],
     players: ['Joueurs', 'Recherche et statistiques des profils enregistrés.'],
     servers: ['Serveurs', 'État des salons multijoueurs en direct.'],
-    security: ['Sécurité', 'Contrôles d’accès et état des protections.']
+    security: ['Sécurité', 'Contrôles d’accès et état des protections.'],\n    codes: ['Codes privés', 'Récompenses réservées à ton compte administrateur.']
   };
   const fmt = (n) => Number(n || 0).toLocaleString('fr-FR');
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -162,7 +200,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
     $('pageTitle').textContent=pageInfo[page][0]; $('pageSubtitle').textContent=pageInfo[page][1];
     if(page==='players') loadPlayers();
-    if(page==='servers') loadLive();
+    if(page==='servers') loadLive();\n    if(page==='codes') loadCodes();
   }
   document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
   document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
@@ -203,7 +241,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     if(!token) return showLogin();
     $('refreshBtn').disabled=true; $('apiBadge').textContent='● Actualisation…';
     try {
-      await Promise.all([loadOverview(),loadLive()]);
+      await Promise.all([loadOverview(),loadLive()]);\n      if($('page-codes').classList.contains('active')) await loadCodes();
       $('apiBadge').textContent='● API connectée'; $('sideDot').classList.remove('off'); $('sideStatus').textContent='Connexion active';
       $('lastUpdate').textContent=new Date().toLocaleString('fr-FR');
     } catch(error) {
@@ -211,7 +249,57 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
       console.error(error);
     } finally { $('refreshBtn').disabled=false; }
   }
-  $('refreshBtn').addEventListener('click',refreshAll);
+
+  async function loadCodes() {
+    $('adminCodesList').innerHTML='<div class="empty">Chargement…</div>';
+    $('adminRedemptionsList').innerHTML='<div class="empty">Chargement…</div>';
+    const data=await request('/api/admin/codes');
+    $('walletBank').textContent=fmt(data.wallet?.bank);
+    $('walletXp').textContent=fmt(data.wallet?.xp);
+    $('adminCodesList').innerHTML=(data.codes||[]).length ? data.codes.map(c=>{
+      const reward=(c.reward_type==='bank'?'Argent':'XP')+' · '+fmt(c.reward_amount);
+      const expiry=c.expires_at?' · expire le '+date(c.expires_at):' · sans expiration';
+      return '<div class="listRow"><div><div class="listTitle">'+esc(c.code_hint)+'</div><div class="listSub">'+esc(reward)+expiry+'</div></div><div class="score">'+fmt(c.used_count)+' / '+fmt(c.max_uses)+'</div></div>';
+    }).join('') : '<div class="empty">Aucun code créé pour le moment.</div>';
+    $('adminRedemptionsList').innerHTML=(data.redemptions||[]).length ? data.redemptions.map(r=>{
+      const reward=(r.reward_type==='bank'?'Argent':'XP')+' +'+fmt(r.reward_amount);
+      return '<div class="listRow"><div><div class="listTitle">'+esc(reward)+'</div><div class="listSub">'+date(r.redeemed_at)+'</div></div><div class="score">'+fmt(r.new_balance)+'</div></div>';
+    }).join('') : '<div class="empty">Aucune récompense activée pour le moment.</div>';
+    if(!data.hasSave) $('redeemMsg').textContent='Aucune sauvegarde de jeu n’a encore été trouvée pour ce compte.';
+  }
+  $('redeemForm').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const btn=$('redeemBtn'); btn.disabled=true; btn.textContent='Activation…'; $('redeemMsg').textContent='';
+    try {
+      const data=await request('/api/admin/codes/redeem',{method:'POST',body:JSON.stringify({code:$('redeemCode').value})});
+      const label=data.rewardType==='bank'?'argent du jeu':'XP';
+      $('redeemMsg').textContent='Récompense activée : +'+fmt(data.rewardAmount)+' '+label+'. Nouveau solde : '+fmt(data.newBalance)+'.';
+      $('redeemMsg').className='small';
+      $('redeemCode').value='';
+      await loadCodes();
+    } catch(error) { $('redeemMsg').textContent=error.message; $('redeemMsg').className='small error'; }
+    finally { btn.disabled=false; btn.textContent='Activer la récompense'; }
+  });
+  $('createCodeForm').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const btn=$('createCodeBtn'); btn.disabled=true; btn.textContent='Création…'; $('createCodeMsg').textContent='';
+    try {
+      const expiry=$('codeExpiry').value;
+      const data=await request('/api/admin/codes/create',{method:'POST',body:JSON.stringify({
+        code:$('newRewardCode').value,
+        rewardType:$('rewardType').value,
+        amount:Number($('rewardAmount').value),
+        maxUses:Number($('maxUses').value),
+        expiresAt:expiry?new Date(expiry).toISOString():null
+      })});
+      $('createCodeMsg').textContent='Code créé : '+data.code+' — copie-le maintenant, il ne sera plus affiché en entier.';
+      $('newRewardCode').value='';
+      await loadCodes();
+    } catch(error) { $('createCodeMsg').textContent=error.message; }
+    finally { btn.disabled=false; btn.textContent='Créer le code'; }
+  });
+  $('reloadCodesBtn').addEventListener('click',()=>loadCodes().catch(e=>$('adminCodesList').textContent=e.message));
+\n  $('refreshBtn').addEventListener('click',refreshAll);
   $('liveRefreshBtn').addEventListener('click',()=>loadLive().catch(e=>alert(e.message)));
   $('searchBtn').addEventListener('click',()=>{playerOffset=0;loadPlayers();});
   $('playerSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){playerOffset=0;loadPlayers();}});
