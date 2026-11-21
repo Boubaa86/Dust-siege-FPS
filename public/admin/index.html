@@ -44,7 +44,8 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button class="active" data-page="overview"><span class="navIcon">◈</span>Vue globale</button>
     <button data-page="players"><span class="navIcon">♙</span>Joueurs</button>
     <button data-page="servers"><span class="navIcon">▦</span>Serveurs</button>
-    <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>\n    <button data-page="codes"><span class="navIcon">⌘</span>Codes privés</button>
+    <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>
+    <button data-page="codes"><span class="navIcon">⌘</span>Codes privés</button>
   </nav>
   <div class="sideFoot">DUST SIEGE · ADMIN<br><div class="connection"><span class="dot" id="sideDot"></span><span id="sideStatus">Connexion active</span></div><span>Vue protégée · lecture seule</span></div>
 </aside>
@@ -149,7 +150,8 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     overview: ['Vue globale', 'État du jeu et activité des joueurs.'],
     players: ['Joueurs', 'Recherche et statistiques des profils enregistrés.'],
     servers: ['Serveurs', 'État des salons multijoueurs en direct.'],
-    security: ['Sécurité', 'Contrôles d’accès et état des protections.'],\n    codes: ['Codes privés', 'Récompenses réservées à ton compte administrateur.']
+    security: ['Sécurité', 'Contrôles d’accès et état des protections.'],
+    codes: ['Codes privés', 'Récompenses réservées à ton compte administrateur.']
   };
   const fmt = (n) => Number(n || 0).toLocaleString('fr-FR');
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -200,7 +202,8 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
     $('pageTitle').textContent=pageInfo[page][0]; $('pageSubtitle').textContent=pageInfo[page][1];
     if(page==='players') loadPlayers();
-    if(page==='servers') loadLive();\n    if(page==='codes') loadCodes();
+    if(page==='servers') loadLive();
+    if(page==='codes') loadCodes();
   }
   document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
   document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
@@ -241,7 +244,8 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     if(!token) return showLogin();
     $('refreshBtn').disabled=true; $('apiBadge').textContent='● Actualisation…';
     try {
-      await Promise.all([loadOverview(),loadLive()]);\n      if($('page-codes').classList.contains('active')) await loadCodes();
+      await Promise.all([loadOverview(),loadLive()]);
+      if($('page-codes').classList.contains('active')) await loadCodes();
       $('apiBadge').textContent='● API connectée'; $('sideDot').classList.remove('off'); $('sideStatus').textContent='Connexion active';
       $('lastUpdate').textContent=new Date().toLocaleString('fr-FR');
     } catch(error) {
@@ -299,7 +303,8 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     finally { btn.disabled=false; btn.textContent='Créer le code'; }
   });
   $('reloadCodesBtn').addEventListener('click',()=>loadCodes().catch(e=>$('adminCodesList').textContent=e.message));
-\n  $('refreshBtn').addEventListener('click',refreshAll);
+
+  $('refreshBtn').addEventListener('click',refreshAll);
   $('liveRefreshBtn').addEventListener('click',()=>loadLive().catch(e=>alert(e.message)));
   $('searchBtn').addEventListener('click',()=>{playerOffset=0;loadPlayers();});
   $('playerSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){playerOffset=0;loadPlayers();}});
