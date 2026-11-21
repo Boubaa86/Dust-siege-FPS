@@ -248,11 +248,11 @@ $('idea-form').addEventListener('submit',async e=>{
 });
 async function loadTournaments(){
  const host=$('tournament-list');if(!host)return;host.replaceChildren();
- const {data:events,error}=await supabase.from('ds_community_tournaments').select('id,title,description,game_mode,starts_at,max_players,status').in('status',['open','full']).order('starts_at',{ascending:true});
+ const {data:events,error}=await supabase.from('ds_community_tournaments').select('id,title,description,game_mode,map_name,rules,results,starts_at,max_players,status').in('status',['open','full','finished']).order('starts_at',{ascending:true});
  if(error){host.textContent='Impossible de charger les tournois.';return;}
  if(!events?.length){const empty=node('div','panel');empty.append(node('h3','','Aucun tournoi annoncé'),node('p','muted','Les prochains événements seront publiés ici. Repasse bientôt !'));host.append(empty);return;}
  for(const event of events){
-  const box=node('div','card');box.append(node('span','tag',event.game_mode),node('h3','',event.title),node('p','',event.description||'Règles communiquées prochainement.'),node('p','note','Début : '+new Date(event.starts_at).toLocaleString('fr-FR',{dateStyle:'medium',timeStyle:'short'})),node('p','note','Places maximum : '+event.max_players));
+  const box=node('div','card');box.append(node('span','tag',event.game_mode),node('h3','',event.title),node('p','',event.description||'Règles communiquées prochainement.'),node('p','note','Carte : '+(event.map_name||'À définir')),node('p','note','Début : '+new Date(event.starts_at).toLocaleString('fr-FR',{dateStyle:'medium',timeStyle:'short'})),node('p','note','Places maximum : '+event.max_players));if(event.rules)box.append(node('p','note','Règles : '+event.rules));if(event.status==='finished'&&event.results)box.append(node('p','', '🏆 Résultats : '+event.results));
   const {data:entry}=currentUser?await supabase.from('ds_community_tournament_entries').select('tournament_id').eq('tournament_id',event.id).eq('user_id',currentUser.id).maybeSingle():{data:null};
   const btn=node('button','btn',entry?'Inscription confirmée':(currentUser?'S’inscrire':'Connecte-toi pour participer'));btn.type='button';btn.disabled=event.status!=='open'||!!entry||!currentUser;
   btn.addEventListener('click',async()=>{btn.disabled=true;const {error}=await supabase.from('ds_community_tournament_entries').insert({tournament_id:event.id,user_id:currentUser.id});if(error)say(error.code==='23505'?'Tu es déjà inscrit.':error.message,true);else{say('Inscription au tournoi confirmée !');await loadTournaments();}});
