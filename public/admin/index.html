@@ -56,6 +56,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button data-page="tournaments"><span class="navIcon">♜</span>Tournois</button>
     <button data-page="notifications"><span class="navIcon">♧</span>Notifications</button>
     <button data-page="ads"><span class="navIcon">▣</span>Publicités</button>
+    <button data-page="integrations"><span class="navIcon">⛓</span>Intégrations</button>
     <button data-page="assistant"><span class="navIcon">✧</span>Assistant diagnostic</button>
     <button data-page="godmode"><span class="navIcon">♛</span>Mode Dieu</button>
   </nav>
@@ -199,6 +200,36 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <div class="infoBox">Aucun revenu, budget ou résultat publicitaire n’est inventé. Les connexions et autorisations de ces plateformes devront être vérifiées avant d’afficher des chiffres.</div>
   </section>
 
+
+  <section class="page" id="page-integrations">
+    <div class="sectionHead"><div><h2>Centre des intégrations</h2><p>Connexions vérifiées, état technique et accès directs aux services.</p></div><button class="btn secondary" id="integrationsReload">↻ Vérifier les connexions</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Supabase · base de données</div><div class="metric" id="intSupabase">—</div><div class="metricFoot" id="intSupabaseDetail">Vérification en cours…</div><a href="https://supabase.com/dashboard/project/bkafwwkfosdqrhgummff" target="_blank" rel="noopener noreferrer">Ouvrir Supabase ↗</a></article>
+      <article class="card"><div class="metricLabel">Render · hébergement</div><div class="metric" id="intRender">—</div><div class="metricFoot" id="intRenderDetail">Vérification en cours…</div><a href="https://dashboard.render.com/" target="_blank" rel="noopener noreferrer">Ouvrir Render ↗</a></article>
+      <article class="card"><div class="metricLabel">GitHub · code source</div><div class="metric" id="intGithub">—</div><div class="metricFoot" id="intGithubDetail">Vérification en cours…</div><a href="https://github.com/Boubaa86/Dust-siege-FPS" target="_blank" rel="noopener noreferrer">Ouvrir le dépôt ↗</a></article>
+      <article class="card"><div class="metricLabel">API + WebSocket</div><div class="metric" id="intApi">—</div><div class="metricFoot">Serveur Dust Siege</div><a href="https://dust-siege-server-1.onrender.com/health" target="_blank" rel="noopener noreferrer">Tester le serveur ↗</a></article>
+    </div>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Services publicitaires et analytiques</h2><p>Authentifications existantes dans Markifact. Elles ne sont pas encore des connexions directes entre Render et ces plateformes.</p></div><span class="badge good">Comptes Markifact reconnus</span></div>
+      <div class="list">
+        <div class="listRow"><div><b>Google Analytics 4</b><div class="listSub">Connexion Markifact active · rapports du site à relier à la console</div></div><span class="badge good">Connecté à Markifact</span><a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Google Ads</b><div class="listSub">Connexion Markifact active · campagnes non embarquées dans Render</div></div><span class="badge good">Connecté à Markifact</span><a href="https://ads.google.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Meta Ads</b><div class="listSub">Connexion Markifact active · gestion externe</div></div><span class="badge good">Connecté à Markifact</span><a href="https://business.facebook.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Microsoft Ads</b><div class="listSub">Connexion Markifact active</div></div><span class="badge good">Connecté à Markifact</span><a href="https://ads.microsoft.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Pinterest Ads</b><div class="listSub">Connexion Markifact active</div></div><span class="badge good">Connecté à Markifact</span><a href="https://ads.pinterest.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+      </div>
+    </article>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Services mobiles et monétisation</h2><p>Liens vers les projets et état des accès côté serveur.</p></div></div>
+      <div class="list">
+        <div class="listRow"><div><b>Firebase · projet Dust Siege</b><div class="listSub">Projet mobile existant. L'accès Admin SDK côté serveur n'est pas relié : la création de clé privée est bloquée par une règle Google Cloud.</div></div><span class="badge warn">Accès serveur bloqué</span><a href="https://console.firebase.google.com/project/dust-siege-47873/overview" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>AdMob</b><div class="listSub">Console accessible, mais aucun flux de revenus/impressions n'est branché à cette page.</div></div><span class="badge warn">À connecter</span><a href="https://apps.admob.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>AppMint · application Android</b><div class="listSub">Lien de gestion du package Android ; déploiement APK et push ne sont pas pilotés depuis cette console.</div></div><span class="badge">Lien externe</span><a href="https://appmint.dev/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+      </div>
+    </article>
+    <article class="card" style="margin-top:14px"><h2>Derniers commits GitHub</h2><div id="integrationCommits" class="list"><div class="empty">Chargement…</div></div></article>
+    <div class="infoBox">Sécurité : cette page ne montre aucune clé, aucun mot de passe ni jeton. Les connexions Markifact sont disponibles dans l'espace ChatGPT/Markifact ; pour afficher leurs rapports directement ici, il faudra une intégration officielle/API côté serveur. Aucun budget publicitaire ni campagne n'est modifié.</div>
+    <p class="muted small" id="integrationChecked">Dernière vérification : —</p>
+  </section>
+
   <section class="page" id="page-assistant">
     <div class="sectionHead"><div><h2>Assistant développeur</h2><p>Analyse automatique simple des contrôles de santé et conseils de dépannage.</p></div><button class="btn secondary" id="assistantRun">Analyser maintenant</button></div>
     <article class="card"><div id="assistantOutput" class="list"><div class="empty">Lance une analyse pour obtenir des recommandations.</div></div></article>
@@ -285,6 +316,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     tournaments: ['Tournois', 'Classements et performances.'],
     notifications: ['Notifications', 'Brouillons des annonces aux joueurs.'],
     ads: ['Publicités', 'Mesure des publicités et revenus.'],
+    integrations: ['Intégrations', 'Connexions de Dust Siege et services externes.'],
     assistant: ['Assistant développeur', 'Analyse et recommandations de dépannage.'],
     godmode: ['Mode Dieu', 'Espace privé et bac à sable développeur.']
   };
@@ -347,6 +379,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     if(page==='tournaments') loadTournaments();
     if(page==='notifications') renderNotificationDrafts();
     if(page==='godmode') loadGodmode();
+    if(page==='integrations') loadIntegrations();
     if(page==='assistant') runAssistant();
 
   }
@@ -449,6 +482,28 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
   });
   $('reloadCodesBtn').addEventListener('click',()=>loadCodes().catch(e=>$('adminCodesList').textContent=e.message));
 
+
+
+  async function loadIntegrations(){
+    $('integrationCommits').innerHTML='<div class="empty">Vérification des dépôts…</div>';
+    try{
+      const d=await request('/api/admin/integrations');
+      $('intSupabase').innerHTML=d.supabase.connected?'<span class="statusOk">Connecté</span>':'<span class="statusBad">Erreur</span>';
+      $('intSupabaseDetail').textContent=d.supabase.connected?fmt(d.supabase.players)+' profils · '+fmt(d.supabase.saves)+' sauvegardes':'Lecture de la base impossible';
+      $('intRender').innerHTML=d.render.frontend?'<span class="statusOk">En ligne</span>':'<span class="statusBad">À vérifier</span>';
+      $('intRenderDetail').textContent='Frontend HTTP '+(d.render.frontendStatus||'indisponible')+' · backend actif';
+      $('intApi').innerHTML=d.api.connected?'<span class="statusOk">Opérationnelle</span>':'<span class="statusBad">À vérifier</span>';
+      const repos=[['Jeu',d.github.game],['Serveur',d.github.server]];
+      $('intGithub').innerHTML=repos.every(x=>x[1].connected)?'<span class="statusOk">Connecté</span>':'<span class="statusBad">Partiel</span>';
+      $('intGithubDetail').textContent=repos.filter(x=>x[1].connected).length+'/2 dépôts accessibles';
+      $('integrationCommits').innerHTML=repos.map(([name,c])=>'<div class="listRow"><div><b>'+esc(name)+'</b><div class="listSub">'+(c.connected?esc(c.sha)+' · '+esc(c.message)+' · '+date(c.date):'Dépôt non accessible')+'</div></div>'+(c.connected&&c.url?'<a href="'+esc(c.url)+'" target="_blank" rel="noopener noreferrer">Voir le commit ↗</a>':'<span class="badge warn">Indisponible</span>')+'</div>').join('');
+      $('integrationChecked').textContent='Dernière vérification : '+date(d.checkedAt);
+    }catch(e){
+      $('intSupabase').textContent='Erreur';$('intRender').textContent='Erreur';$('intGithub').textContent='Erreur';$('intApi').textContent='Erreur';
+      $('integrationCommits').innerHTML='<div class="empty">'+esc(e.message)+'</div>';
+    }
+  }
+  $('integrationsReload').addEventListener('click',()=>loadIntegrations().catch(e=>alert(e.message)));
 
   let latestOverview=null;
   async function loadAnalytics(){
