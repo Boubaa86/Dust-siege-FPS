@@ -31,7 +31,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0;color:var
 </style>
 </head>
 <body>
-<header class="wrap"><a class="brand" href="#">DUST <span>SIEGE HUB</span></a><nav><a href="#joueurs">Joueurs</a><a href="#compte">Mon compte</a><a href="#communaute">Communauté</a><a href="#idees">Idées & sondages</a><a href="#tournois">Tournois</a><a href="#aide">Aide</a><a href="#liens">Liens</a></nav></header>
+<header class="wrap"><a class="brand" href="#">DUST <span>SIEGE HUB</span></a><nav><a href="#joueurs">Joueurs</a><a href="#compte">Mon compte</a><a href="#communaute">Communauté</a><a href="#idees">Idées & sondages</a><a href="#tournois">Tournois</a><a id="organizer-link" href="#organisateur" hidden>Organisateur</a><a href="#aide">Aide</a><a href="#liens">Liens</a></nav></header>
 <main class="wrap">
 <section class="hero"><div><div class="eyebrow">Le centre communautaire officiel</div><h1>UN SEUL HUB.<br><span style="color:var(--orange)">TOUTE LA ZONE.</span></h1><p>Retrouve les accès au jeu, les informations du projet et les outils communautaires Dust Siege depuis un espace unique.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Jouer maintenant ↗</a><a class="btn alt" href="#communaute">Explorer le Hub</a></div></div><div class="hero-art"><div class="mark">DS</div></div></section>
 <section id="joueurs"><h2>Espace joueurs</h2><p class="lead">Les services communautaires à retrouver ici. Les fonctions nécessitant un compte ou un serveur seront activées séparément.</p><div class="grid">
@@ -91,6 +91,33 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0;color:var
 <p class="note">Les inscriptions sont personnelles. Les dates et règles détaillées seront affichées sur chaque événement dès leur publication.</p>
 </section>
 
+<section id="organisateur" hidden>
+<h2>Console organisateur</h2><p class="lead">Espace privé Dust Siege : tournois, inscriptions, sondages et modération.</p>
+<div class="split">
+<div class="panel"><h3>🏆 Créer un tournoi</h3><form class="form" id="admin-tournament-form">
+<label>Nom du tournoi<input id="admin-t-title" required minlength="5" maxlength="120" placeholder="Ex. Coupe Dust Siege"></label>
+<label>Description<textarea id="admin-t-desc" maxlength="1500" placeholder="Présentation et format du tournoi"></textarea></label>
+<label>Mode<select id="admin-t-mode"><option>Arène</option><option>Boss Rush</option><option>Parcours</option><option>Créatif</option><option>Coop</option><option>Guerre en équipe</option></select></label>
+<label>Carte<input id="admin-t-map" required maxlength="100" placeholder="Nom de la carte"></label>
+<label>Date et heure<input id="admin-t-date" type="datetime-local" required></label>
+<label>Nombre maximum de joueurs<input id="admin-t-max" type="number" min="2" max="256" value="16" required></label>
+<label>Règles<textarea id="admin-t-rules" maxlength="1500" placeholder="Règles, équipes, conditions de victoire…"></textarea></label>
+<button class="btn" type="submit" id="admin-t-submit">Publier le tournoi</button><div class="auth-message" id="admin-t-msg" role="status"></div>
+</form></div>
+<div class="panel"><h3>📊 Créer un sondage</h3><form class="form" id="admin-poll-form">
+<label>Question<input id="admin-p-title" required minlength="5" maxlength="140" placeholder="Quelle carte préfères-tu ?"></label>
+<label>Description<textarea id="admin-p-desc" maxlength="500" placeholder="Explique le sondage"></textarea></label>
+<label>Réponses (une par ligne)<textarea id="admin-p-options" required minlength="3" placeholder="Carte Désert&#10;Ville abandonnée&#10;Base militaire"></textarea></label>
+<label>Date de fin (facultative)<input id="admin-p-end" type="datetime-local"></label>
+<button class="btn" type="submit" id="admin-p-submit">Publier le sondage</button><div class="auth-message" id="admin-p-msg" role="status"></div>
+</form></div>
+</div>
+<div class="panel" style="margin-top:14px"><h3>🗂️ Gestion des tournois et résultats</h3><div id="admin-tournament-list" class="form"><p class="muted">Chargement…</p></div></div>
+<div class="split" style="margin-top:14px">
+<div class="panel"><h3>🗳️ Gérer les sondages</h3><div id="admin-poll-list" class="form"></div></div>
+<div class="panel"><h3>💡 Modérer les idées</h3><div id="admin-idea-list" class="form"></div></div>
+</div>
+</section>
 <section id="aide"><h2>Centre d'aide</h2><p class="lead">Une question ou un bug ? Envoie un message à l'équipe Dust Siege.</p><div class="split"><div class="panel"><h3>Contacter l'équipe</h3><form class="form" id="help"><label>Pseudo *<input name="pseudo" required maxlength="30" placeholder="Ton pseudo"></label><label>E-mail (facultatif)<input name="email" type="email" maxlength="120" placeholder="Pour recevoir une réponse"></label><label>Message *<textarea name="message" required maxlength="3000" placeholder="Décris ta question ou ton problème…"></textarea></label><input name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px"><button class="btn" type="submit" id="send">Envoyer</button><div id="msg" role="status" aria-live="polite"></div></form><p class="note">Ne communique jamais ton mot de passe, ton adresse personnelle ou tes codes de connexion.</p></div><div class="panel"><h3>Liens utiles</h3><p class="muted">Le Hub est séparé du portail actuel. Tu peux toujours utiliser les deux.</p><p><a class="tag" href="https://dust-siege-control.onrender.com/">Centre de jeux / Portail ↗</a></p><p><a class="tag" href="https://dust-siege-game-v9.onrender.com">Lancer Dust Siege ↗</a></p><p><a class="tag" href="https://dust-siege-control.onrender.com/admin.html">Console d'administration ↗</a></p></div></div></section>
 <section id="liens"><h2>Accès rapides</h2><div class="grid"><a class="card" href="https://dust-siege-game-v9.onrender.com"><div class="ico">🎮</div><h3>Le jeu</h3><p>Ouvrir Dust Siege.</p></a><a class="card" href="https://dust-siege-control.onrender.com"><div class="ico">🌐</div><h3>Centre de jeux</h3><p>Actualités, guide et informations.</p></a><a class="card" href="https://dust-siege-control.onrender.com/admin.html"><div class="ico">⚙️</div><h3>Administration</h3><p>Accéder à la console existante.</p></a></div></section>
 </main>
@@ -162,7 +189,7 @@ $('forgot-password').addEventListener('click',async()=>{
  if(error)say('Envoi impossible : '+error.message,true);else say('Lien de réinitialisation envoyé si cette adresse possède un compte.');
 });
 const {data:{session}}=await supabase.auth.getSession();showUser(session?.user||null);
-supabase.auth.onAuthStateChange((_event,session)=>{showUser(session?.user||null);refreshCommunity();});
+supabase.auth.onAuthStateChange((_event,session)=>{showUser(session?.user||null);refreshCommunity();refreshOrganizer();});
 
 async function refreshCommunity(){ await Promise.all([loadPolls(),loadIdeas(),loadTournaments()]); }
 function node(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;}
@@ -231,6 +258,95 @@ async function loadTournaments(){
   btn.addEventListener('click',async()=>{btn.disabled=true;const {error}=await supabase.from('ds_community_tournament_entries').insert({tournament_id:event.id,user_id:currentUser.id});if(error)say(error.code==='23505'?'Tu es déjà inscrit.':error.message,true);else{say('Inscription au tournoi confirmée !');await loadTournaments();}});
   box.append(btn);host.append(box);
  }
+}
+
+
+let isHubAdmin=false;
+async function refreshOrganizer(){
+ const section=$('organisateur'),link=$('organizer-link');
+ if(!section||!link)return;
+ if(!currentUser){isHubAdmin=false;section.hidden=true;link.hidden=true;return;}
+ const {data:admin,error}=await supabase.from('ds_hub_admins').select('role').eq('user_id',currentUser.id).maybeSingle();
+ isHubAdmin=!!admin&&!error;
+ section.hidden=!isHubAdmin;link.hidden=!isHubAdmin;
+ if(isHubAdmin)await loadOrganizerData();
+}
+function adminMessage(id,text,error=false){const el=$(id);if(el){el.textContent=text;el.style.color=error?'#ff9b9b':'var(--green)';}}
+$('admin-tournament-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(!isHubAdmin||!currentUser)return;
+ const btn=$('admin-t-submit');btn.disabled=true;btn.textContent='Publication…';
+ const date=new Date($('admin-t-date').value);
+ if(Number.isNaN(date.getTime())||date<=new Date()){adminMessage('admin-t-msg','Choisis une date future.',true);btn.disabled=false;btn.textContent='Publier le tournoi';return;}
+ const payload={title:$('admin-t-title').value.trim(),description:$('admin-t-desc').value.trim(),game_mode:$('admin-t-mode').value,map_name:$('admin-t-map').value.trim(),starts_at:date.toISOString(),max_players:Number($('admin-t-max').value),rules:$('admin-t-rules').value.trim(),status:'open'};
+ const {error}=await supabase.from('ds_community_tournaments').insert(payload);
+ if(error)adminMessage('admin-t-msg','Création impossible : '+error.message,true);
+ else{adminMessage('admin-t-msg','Tournoi publié !');e.target.reset();$('admin-t-max').value=16;await loadOrganizerData();await loadTournaments();}
+ btn.disabled=false;btn.textContent='Publier le tournoi';
+});
+$('admin-poll-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(!isHubAdmin||!currentUser)return;
+ const opts=$('admin-p-options').value.split('\n').map(x=>x.trim()).filter(Boolean);
+ if(opts.length<2||opts.length>8){adminMessage('admin-p-msg','Il faut entre 2 et 8 réponses.',true);return;}
+ const btn=$('admin-p-submit');btn.disabled=true;btn.textContent='Publication…';
+ const end=$('admin-p-end').value?new Date($('admin-p-end').value).toISOString():null;
+ const {data:poll,error}=await supabase.from('ds_community_polls').insert({title:$('admin-p-title').value.trim(),description:$('admin-p-desc').value.trim(),ends_at:end,status:'open'}).select('id').single();
+ if(error)adminMessage('admin-p-msg','Création impossible : '+error.message,true);
+ else{
+  const {error:optionError}=await supabase.from('ds_community_poll_options').insert(opts.map(label=>({poll_id:poll.id,label})));
+  if(optionError){await supabase.from('ds_community_polls').delete().eq('id',poll.id);adminMessage('admin-p-msg','Impossible d’enregistrer les réponses : '+optionError.message,true);}
+  else{adminMessage('admin-p-msg','Sondage publié !');e.target.reset();await loadOrganizerData();await loadPolls();}
+ }
+ btn.disabled=false;btn.textContent='Publier le sondage';
+});
+async function loadOrganizerData(){
+ if(!isHubAdmin)return;
+ const tHost=$('admin-tournament-list'),pHost=$('admin-poll-list'),iHost=$('admin-idea-list');
+ tHost.replaceChildren();pHost.replaceChildren();iHost.replaceChildren();
+ const {data:events,error:te}=await supabase.from('ds_community_tournaments').select('id,title,game_mode,map_name,starts_at,max_players,status,rules,results').order('starts_at',{ascending:false});
+ if(te)tHost.textContent='Erreur : '+te.message;
+ else if(!events?.length)tHost.textContent='Aucun tournoi créé.';
+ else for(const event of events){
+  const box=node('div','panel');box.style.padding='14px';
+  box.append(node('strong','',event.title),node('p','note',event.game_mode+' · '+event.map_name+' · '+new Date(event.starts_at).toLocaleString('fr-FR')+' · '+event.status));
+  const {data:entries,error:ee}=await supabase.from('ds_community_tournament_entries').select('user_id,created_at').eq('tournament_id',event.id).order('created_at');
+  if(ee)box.append(node('p','note','Inscriptions : erreur de lecture'));
+  else{
+   box.append(node('p','note','Inscrits : '+(entries||[]).length+'/'+event.max_players));
+   const ids=(entries||[]).map(x=>x.user_id);
+   let profiles=[];
+   if(ids.length){const res=await supabase.from('ds_profiles').select('user_id,nickname').in('user_id',ids);profiles=res.data||[];}
+   (entries||[]).forEach(entry=>{
+    const profile=profiles.find(x=>x.user_id===entry.user_id);
+    const line=node('div','note',(profile?.nickname||'Joueur')+' · inscrit');
+    const kick=node('button','btn alt','Retirer');kick.type='button';kick.addEventListener('click',async()=>{kick.disabled=true;const {error}=await supabase.from('ds_community_tournament_entries').delete().eq('tournament_id',event.id).eq('user_id',entry.user_id);if(error){adminMessage('admin-t-msg','Retrait impossible : '+error.message,true);}else await loadOrganizerData();});
+    line.append(' ',kick);box.append(line);
+   });
+  }
+  const status=node('select','');['draft','open','full','finished','cancelled'].forEach(s=>{const o=node('option','',s);o.value=s;o.selected=s===event.status;status.append(o);});
+  status.addEventListener('change',async()=>{const {error}=await supabase.from('ds_community_tournaments').update({status:status.value}).eq('id',event.id);if(error)adminMessage('admin-t-msg','Statut non modifié : '+error.message,true);else{await loadTournaments();await loadOrganizerData();}});
+  box.append(node('label','note','Statut : '),status);
+  const result=node('textarea','');result.maxLength=1500;result.placeholder='Résultats, classement, gagnants…';result.value=event.results||'';result.style.cssText='width:100%;min-height:75px;margin-top:8px;padding:10px;background:#0b121b;color:var(--txt);border:1px solid var(--line);border-radius:9px';
+  const publish=node('button','btn','Publier les résultats');publish.type='button';publish.addEventListener('click',async()=>{publish.disabled=true;const {error}=await supabase.from('ds_community_tournaments').update({results:result.value.trim(),result_published_at:new Date().toISOString(),status:'finished'}).eq('id',event.id);if(error)adminMessage('admin-t-msg','Publication impossible : '+error.message,true);else{adminMessage('admin-t-msg','Résultats publiés.');await loadTournaments();await loadOrganizerData();}});
+  box.append(result,publish);tHost.append(box);
+ }
+ const {data:polls,error:pe}=await supabase.from('ds_community_polls').select('id,title,status,ends_at').order('created_at',{ascending:false});
+ if(pe)pHost.textContent='Erreur : '+pe.message;
+ else if(!polls?.length)pHost.textContent='Aucun sondage.';
+ else polls.forEach(poll=>{
+  const line=node('div','panel');line.style.padding='12px';line.append(node('strong','',poll.title));
+  const status=node('select','');['draft','open','closed'].forEach(s=>{const o=node('option','',s);o.value=s;o.selected=s===poll.status;status.append(o);});
+  status.addEventListener('change',async()=>{const {error}=await supabase.from('ds_community_polls').update({status:status.value}).eq('id',poll.id);if(error)adminMessage('admin-p-msg','Modification impossible : '+error.message,true);else await loadPolls();});
+  line.append(status);pHost.append(line);
+ });
+ const {data:ideas,error:ie}=await supabase.from('ds_community_ideas').select('id,title,category,status').order('created_at',{ascending:false}).limit(50);
+ if(ie)iHost.textContent='Erreur : '+ie.message;
+ else if(!ideas?.length)iHost.textContent='Aucune idée à modérer.';
+ else ideas.forEach(idea=>{
+  const line=node('div','panel');line.style.padding='12px';line.append(node('strong','',idea.title),node('p','note',idea.category));
+  const status=node('select','');[['proposed','Proposée'],['reviewing','En étude'],['planned','Prévue'],['done','Réalisée'],['rejected','Non retenue']].forEach(([v,l])=>{const o=node('option','',l);o.value=v;o.selected=v===idea.status;status.append(o);});
+  status.addEventListener('change',async()=>{const {error}=await supabase.from('ds_community_ideas').update({status:status.value}).eq('id',idea.id);if(error)adminMessage('admin-p-msg','Modération impossible : '+error.message,true);else await loadIdeas();});
+  line.append(status);iHost.append(line);
+ });
 }
 
 refreshCommunity();
