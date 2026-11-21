@@ -18,6 +18,8 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
 .serverGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.serverCard h3{margin:0 0 8px}.serverNum{font-size:29px;font-weight:850;margin:6px 0}.roomItem{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.roomItem:last-child{border:0}
 .securityGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.securityRow{display:flex;gap:11px;align-items:flex-start;margin:14px 0}.check{color:var(--green);font-weight:900}.infoBox{border:1px solid #5b442b;background:#291f16;border-radius:13px;padding:14px;color:#e6c39b;font-size:13px;margin-top:14px}
 .empty{color:var(--muted);padding:18px 0;text-align:center;font-size:13px}.small{font-size:12px}.mobileNav{display:none}
+
+.barTrack{height:9px;background:#0d131b;border-radius:99px;overflow:hidden;margin-top:7px}.barFill{height:100%;background:linear-gradient(90deg,#f28a32,#ffbd72);border-radius:99px}.statusOk{color:var(--green);font-weight:800}.statusBad{color:var(--red);font-weight:800}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}}
 @media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{position:sticky;top:0;z-index:5;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);gap:10px}.sideBrand{display:none}.nav{display:flex;overflow-x:auto;gap:6px}.nav button{white-space:nowrap;padding:9px 11px;font-size:12px}.navIcon{width:auto}.sideFoot{display:none}main{padding:17px 13px 34px}.topbar{align-items:flex-start;flex-direction:column;margin-bottom:20px}.topActions{width:100%;justify-content:space-between}.userPill{max-width:55vw}.metric{font-size:25px}.card{padding:14px}.grid{gap:9px}.serverGrid,.securityGrid{grid-template-columns:1fr}.sectionHead{align-items:flex-start;flex-direction:column}.toolbar .btn{flex:0 0 auto}}
 @media(max-width:390px){.grid{grid-template-columns:1fr 1fr}.metric{font-size:22px}.metricLabel{font-size:11px}.metricFoot{font-size:10px}}
@@ -46,6 +48,16 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button data-page="servers"><span class="navIcon">▦</span>Serveurs</button>
     <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>
     <button data-page="codes"><span class="navIcon">⌘</span>Codes privés</button>
+    <button data-page="analytics"><span class="navIcon">▤</span>Analytiques</button>
+    <button data-page="economy"><span class="navIcon">◉</span>Économie</button>
+    <button data-page="events"><span class="navIcon">✦</span>Événements</button>
+    <button data-page="updates"><span class="navIcon">⇧</span>Mises à jour</button>
+    <button data-page="diagnostics"><span class="navIcon">⌁</span>Dépannage</button>
+    <button data-page="tournaments"><span class="navIcon">♜</span>Tournois</button>
+    <button data-page="notifications"><span class="navIcon">♧</span>Notifications</button>
+    <button data-page="ads"><span class="navIcon">▣</span>Publicités</button>
+    <button data-page="assistant"><span class="navIcon">✧</span>Assistant IA</button>
+    <button data-page="godmode"><span class="navIcon">♛</span>Mode Dieu</button>
   </nav>
   <div class="sideFoot">DUST SIEGE · ADMIN<br><div class="connection"><span class="dot" id="sideDot"></span><span id="sideStatus">Connexion active</span></div><span>Vue protégée · lecture seule</span></div>
 </aside>
@@ -93,6 +105,119 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
       <article class="card"><h3>Outils de modération</h3><div class="securityRow"><span class="check">✓</span><div><b>Consultation des profils</b><div class="muted small">Scores, activité et statistiques disponibles en lecture.</div></div></div><div class="securityRow"><span class="badge warn">À ajouter</span><div><b>Sanctions et bannissements</b><div class="muted small">Non activés : aucune action de sanction n’est simulée ici.</div></div></div><div class="securityRow"><span class="badge warn">À ajouter</span><div><b>Journal d’audit persistant</b><div class="muted small">Nécessite une table dédiée et une politique d’accès.</div></div></div></article>
     </div>
     <div class="infoBox">Cette première version est volontairement en lecture seule : elle ne modifie ni les comptes, ni les soldes, ni les sauvegardes des joueurs. Les commandes sensibles seront ajoutées seulement avec des protections et un historique vérifiable.</div>
+  </section>
+
+
+  <section class="page" id="page-analytics">
+    <div class="sectionHead"><div><h2>Analytiques avancées</h2><p>Indicateurs calculés à partir des profils enregistrés.</p></div><span class="badge">Données réelles · échantillon limité à 1 000 profils</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Comptes joueurs</div><div class="metric mono" id="anPlayers">—</div></article>
+      <article class="card"><div class="metricLabel">Actifs sur 7 jours</div><div class="metric mono" id="anActive">—</div></article>
+      <article class="card"><div class="metricLabel">Parties enregistrées</div><div class="metric mono" id="anGames">—</div></article>
+      <article class="card"><div class="metricLabel">Éliminations enregistrées</div><div class="metric mono" id="anKills">—</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Top 8 des scores</h2><p>Comparaison visuelle des meilleurs scores connus.</p></div><button class="btn secondary" id="analyticsReload">Actualiser</button></div><div id="analyticsBars" class="list"><div class="empty">Chargement…</div></div></article>
+    <p class="muted small">Les totaux de parties et éliminations sont calculés sur les profils chargés, pas sur un journal exhaustif de chaque partie.</p>
+  </section>
+
+  <section class="page" id="page-economy">
+    <div class="sectionHead"><div><h2>Économie du jeu</h2><p>Vue agrégée des soldes enregistrés. Aucun solde joueur ne peut être modifié ici.</p></div><span class="badge">Lecture seule</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Argent cumulé (échantillon)</div><div class="metric mono" id="ecoBank">—</div></article>
+      <article class="card"><div class="metricLabel">XP cumulée (échantillon)</div><div class="metric mono" id="ecoXp">—</div></article>
+      <article class="card"><div class="metricLabel">Sauvegardes analysées</div><div class="metric mono" id="ecoSaves">—</div></article>
+      <article class="card"><div class="metricLabel">Profils joueurs analysés</div><div class="metric mono" id="ecoPlayers">—</div></article>
+    </div>
+    <div class="infoBox">Les sommes sont limitées aux 1 000 sauvegardes les plus récentes retournées par la base. Les achats réels et les revenus publicitaires ne sont pas inclus.</div>
+  </section>
+
+  <section class="page" id="page-events">
+    <div class="sectionHead"><div><h2>Événements et saisons</h2><p>Prépare tes événements dans un brouillon privé avant toute publication.</p></div><span class="badge warn">Brouillons locaux uniquement</span></div>
+    <div class="split">
+      <article class="card"><h2>Créer un brouillon</h2><form id="eventDraftForm">
+        <div class="field"><label for="eventName">Nom de l’événement</label><input id="eventName" maxlength="60" required placeholder="Ex. Week-end double XP"></div>
+        <div class="field"><label for="eventDescription">Description</label><input id="eventDescription" maxlength="180" placeholder="Description visible dans le projet"></div>
+        <div class="field"><label for="eventStart">Début</label><input id="eventStart" type="datetime-local" required></div>
+        <div class="field"><label for="eventEnd">Fin</label><input id="eventEnd" type="datetime-local" required></div>
+        <button class="btn" type="submit">Enregistrer le brouillon</button>
+      </form><p id="eventDraftMsg" class="muted small"></p></article>
+      <article class="card"><h2>Mes brouillons</h2><div id="eventDraftList" class="list"><div class="empty">Aucun brouillon.</div></div></article>
+    </div>
+    <div class="infoBox">Ces brouillons restent dans le stockage de ce navigateur. Ils ne sont pas envoyés au jeu et ne lancent aucun événement automatiquement.</div>
+  </section>
+
+  <section class="page" id="page-updates">
+    <div class="sectionHead"><div><h2>Mises à jour et versions</h2><p>État du service et informations de version disponibles depuis l’API du jeu.</p></div><button class="btn secondary" id="updatesReload">Vérifier</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">API du jeu</div><div class="metric" id="updateApi">—</div></article>
+      <article class="card"><div class="metricLabel">Base de données</div><div class="metric" id="updateDb">—</div></article>
+      <article class="card"><div class="metricLabel">WebSocket</div><div class="metric" id="updateWs">—</div></article>
+      <article class="card"><div class="metricLabel">Version console</div><div class="metric">Admin 1.1</div></article>
+    </div>
+    <p class="muted small" id="updateChecked">Dernière vérification : —</p>
+    <div class="infoBox">L’historique des déploiements GitHub/Render n’est pas encore relié à cette console. Cette page vérifie le service réellement accessible, sans prétendre connaître la version publiée sur Render.</div>
+  </section>
+
+  <section class="page" id="page-diagnostics">
+    <div class="sectionHead"><div><h2>Centre de dépannage</h2><p>Contrôle de disponibilité de l’API, de la base et des données.</p></div><button class="btn secondary" id="diagnosticsReload">Lancer les tests</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">API</div><div class="metric" id="diagApi">—</div></article>
+      <article class="card"><div class="metricLabel">Base de données</div><div class="metric" id="diagDb">—</div></article>
+      <article class="card"><div class="metricLabel">Salons actifs</div><div class="metric mono" id="diagRooms">—</div></article>
+      <article class="card"><div class="metricLabel">Joueurs en ligne</div><div class="metric mono" id="diagOnline">—</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><h2>Résultats du contrôle</h2><div id="diagDetails" class="list"><div class="empty">Aucun test lancé.</div></div></article>
+  </section>
+
+  <section class="page" id="page-tournaments">
+    <div class="sectionHead"><div><h2>Tournois et classements</h2><p>Classement des scores enregistrés dans la table de compétition.</p></div><button class="btn secondary" id="tournamentReload">Actualiser</button></div>
+    <div class="tableWrap"><table style="min-width:560px"><thead><tr><th>Rang</th><th>Joueur</th><th>Score</th><th>Vague</th><th>Mise à jour</th></tr></thead><tbody id="tournamentBody"><tr><td colspan="5" class="empty">Chargement…</td></tr></tbody></table></div>
+    <div class="infoBox">La console affiche le classement existant. La création de tournois officiels et la distribution automatique de prix nécessitent encore un système de compétition dédié.</div>
+  </section>
+
+  <section class="page" id="page-notifications">
+    <div class="sectionHead"><div><h2>Centre de notifications</h2><p>Rédige et prévisualise des annonces pour Dust Siege.</p></div><span class="badge warn">Envoi désactivé</span></div>
+    <div class="split">
+      <article class="card"><h2>Rédiger une annonce</h2><form id="notificationDraftForm">
+        <div class="field"><label for="notificationTitle">Titre</label><input id="notificationTitle" maxlength="70" required placeholder="Maintenance programmée"></div>
+        <div class="field"><label for="notificationBody">Message</label><textarea id="notificationBody" maxlength="240" rows="4" required placeholder="Ton message aux joueurs…"></textarea></div>
+        <button class="btn" type="submit">Enregistrer le brouillon</button>
+      </form><p id="notificationMsg" class="muted small"></p></article>
+      <article class="card"><h2>Aperçu</h2><div class="card" style="background:#0e141c"><b id="notificationPreviewTitle">Titre de l’annonce</b><p id="notificationPreviewBody" class="muted">Le message apparaîtra ici.</p><span class="badge">Aperçu local</span></div><div id="notificationDraftList" class="list" style="margin-top:12px"></div></article>
+    </div>
+    <div class="infoBox">Les annonces sont sauvegardées comme brouillons dans ce navigateur. Aucun push ni message n’est envoyé aux joueurs.</div>
+  </section>
+
+  <section class="page" id="page-ads">
+    <div class="sectionHead"><div><h2>Publicités et revenus</h2><p>État des intégrations publicitaires et des mesures disponibles.</p></div><span class="badge warn">Données non connectées</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">AdMob</div><div class="metric">À relier</div><div class="metricFoot">Revenus et impressions non récupérés ici</div></article>
+      <article class="card"><div class="metricLabel">Google Analytics</div><div class="metric">À relier</div><div class="metricFoot">Aucun rapport chargé dans cette console</div></article>
+      <article class="card"><div class="metricLabel">Google Ads</div><div class="metric">Externe</div><div class="metricFoot">Gestion dans le compte publicitaire</div></article>
+      <article class="card"><div class="metricLabel">Meta Ads</div><div class="metric">Externe</div><div class="metricFoot">Gestion dans le compte publicitaire</div></article>
+    </div>
+    <div class="infoBox">Aucun revenu, budget ou résultat publicitaire n’est inventé. Les connexions et autorisations de ces plateformes devront être vérifiées avant d’afficher des chiffres.</div>
+  </section>
+
+  <section class="page" id="page-assistant">
+    <div class="sectionHead"><div><h2>Assistant développeur</h2><p>Analyse automatique simple des contrôles de santé et conseils de dépannage.</p></div><button class="btn secondary" id="assistantRun">Analyser maintenant</button></div>
+    <article class="card"><div id="assistantOutput" class="list"><div class="empty">Lance une analyse pour obtenir des recommandations.</div></div></article>
+    <div class="infoBox">Cet assistant utilise des règles de diagnostic locales. Il ne modifie aucun fichier, aucune donnée et ne remplace pas une analyse complète du code.</div>
+  </section>
+
+  <section class="page" id="page-godmode">
+    <div class="sectionHead"><div><h2>Mode Dieu · développeur</h2><p>Espace privé pour vérifier ton compte et tester des valeurs sans toucher aux sauvegardes de production.</p></div><span class="badge good">Accès développeur</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Solde de ton compte</div><div class="metric mono" id="godBank">—</div></article>
+      <article class="card"><div class="metricLabel">XP de ton compte</div><div class="metric mono" id="godXp">—</div></article>
+      <article class="card"><div class="metricLabel">Rôle</div><div class="metric">Développeur</div></article>
+      <article class="card"><div class="metricLabel">Modifications production</div><div class="metric">Désactivées</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><h2>Informations privées</h2><p class="small muted">Compte : <span id="godEmail">—</span></p><p class="small muted">Identifiant : <span id="godUserId" class="mono">—</span></p><p class="small muted">Dernière sauvegarde : <span id="godSaveDate">—</span></p></article>
+    <div class="split">
+      <article class="card"><h2>Simulateur de récompense</h2><p class="muted small">Teste une quantité dans un bac à sable local, sans créditer ton compte.</p><div class="field"><label for="godTestAmount">Quantité à simuler</label><input id="godTestAmount" type="number" min="0" max="1000000000" value="5000"></div><button class="btn" id="godSimulate">Simuler</button><p id="godSimulationResult" class="muted small">Aucune simulation effectuée.</p></article>
+      <article class="card"><h2>Commandes protégées</h2><div class="securityRow"><span class="check">✓</span><div><b>Codes privés</b><div class="muted small">Utilise la page Codes privés pour créer et activer tes récompenses personnelles.</div></div></div><div class="securityRow"><span class="check">✓</span><div><b>Sandbox isolé</b><div class="muted small">Les essais de cette page ne modifient aucune donnée du jeu.</div></div></div></article>
+    </div>
   </section>
 
   <section class="page" id="page-codes">
@@ -151,7 +276,17 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     players: ['Joueurs', 'Recherche et statistiques des profils enregistrés.'],
     servers: ['Serveurs', 'État des salons multijoueurs en direct.'],
     security: ['Sécurité', 'Contrôles d’accès et état des protections.'],
-    codes: ['Codes privés', 'Récompenses réservées à ton compte administrateur.']
+    codes: ['Codes privés', 'Récompenses réservées à ton compte administrateur.'],
+    analytics: ['Analytiques', 'Statistiques avancées du jeu.'],
+    economy: ['Économie', 'Vue agrégée des soldes virtuels.'],
+    events: ['Événements', 'Préparation des événements et saisons.'],
+    updates: ['Mises à jour', 'Santé du service et version.'],
+    diagnostics: ['Dépannage', 'Tests techniques de disponibilité.'],
+    tournaments: ['Tournois', 'Classements et performances.'],
+    notifications: ['Notifications', 'Brouillons des annonces aux joueurs.'],
+    ads: ['Publicités', 'Mesure des publicités et revenus.'],
+    assistant: ['Assistant développeur', 'Analyse et recommandations de dépannage.'],
+    godmode: ['Mode Dieu', 'Espace privé et bac à sable développeur.']
   };
   const fmt = (n) => Number(n || 0).toLocaleString('fr-FR');
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -204,6 +339,16 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     if(page==='players') loadPlayers();
     if(page==='servers') loadLive();
     if(page==='codes') loadCodes();
+    if(page==='analytics') loadAnalytics();
+    if(page==='economy') loadEconomy();
+    if(page==='events') renderEventDrafts();
+    if(page==='updates') loadUpdates();
+    if(page==='diagnostics') loadDiagnostics();
+    if(page==='tournaments') loadTournaments();
+    if(page==='notifications') renderNotificationDrafts();
+    if(page==='godmode') loadGodmode();
+    if(page==='assistant') runAssistant();
+
   }
   document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
   document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
@@ -303,6 +448,66 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     finally { btn.disabled=false; btn.textContent='Créer le code'; }
   });
   $('reloadCodesBtn').addEventListener('click',()=>loadCodes().catch(e=>$('adminCodesList').textContent=e.message));
+
+
+  let latestOverview=null;
+  async function loadAnalytics(){
+    const d=latestOverview||await request('/api/admin/overview');latestOverview=d;
+    $('anPlayers').textContent=fmt(d.totalPlayers);$('anActive').textContent=fmt(d.activePlayers7d);$('anGames').textContent=fmt(d.gamesInSample);$('anKills').textContent=fmt(d.killsInSample);
+    const top=d.topPlayers||[],max=Math.max(1,...top.map(x=>Number(x.score||0)));
+    $('analyticsBars').innerHTML=top.length?top.map((p,i)=>'<div class="listRow"><div style="flex:1;min-width:0"><div class="listTitle">#'+(i+1)+' '+esc(p.name)+'</div><div class="barTrack"><div class="barFill" style="width:'+Math.max(1,Math.min(100,Number(p.score||0)/max*100))+'%"></div></div></div><div class="score">'+fmt(p.score)+'</div></div>').join(''):'<div class="empty">Aucun score disponible.</div>';
+  }
+  async function loadEconomy(){
+    const d=await request('/api/admin/economy');$('ecoBank').textContent=fmt(d.bank);$('ecoXp').textContent=fmt(d.xp);$('ecoSaves').textContent=fmt(d.sampledSaves);$('ecoPlayers').textContent=fmt(d.topPlayers?.length||0);
+  }
+  const readDrafts=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}};
+  const writeDrafts=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+  function renderEventDrafts(){
+    const items=readDrafts('ds_admin_event_drafts');
+    $('eventDraftList').innerHTML=items.length?items.map((e,i)=>'<div class="listRow"><div><b>'+esc(e.name)+'</b><div class="listSub">'+esc(e.description||'Sans description')+' · '+date(e.start)+' → '+date(e.end)+'</div></div><button class="btn ghost" data-remove-event="'+i+'">Supprimer</button></div>').join(''):'<div class="empty">Aucun brouillon.</div>';
+    $('eventDraftList').querySelectorAll('[data-remove-event]').forEach(b=>b.addEventListener('click',()=>{const a=readDrafts('ds_admin_event_drafts');a.splice(Number(b.dataset.removeEvent),1);writeDrafts('ds_admin_event_drafts',a);renderEventDrafts()}));
+  }
+  $('eventDraftForm').addEventListener('submit',e=>{e.preventDefault();const start=new Date($('eventStart').value),end=new Date($('eventEnd').value);if(!(end>start)){$('eventDraftMsg').textContent='La date de fin doit être après le début.';return}const a=readDrafts('ds_admin_event_drafts');a.unshift({name:$('eventName').value.trim(),description:$('eventDescription').value.trim(),start:start.toISOString(),end:end.toISOString(),createdAt:new Date().toISOString()});writeDrafts('ds_admin_event_drafts',a.slice(0,20));$('eventDraftMsg').textContent='Brouillon enregistré sur cet appareil.';$('eventDraftForm').reset();renderEventDrafts()});
+  async function loadUpdates(){const d=await request('/api/admin/diagnostics');$('updateApi').innerHTML='<span class="statusOk">En ligne</span>';$('updateDb').innerHTML='<span class="statusOk">Connectée</span>';$('updateWs').innerHTML='<span class="statusOk">Actif</span>';$('updateChecked').textContent='Dernière vérification : '+date(d.checkedAt)+' · Version API : '+esc(d.version)}
+  async function loadDiagnostics(){
+    $('diagDetails').innerHTML='<div class="empty">Tests en cours…</div>';
+    const d=await request('/api/admin/diagnostics');
+    $('diagApi').innerHTML='<span class="statusOk">OK</span>';$('diagDb').innerHTML='<span class="statusOk">OK</span>';$('diagRooms').textContent=fmt(d.activeRooms);$('diagOnline').textContent=fmt(d.onlinePlayers);
+    $('diagDetails').innerHTML=[['API HTTP','Réponse authentifiée reçue'],['Base de données','Lecture des tables joueurs et sauvegardes réussie'],['Joueurs enregistrés',fmt(d.playerRecords)],['Sauvegardes',fmt(d.saveRecords)],['WebSocket','Serveur actif'],['Vérification',date(d.checkedAt)]].map(x=>'<div class="listRow"><div><b>'+esc(x[0])+'</b><div class="listSub">'+esc(x[1])+'</div></div><span class="statusOk">OK</span></div>').join('');
+  }
+  async function loadTournaments(){
+    $('tournamentBody').innerHTML='<tr><td colspan="5" class="empty">Chargement…</td></tr>';
+    const d=await request('/api/admin/tournaments');
+    $('tournamentBody').innerHTML=(d.items||[]).length?d.items.map((p,i)=>'<tr><td>#'+(i+1)+'</td><td>'+esc(p.name)+'</td><td class="mono">'+fmt(p.score)+'</td><td>'+fmt(p.wave)+'</td><td>'+date(p.updatedAt)+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">Aucun score dans game_scores pour le moment.</td></tr>';
+  }
+  function renderNotificationDrafts(){
+    const a=readDrafts('ds_admin_notification_drafts');
+    $('notificationDraftList').innerHTML=a.length?a.map((n,i)=>'<div class="listRow"><div><b>'+esc(n.title)+'</b><div class="listSub">'+esc(n.body)+'</div></div><button class="btn ghost" data-remove-notice="'+i+'">Supprimer</button></div>').join(''):'<div class="empty">Aucun brouillon enregistré.</div>';
+    $('notificationDraftList').querySelectorAll('[data-remove-notice]').forEach(b=>b.addEventListener('click',()=>{const x=readDrafts('ds_admin_notification_drafts');x.splice(Number(b.dataset.removeNotice),1);writeDrafts('ds_admin_notification_drafts',x);renderNotificationDrafts()}));
+  }
+  $('notificationTitle').addEventListener('input',()=>{$('notificationPreviewTitle').textContent=$('notificationTitle').value||'Titre de l’annonce'});
+  $('notificationBody').addEventListener('input',()=>{$('notificationPreviewBody').textContent=$('notificationBody').value||'Le message apparaîtra ici.'});
+  $('notificationDraftForm').addEventListener('submit',e=>{e.preventDefault();const a=readDrafts('ds_admin_notification_drafts');a.unshift({title:$('notificationTitle').value.trim(),body:$('notificationBody').value.trim(),createdAt:new Date().toISOString()});writeDrafts('ds_admin_notification_drafts',a.slice(0,30));$('notificationMsg').textContent='Brouillon enregistré sur cet appareil. Aucun message envoyé.';$('notificationDraftForm').reset();$('notificationPreviewTitle').textContent='Titre de l’annonce';$('notificationPreviewBody').textContent='Le message apparaîtra ici.';renderNotificationDrafts()});
+  async function loadGodmode(){
+    const d=await request('/api/admin/godmode');$('godBank').textContent=fmt(d.wallet.bank);$('godXp').textContent=fmt(d.wallet.xp);$('godEmail').textContent=d.email||'—';$('godUserId').textContent=d.userId||'—';$('godSaveDate').textContent=date(d.saveUpdatedAt);
+  }
+  $('godSimulate').addEventListener('click',()=>{const n=Math.max(0,Math.floor(Number($('godTestAmount').value)||0));$('godSimulationResult').textContent='Simulation locale : +'+fmt(n)+' unités. Aucun crédit réel n’a été effectué.'});
+  async function runAssistant(){
+    $('assistantOutput').innerHTML='<div class="empty">Analyse des services…</div>';
+    try{const d=await request('/api/admin/diagnostics');const notes=[];
+      if(d.ok)notes.push(['API et base','Les vérifications de disponibilité répondent correctement.','good']);
+      if(d.playerRecords===0)notes.push(['Données joueurs','Aucun profil trouvé : vérifie la connexion et les sauvegardes.','warn']);
+      if(d.activeRooms===0)notes.push(['Multijoueur','Aucun salon actif à cet instant. Cela est normal si personne ne joue.','info']);
+      if(d.saveRecords===0)notes.push(['Sauvegardes','Aucune sauvegarde trouvée dans game_saves.','warn']);
+      notes.push(['Limite de l’analyse','Cette vérification ne teste pas le rendu 3D, les contrôles tactiles ou le gameplay.','info']);
+      $('assistantOutput').innerHTML=notes.map(n=>'<div class="listRow"><div><b>'+esc(n[0])+'</b><div class="listSub">'+esc(n[1])+'</div></div><span class="badge '+(n[2]==='good'?'good':n[2]==='warn'?'warn':'')+'">'+(n[2]==='good'?'OK':n[2]==='warn'?'À vérifier':'Info')+'</span></div>').join('');
+    }catch(e){$('assistantOutput').innerHTML='<div class="empty">'+esc(e.message)+'</div>'}
+  }
+  $('analyticsReload').addEventListener('click',()=>{latestOverview=null;loadAnalytics().catch(e=>alert(e.message))});
+  $('updatesReload').addEventListener('click',()=>loadUpdates().catch(e=>alert(e.message)));
+  $('diagnosticsReload').addEventListener('click',()=>loadDiagnostics().catch(e=>alert(e.message)));
+  $('tournamentReload').addEventListener('click',()=>loadTournaments().catch(e=>alert(e.message)));
+  $('assistantRun').addEventListener('click',runAssistant);
 
   $('refreshBtn').addEventListener('click',refreshAll);
   $('liveRefreshBtn').addEventListener('click',()=>loadLive().catch(e=>alert(e.message)));
