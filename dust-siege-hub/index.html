@@ -13,13 +13,25 @@ header{display:flex;justify-content:space-between;align-items:center;padding:18p
 .hero-art{min-height:270px;border:1px solid #394b60;border-radius:24px;background:linear-gradient(145deg,#293d51,#111a25 60%,#3a2818);display:grid;place-items:center;overflow:hidden;position:relative}.hero-art:before,.hero-art:after{content:"";position:absolute;border:1px solid #ffffff18;border-radius:50%;width:250px;height:250px}.hero-art:after{width:350px;height:350px}.mark{font-size:96px;font-weight:1000;color:var(--orange);z-index:1;text-shadow:0 15px 45px #000}
 section{padding:25px 0}h2{font-size:27px;letter-spacing:-.03em;margin:0 0 6px}.lead{color:var(--muted);margin:0 0 18px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{display:block;background:linear-gradient(145deg,#192635,#111923);border:1px solid var(--line);border-radius:17px;padding:19px;transition:.18s}.card:hover{border-color:var(--orange);transform:translateY(-2px)}.card h3{margin:7px 0}.card p{margin:0;color:var(--muted);font-size:14px}.ico{font-size:26px}.status{display:inline-block;border:1px solid #3d5b4e;color:var(--green);padding:3px 8px;border-radius:99px;font-size:11px;font-weight:800}
 .panel{border:1px solid var(--line);background:#111a24;border-radius:17px;padding:20px}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.form{display:grid;gap:11px}.form label{display:grid;gap:5px;font-weight:750}.form input,.form textarea{width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#0b121b;color:var(--txt);font:inherit}.form textarea{min-height:115px}.form button{justify-self:start}.note{font-size:12px;color:var(--muted)}#msg{min-height:22px;color:var(--green)}
+
+.auth-area{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.auth-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.auth-tabs button{background:#1b2938;color:var(--txt);border:1px solid var(--line);padding:9px 13px;border-radius:9px;font-weight:800;cursor:pointer}
+.auth-tabs button.active{background:var(--orange);color:#20150b;border-color:var(--orange)}
+.auth-form{display:grid;gap:10px}.auth-form label{display:grid;gap:5px;font-weight:750}
+.auth-form input{width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#0b121b;color:var(--txt);font:inherit}
+.auth-form button{justify-self:start}.auth-message{min-height:24px;color:var(--green);font-size:13px}
+.auth-profile{display:grid;gap:8px}.auth-profile strong{font-size:20px}.auth-actions{display:flex;gap:8px;flex-wrap:wrap}
+.auth-actions button{background:#1b2938;color:var(--txt);border:1px solid var(--line);padding:10px 13px;border-radius:9px;font-weight:800;cursor:pointer}
+@media(max-width:740px){.auth-area{grid-template-columns:1fr}}
+
 footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:13px}.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media(max-width:740px){nav{gap:10px;font-size:12px;overflow:auto;max-width:70vw}.hero{grid-template-columns:1fr;padding:42px 0 24px}.hero-art{min-height:180px}.mark{font-size:68px}.grid{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}}
 @media(max-width:430px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="wrap"><a class="brand" href="#">DUST <span>SIEGE HUB</span></a><nav><a href="#joueurs">Joueurs</a><a href="#communaute">Communauté</a><a href="#aide">Aide</a><a href="#liens">Liens</a></nav></header>
+<header class="wrap"><a class="brand" href="#">DUST <span>SIEGE HUB</span></a><nav><a href="#joueurs">Joueurs</a><a href="#compte">Mon compte</a><a href="#communaute">Communauté</a><a href="#aide">Aide</a><a href="#liens">Liens</a></nav></header>
 <main class="wrap">
 <section class="hero"><div><div class="eyebrow">Le centre communautaire officiel</div><h1>UN SEUL HUB.<br><span style="color:var(--orange)">TOUTE LA ZONE.</span></h1><p>Retrouve les accès au jeu, les informations du projet et les outils communautaires Dust Siege depuis un espace unique.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Jouer maintenant ↗</a><a class="btn alt" href="#communaute">Explorer le Hub</a></div></div><div class="hero-art"><div class="mark">DS</div></div></section>
 <section id="joueurs"><h2>Espace joueurs</h2><p class="lead">Les services communautaires à retrouver ici. Les fonctions nécessitant un compte ou un serveur seront activées séparément.</p><div class="grid">
@@ -27,6 +39,32 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0;color:var
 <div class="card"><div class="ico">👥</div><div class="tag">Social</div><h3>Amis & escouades</h3><p>Retrouver ses amis, former un groupe et préparer des invitations.</p><span class="status">À connecter</span></div>
 <div class="card"><div class="ico">🏅</div><div class="tag">Compétition</div><h3>Classements</h3><p>Afficher les scores et les performances quand les données du jeu seront reliées.</p><span class="status">À connecter</span></div>
 </div></section>
+
+<section id="compte"><h2>Compte Dust Siege</h2><p class="lead">Crée ton compte ou connecte-toi pour retrouver ton espace joueur.</p>
+<div class="auth-area">
+<div class="panel">
+<div class="auth-tabs"><button type="button" id="tab-login" class="active">Connexion</button><button type="button" id="tab-signup">Créer un compte</button></div>
+<form class="auth-form" id="login-form">
+<label>E-mail<input id="login-email" type="email" autocomplete="email" required maxlength="254" placeholder="ton@email.com"></label>
+<label>Mot de passe<input id="login-password" type="password" autocomplete="current-password" required minlength="6" placeholder="Ton mot de passe"></label>
+<button class="btn" type="submit" id="login-submit">Se connecter</button>
+<button type="button" class="auth-actions" id="forgot-password" style="border:0;background:transparent;color:var(--orange);padding:0;cursor:pointer">Mot de passe oublié ?</button>
+</form>
+<form class="auth-form" id="signup-form" hidden>
+<label>Pseudo<input id="signup-name" type="text" autocomplete="nickname" required maxlength="24" placeholder="Ton pseudo"></label>
+<label>E-mail<input id="signup-email" type="email" autocomplete="email" required maxlength="254" placeholder="ton@email.com"></label>
+<label>Mot de passe<input id="signup-password" type="password" autocomplete="new-password" required minlength="8" placeholder="8 caractères minimum"></label>
+<button class="btn" type="submit" id="signup-submit">Créer mon compte</button>
+</form>
+<div class="auth-message" id="auth-message" role="status" aria-live="polite"></div>
+<p class="note">Ton mot de passe est géré de façon sécurisée par Supabase. Ne le partage avec personne.</p>
+</div>
+<div class="panel auth-profile" id="account-card">
+<div class="ico">👤</div><strong>Pas encore connecté</strong>
+<p class="muted">Connecte-toi pour accéder à ton espace joueur. Les profils, amis et classements seront reliés progressivement.</p>
+</div>
+</div></section>
+
 <section id="communaute"><h2>Communauté & activités</h2><p class="lead">Un espace pour faire vivre le projet avec les joueurs.</p><div class="grid">
 <div class="card"><div class="ico">📣</div><h3>Actualités</h3><p>Consulte les annonces et nouveautés du projet.</p><a class="tag" href="https://dust-siege-control.onrender.com/">Ouvrir le portail ↗</a></div>
 <div class="card"><div class="ico">💡</div><h3>Idées & sondages</h3><p>Proposer des améliorations et voter pour les prochaines priorités.</p><span class="status">À développer</span></div>
@@ -49,4 +87,62 @@ document.getElementById('help').addEventListener('submit',async function(e){
  finally{btn.disabled=false;btn.textContent='Envoyer';}
 });
 </script>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.4';
+const SUPABASE_URL = 'https://bkafwwkfosdqrhgummff.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_mxKzpUpR1k1EaNK4ow47lQ_xfe-BUaB';
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const $ = id => document.getElementById(id);
+const message = $('auth-message');
+const card = $('account-card');
+function say(text, error=false){ message.textContent=text; message.style.color=error?'#ff9b9b':'var(--green)'; }
+function switchTab(which){
+ const login=which==='login';
+ $('login-form').hidden=!login; $('signup-form').hidden=login;
+ $('tab-login').classList.toggle('active',login); $('tab-signup').classList.toggle('active',!login);
+ say('');
+}
+$('tab-login').addEventListener('click',()=>switchTab('login'));
+$('tab-signup').addEventListener('click',()=>switchTab('signup'));
+function showUser(user){
+ if(!user){card.innerHTML='<div class="ico">👤</div><strong>Pas encore connecté</strong><p class="muted">Connecte-toi pour accéder à ton espace joueur. Les profils, amis et classements seront reliés progressivement.</p>';return;}
+ const name=(user.user_metadata&&user.user_metadata.display_name)||user.email||'Joueur';
+ card.innerHTML='';
+ const icon=document.createElement('div');icon.className='ico';icon.textContent='🪪';
+ const title=document.createElement('strong');title.textContent=name;
+ const email=document.createElement('p');email.className='muted';email.textContent=user.email||'';
+ const status=document.createElement('span');status.className='status';status.textContent='Connecté';
+ const actions=document.createElement('div');actions.className='auth-actions';
+ const logout=document.createElement('button');logout.type='button';logout.textContent='Se déconnecter';
+ logout.addEventListener('click',async()=>{const {error}=await supabase.auth.signOut();if(error)say(error.message,true);else say('Déconnexion effectuée.');});
+ actions.append(logout);card.append(icon,title,email,status,actions);
+}
+$('login-form').addEventListener('submit',async e=>{
+ e.preventDefault();const btn=$('login-submit');btn.disabled=true;btn.textContent='Connexion…';say('');
+ const {data,error}=await supabase.auth.signInWithPassword({email:$('login-email').value.trim(),password:$('login-password').value});
+ if(error)say('Connexion impossible : '+error.message,true);else{say('Bienvenue sur Dust Siege !');showUser(data.user);}
+ btn.disabled=false;btn.textContent='Se connecter';
+});
+$('signup-form').addEventListener('submit',async e=>{
+ e.preventDefault();const btn=$('signup-submit');btn.disabled=true;btn.textContent='Création…';say('');
+ const {data,error}=await supabase.auth.signUp({
+  email:$('signup-email').value.trim(),password:$('signup-password').value,
+  options:{data:{display_name:$('signup-name').value.trim()},emailRedirectTo:window.location.origin}
+ });
+ if(error)say('Création impossible : '+error.message,true);
+ else if(data.session){say('Compte créé et connecté !');showUser(data.user);}
+ else say('Compte créé ! Vérifie ta boîte e-mail pour confirmer ton adresse avant de te connecter.');
+ btn.disabled=false;btn.textContent='Créer mon compte';
+});
+$('forgot-password').addEventListener('click',async()=>{
+ const email=$('login-email').value.trim();
+ if(!email){say('Entre ton adresse e-mail dans le champ E-mail.',true);return;}
+ const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin});
+ if(error)say('Envoi impossible : '+error.message,true);else say('Lien de réinitialisation envoyé si cette adresse possède un compte.');
+});
+const {data:{session}}=await supabase.auth.getSession();showUser(session?.user||null);
+supabase.auth.onAuthStateChange((_event,session)=>showUser(session?.user||null));
+</script>
+
 </body></html>
