@@ -57,6 +57,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button data-page="notifications"><span class="navIcon">♧</span>Notifications</button>
     <button data-page="ads"><span class="navIcon">▣</span>Publicités</button>
     <button data-page="integrations"><span class="navIcon">⛓</span>Intégrations</button>
+    <button data-page="studio"><span class="navIcon">✎</span>Studio & suivi</button>
     <button data-page="assistant"><span class="navIcon">✧</span>Assistant diagnostic</button>
     <button data-page="godmode"><span class="navIcon">♛</span>Mode Dieu</button>
   </nav>
@@ -231,6 +232,44 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <p class="muted small" id="integrationChecked">Dernière vérification : —</p>
   </section>
 
+  <section class="page" id="page-studio">
+    <div class="sectionHead"><div><h2>Studio Dust Siege</h2><p>Prépare les nouveautés, organise les retours et suis les prochaines versions.</p></div><span class="badge">Brouillons locaux</span></div>
+    <div class="grid">
+      <div class="card"><div class="metricLabel">Notes de version</div><div class="metric" id="studioPatchCount">0</div><div class="metricFoot">Brouillons sur cet appareil</div></div>
+      <div class="card"><div class="metricLabel">Idées & améliorations</div><div class="metric" id="studioIdeaCount">0</div><div class="metricFoot">Éléments de la feuille de route</div></div>
+      <div class="card"><div class="metricLabel">Retours joueurs</div><div class="metric" id="studioFeedbackCount">0</div><div class="metricFoot">Notes de suivi locales</div></div>
+      <div class="card"><div class="metricLabel">Checklist de sortie</div><div class="metric" id="studioChecks">0/6</div><div class="metricFoot">Contrôles avant publication</div></div>
+    </div>
+    <div class="split">
+      <div class="card"><div class="sectionHead"><div><h2>Notes de version</h2><p>Prépare les nouveautés à annoncer.</p></div></div>
+        <form id="studioPatchForm" class="formGrid">
+          <label>Titre<input id="studioPatchTitle" required maxlength="80" placeholder="Ex. Mise à jour 1.2"></label>
+          <label>Version<input id="studioPatchVersion" maxlength="24" placeholder="Ex. v1.2.0"></label>
+          <label>Catégorie<select id="studioPatchType"><option>Gameplay</option><option>Corrections</option><option>Multijoueur</option><option>Contenu</option><option>Technique</option></select></label>
+          <label>Description<textarea id="studioPatchBody" required maxlength="1200" rows="5" placeholder="Décris les changements…"></textarea></label>
+          <button class="btn primary" type="submit">Enregistrer le brouillon</button><div class="small muted" id="studioPatchMsg">Enregistré uniquement dans le navigateur de cet appareil.</div>
+        </form><div id="studioPatchList" class="list"></div>
+      </div>
+      <div class="card"><div class="sectionHead"><div><h2>Feuille de route</h2><p>Classe les prochaines idées du projet.</p></div></div>
+        <form id="studioIdeaForm" class="formGrid"><label>Amélioration<input id="studioIdeaTitle" required maxlength="100" placeholder="Ex. Optimiser les cartes mobiles"></label><label>Priorité<select id="studioIdeaPriority"><option>Haute</option><option selected>Moyenne</option><option>Basse</option></select></label><button class="btn primary" type="submit">Ajouter à la feuille de route</button></form><div id="studioIdeaList" class="list"></div>
+      </div>
+    </div>
+    <div class="split">
+      <div class="card"><div class="sectionHead"><div><h2>Suivi des retours</h2><p>Consigne les bugs et suggestions reçus.</p></div></div>
+        <form id="studioFeedbackForm" class="formGrid"><label>Sujet<input id="studioFeedbackTitle" required maxlength="100" placeholder="Ex. Écran noir sur une carte"></label><label>Type<select id="studioFeedbackType"><option>Bug</option><option>Suggestion</option><option>Équilibrage</option><option>Accessibilité</option></select></label><label>Détails<textarea id="studioFeedbackBody" rows="3" maxlength="700" placeholder="Étapes, appareil, mode…"></textarea></label><button class="btn primary" type="submit">Enregistrer le retour</button></form><div id="studioFeedbackList" class="list"></div>
+      </div>
+      <div class="card"><div class="sectionHead"><div><h2>Checklist avant mise en ligne</h2><p>À cocher après un vrai test.</p></div></div>
+        <div id="studioChecklist" class="list">
+          <label class="listRow"><span>Menu et navigation mobile</span><input type="checkbox" data-studio-check="0"></label>
+          <label class="listRow"><span>Carte et décor 3D chargés</span><input type="checkbox" data-studio-check="1"></label>
+          <label class="listRow"><span>Viseur et commandes tactiles</span><input type="checkbox" data-studio-check="2"></label>
+          <label class="listRow"><span>Solde et sauvegardes conservés</span><input type="checkbox" data-studio-check="3"></label>
+          <label class="listRow"><span>Connexion et salons multijoueurs</span><input type="checkbox" data-studio-check="4"></label>
+          <label class="listRow"><span>Test sur Android + navigateur</span><input type="checkbox" data-studio-check="5"></label>
+        </div><div class="infoBox">Cette checklist ne lance pas de tests automatiques et ne publie rien. Coche un point seulement après l’avoir vérifié.</div>
+      </div>
+    </div>
+  </section>
   <section class="page" id="page-assistant">
     <div class="sectionHead"><div><h2>Assistant développeur</h2><p>Analyse automatique simple des contrôles de santé et conseils de dépannage.</p></div><button class="btn secondary" id="assistantRun">Analyser maintenant</button></div>
     <article class="card"><div id="assistantOutput" class="list"><div class="empty">Lance une analyse pour obtenir des recommandations.</div></div></article>
@@ -318,6 +357,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     notifications: ['Notifications', 'Brouillons des annonces aux joueurs.'],
     ads: ['Publicités', 'Mesure des publicités et revenus.'],
     integrations: ['Intégrations', 'Connexions de Dust Siege et services externes.'],
+    studio: ['Studio & suivi', 'Notes de version, feuille de route, retours et checklist.'],
     assistant: ['Assistant développeur', 'Analyse et recommandations de dépannage.'],
     godmode: ['Mode Dieu', 'Espace privé et bac à sable développeur.']
   };
@@ -381,6 +421,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     if(page==='notifications') renderNotificationDrafts();
     if(page==='godmode') loadGodmode();
     if(page==='integrations') loadIntegrations();
+    if(page==='studio') loadStudio();
     if(page==='assistant') runAssistant();
 
   }
@@ -580,6 +621,26 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     const a=document.createElement('a');a.href=url;a.download='dust-siege-joueurs.csv';a.click();URL.revokeObjectURL(url);
   });
   $('logoutBtn').addEventListener('click',()=>{sessionStorage.removeItem(TOKEN_KEY);token='';showLogin('Tu es déconnecté.');});
+
+  const studioKeys={patch:'ds_studio_patches',ideas:'ds_studio_ideas',feedback:'ds_studio_feedback',checks:'ds_studio_checks'};
+  const studioRead=k=>{try{return JSON.parse(localStorage.getItem(studioKeys[k])||'[]')}catch{return []}};
+  const studioWrite=(k,v)=>localStorage.setItem(studioKeys[k],JSON.stringify(v));
+  function loadStudio(){
+    const patches=studioRead('patch'),ideas=studioRead('ideas'),feedback=studioRead('feedback');
+    $('studioPatchCount').textContent=patches.length;$('studioIdeaCount').textContent=ideas.length;$('studioFeedbackCount').textContent=feedback.length;
+    const checks=JSON.parse(localStorage.getItem(studioKeys.checks)||'[]');$('studioChecks').textContent=checks.filter(Boolean).length+'/6';
+    $('studioChecklist').querySelectorAll('[data-studio-check]').forEach(el=>el.checked=!!checks[Number(el.dataset.studioCheck)]);
+    const row=(title,sub,attr)=>'<div class="listRow"><div><b>'+esc(title)+'</b><div class="listSub">'+esc(sub)+'</div></div><button class="btn ghost" '+attr+'>Supprimer</button></div>';
+    $('studioPatchList').innerHTML=patches.length?patches.map((x,i)=>row(x.title,(x.version||'Sans version')+' · '+x.type+' · '+date(x.createdAt),'data-studio-remove-patch="'+i+'"')).join(''):'<div class="empty">Aucune note de version.</div>';
+    $('studioIdeaList').innerHTML=ideas.length?ideas.map((x,i)=>row(x.title,'Priorité '+x.priority+' · '+date(x.createdAt),'data-studio-remove-idea="'+i+'"')).join(''):'<div class="empty">Aucune idée enregistrée.</div>';
+    $('studioFeedbackList').innerHTML=feedback.length?feedback.map((x,i)=>row(x.title,x.type+' · '+date(x.createdAt),'data-studio-remove-feedback="'+i+'"')).join(''):'<div class="empty">Aucun retour consigné.</div>';
+    [['patch','studioPatchList','patch'],['ideas','studioIdeaList','idea'],['feedback','studioFeedbackList','feedback']].forEach(([key,id,suffix])=>$(id).querySelectorAll('[data-studio-remove-'+suffix+']').forEach(b=>b.addEventListener('click',()=>{const a=studioRead(key);a.splice(Number(b.getAttribute('data-studio-remove-'+suffix)),1);studioWrite(key,a);loadStudio()})));
+  }
+  $('studioPatchForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('patch');a.unshift({title:$('studioPatchTitle').value.trim(),version:$('studioPatchVersion').value.trim(),type:$('studioPatchType').value,body:$('studioPatchBody').value.trim(),createdAt:new Date().toISOString()});studioWrite('patch',a.slice(0,50));$('studioPatchForm').reset();$('studioPatchMsg').textContent='Brouillon enregistré localement.';loadStudio()});
+  $('studioIdeaForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('ideas');a.unshift({title:$('studioIdeaTitle').value.trim(),priority:$('studioIdeaPriority').value,createdAt:new Date().toISOString()});studioWrite('ideas',a.slice(0,100));$('studioIdeaForm').reset();loadStudio()});
+  $('studioFeedbackForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('feedback');a.unshift({title:$('studioFeedbackTitle').value.trim(),type:$('studioFeedbackType').value,body:$('studioFeedbackBody').value.trim(),createdAt:new Date().toISOString()});studioWrite('feedback',a.slice(0,100));$('studioFeedbackForm').reset();loadStudio()});
+  $('studioChecklist').querySelectorAll('[data-studio-check]').forEach(el=>el.addEventListener('change',()=>{const a=JSON.parse(localStorage.getItem(studioKeys.checks)||'[]');a[Number(el.dataset.studioCheck)]=el.checked;localStorage.setItem(studioKeys.checks,JSON.stringify(a));$('studioChecks').textContent=a.filter(Boolean).length+'/6'}));
+
   if(token) {
     showApp();
     refreshAll().catch(()=>showLogin('Session expirée. Reconnecte-toi.'));
