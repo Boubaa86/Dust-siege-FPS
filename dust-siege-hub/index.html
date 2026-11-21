@@ -195,7 +195,7 @@ async function loadPolls(){
 }
 async function loadIdeas(){
  const host=$('idea-list');if(!host)return;host.replaceChildren();
- const {data:ideas,error}=await supabase.from('ds_community_ideas').select('id,title,details,category,status,created_at').order('created_at',{ascending:false}).limit(30);
+ const {data:ideas,error}=await supabase.from('ds_hub_public_ideas').select('id,title,details,category,status,created_at').order('created_at',{ascending:false}).limit(30);
  if(error){host.textContent='Impossible de charger les idées.';return;}
  if(!ideas?.length){host.textContent='Aucune idée pour le moment. Lance la première !';return;}
  const {data:counts}=await supabase.rpc('ds_hub_idea_vote_counts');
