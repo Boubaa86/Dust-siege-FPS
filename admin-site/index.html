@@ -14,10 +14,12 @@
 
 .menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.menu-tile{display:block;padding:17px;border:1px solid var(--line);border-radius:15px;background:#141e2a;transition:.2s}.menu-tile:hover{border-color:var(--orange);transform:translateY(-2px)}.menu-tile b{display:block;margin:5px 0}.menu-tile small{color:var(--muted)}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{padding:20px;border:1px solid var(--line);border-radius:16px;background:#121a24}.panel p{color:var(--muted)}.faq details{padding:15px 0;border-bottom:1px solid var(--line)}.faq summary{cursor:pointer;font-weight:800}.faq details p{color:var(--muted)}.pill{display:inline-block;border:1px solid #45566b;border-radius:99px;padding:4px 9px;font-size:11px;color:var(--muted);margin:3px}
 @media(max-width:760px){.menu-grid{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}.links{overflow:auto;max-width:72vw;white-space:nowrap}}
+
+.question-form{display:grid;gap:12px;max-width:720px}.question-form label{display:grid;gap:6px;font-weight:750}.question-form input,.question-form textarea{width:100%;padding:13px;border-radius:10px;border:1px solid var(--line);background:#0d141d;color:var(--text);font:inherit}.question-form textarea{min-height:130px;resize:vertical}.question-form button{border:0;cursor:pointer;justify-self:start}.question-status{min-height:24px;color:var(--green);font-weight:700}.question-note{font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="#">DUST <span>SIEGE</span></a><nav class="links"><a href="#modes">Modes</a><a href="#news">Actus</a><a href="#community">Communauté</a><a href="#univers">Univers</a><a href="#guide">Guide</a><a href="/admin.html">Admin</a></nav></header>
+<header class="wrap nav"><a class="brand" href="#">DUST <span>SIEGE</span></a><nav class="links"><a href="#modes">Modes</a><a href="#news">Actus</a><a href="#community">Communauté</a><a href="#univers">Univers</a><a href="#guide">Guide</a><a href="#ask-question">Question</a><a href="/admin.html">Admin</a></nav></header>
 <main class="wrap">
 <section class="hero"><div><div class="eyebrow">Portail officiel · Communauté</div><h1>PRÉPARE-TOI.<br><span style="color:var(--orange)">ENTRE EN ZONE.</span></h1><p>Bienvenue sur le portail Dust Siege. Retrouve les accès au jeu, les informations utiles, les nouveautés et les prochaines étapes du projet.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Jouer à Dust Siege ↗</a><a class="btn alt" href="#news">Découvrir le portail</a></div></div><div class="visual" aria-label="Emblème Dust Siege"><div class="emblem">DS</div></div></section>
 <section class="section" id="modes"><h2>Le champ de bataille</h2><p class="lead">Les expériences de l'univers Dust Siege. Leur disponibilité dépend de la version actuelle du jeu.</p><div class="grid">
@@ -131,7 +133,51 @@
 <details><summary>Pas de partage d'informations privées</summary><p>Ne publie pas d'adresse, de numéro de téléphone, de mot de passe ou de capture contenant des informations personnelles.</p></details>
 <details><summary>Pas de triche ni de perturbation</summary><p>N'utilise pas de logiciel destiné à obtenir un avantage injuste et ne cherche pas à interrompre les parties des autres.</p></details>
 </section>
-\n<section class="banner" id="infos"><div class="tag">Dust Siege · Portail officiel</div><h2>Prêt à entrer en zone ?</h2><p style="color:var(--muted)">Les nouveautés seront ajoutées ici au fur et à mesure. Les informations affichées distinguent les fonctions prévues de celles déjà disponibles.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Ouvrir le jeu ↗</a><a class="btn alt" href="/admin.html">Espace administrateur ↗</a></div></section>
+\n
+<section class="section" id="ask-question">
+<h2>Poser une question</h2>
+<p class="lead">Une question sur Dust Siege ? Envoie-la à l'équipe du projet. Les champs marqués d'un * sont obligatoires.</p>
+<div class="panel">
+<form class="question-form" id="player-question-form">
+<label>Pseudo *<input name="pseudo" type="text" maxlength="30" autocomplete="nickname" required placeholder="Ton pseudo"></label>
+<label>Ton adresse e-mail (facultatif)<input name="email" type="email" maxlength="120" autocomplete="email" placeholder="Pour pouvoir te répondre"></label>
+<label>Ta question *<textarea name="message" maxlength="3000" required placeholder="Écris ta question ici…"></textarea></label>
+<input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+<button class="btn" id="question-submit" type="submit">Envoyer ma question</button>
+<p class="question-status" id="question-status" role="status" aria-live="polite"></p>
+<p class="question-note">N'indique jamais ton mot de passe, ton adresse personnelle ou d'autres informations privées.</p>
+</form>
+</div>
+</section>
+<script>
+(function(){
+ const form=document.getElementById('player-question-form');
+ if(!form)return;
+ const status=document.getElementById('question-status');
+ const submit=document.getElementById('question-submit');
+ form.addEventListener('submit',async function(event){
+  event.preventDefault();
+  if(!form.reportValidity())return;
+  submit.disabled=true;submit.textContent='Envoi…';status.textContent='';
+  const data=new FormData(form);
+  data.append('_subject','Nouvelle question Dust Siege');
+  data.append('_template','table');
+  try{
+   const response=await fetch('https://formsubmit.co/ajax/contact.dustsiege@gmail.com',{method:'POST',headers:{'Accept':'application/json'},body:data});
+   const result=await response.json();
+   if(!response.ok||result.success===false)throw new Error('send failed');
+   status.textContent='Merci ! Ta question a été envoyée.';
+   form.reset();
+  }catch(error){
+   status.textContent="L'envoi n'a pas fonctionné. Réessaie dans un instant.";
+  }finally{
+   submit.disabled=false;submit.textContent='Envoyer ma question';
+  }
+ });
+})();
+</script>
+
+<section class="banner" id="infos"><div class="tag">Dust Siege · Portail officiel</div><h2>Prêt à entrer en zone ?</h2><p style="color:var(--muted)">Les nouveautés seront ajoutées ici au fur et à mesure. Les informations affichées distinguent les fonctions prévues de celles déjà disponibles.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Ouvrir le jeu ↗</a><a class="btn alt" href="/admin.html">Espace administrateur ↗</a></div></section>
 </main>
 <footer><div class="wrap foot"><span>© Dust Siege · Projet en développement</span><span><a href="https://dust-siege-game-v9.onrender.com">Jeu</a> · <a href="#faq">FAQ</a> · <a href="#support">Assistance</a> · <a href="/admin.html">Administration</a></span></div></footer>
 </body></html>
