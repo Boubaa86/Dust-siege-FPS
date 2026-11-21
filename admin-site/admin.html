@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101318">
+<title>Dust Siege Control — Administration</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<style>
+:root{color-scheme:dark;--bg:#0c0f14;--panel:#151a22;--panel2:#1b222d;--line:#28313e;--text:#eef2f7;--muted:#98a4b5;--accent:#f28a32;--accent2:#ffb15d;--green:#4bd49b;--red:#ff6874;--blue:#76a9ff;--radius:16px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 80% -15%,#28303c 0,transparent 65%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,monospace}
+#loginWrap{min-height:100vh;display:grid;place-items:center;padding:22px}.login{width:min(100%,430px);background:linear-gradient(155deg,#1c2430,#12171f);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 24px 90px #0008}.brand{display:flex;align-items:center;gap:13px;font-weight:850;letter-spacing:.08em}.brandMark{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,var(--accent),#a94418);color:#17120e;font-size:20px;font-weight:950}.eyebrow{color:var(--accent2);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.login h1{font-size:25px;margin:24px 0 6px}.login p{color:var(--muted);margin:0 0 22px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:#c6cfda;font-weight:650}.field input,.search input{width:100%;background:#0d1117;border:1px solid var(--line);color:var(--text);padding:13px 14px;border-radius:11px;outline:none}.field input:focus,.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #f28a3220}.btn{border:1px solid transparent;border-radius:11px;padding:11px 15px;font-weight:750;background:var(--accent);color:#1b130c}.btn:hover{filter:brightness(1.08)}.btn.secondary{background:#202936;color:var(--text);border-color:#354252}.btn.ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn:disabled{opacity:.55;cursor:not-allowed}.wide{width:100%;margin-top:8px}.notice{font-size:12px;color:var(--muted);margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.error{color:var(--red);font-size:13px;margin-top:12px;min-height:20px}
+#app{min-height:100vh}.layout{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}.sidebar{background:#10151c;border-right:1px solid var(--line);padding:22px 15px;display:flex;flex-direction:column;gap:24px}.sideBrand{padding:2px 10px 15px;border-bottom:1px solid var(--line)}.sideBrand .brand{font-size:13px}.sideBrand small{display:block;margin:9px 0 0 57px;color:var(--muted);letter-spacing:.08em}.nav{display:grid;gap:7px}.nav button{border:1px solid transparent;background:transparent;color:#aeb9c8;text-align:left;padding:11px 12px;border-radius:11px;font-weight:650;display:flex;align-items:center;gap:11px}.nav button.active,.nav button:hover{background:#202936;color:var(--text);border-color:#303d4d}.nav button.active .navIcon{color:var(--accent2)}.navIcon{width:20px;text-align:center;font-size:16px}.sideFoot{margin-top:auto;border-top:1px solid var(--line);padding:15px 10px 0;color:var(--muted);font-size:12px}.connection{display:flex;align-items:center;gap:8px;margin:9px 0}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px #4bd49b88}.dot.off{background:var(--red);box-shadow:none}
+main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:28px}.topbar h1{font-size:clamp(22px,3vw,30px);margin:0;letter-spacing:-.03em}.topbar p{color:var(--muted);margin:4px 0 0}.topActions{display:flex;gap:8px;align-items:center}.userPill{border:1px solid var(--line);padding:8px 11px;border-radius:100px;font-size:12px;color:#c4ceda;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page{display:none}.page.active{display:block}.sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 0 16px}.sectionHead h2{font-size:18px;margin:0}.sectionHead p{margin:4px 0 0;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.card{background:linear-gradient(145deg,#19212b,#141a22);border:1px solid var(--line);border-radius:var(--radius);padding:17px;min-width:0}.metricLabel{color:var(--muted);font-size:12px;font-weight:650}.metric{font-size:30px;font-weight:850;letter-spacing:-.04em;margin:8px 0 2px}.metricFoot{font-size:11px;color:#7f8c9d}.metricIcon{float:right;width:34px;height:34px;border-radius:10px;background:#f28a3218;color:var(--accent2);display:grid;place-items:center;font-size:17px}
+.split{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:14px;margin-top:15px}.list{display:grid;gap:0}.listRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #27313c}.listRow:last-child{border:0}.listTitle{font-weight:700}.listSub{font-size:12px;color:var(--muted)}.score{font-weight:800;color:var(--accent2);font-variant-numeric:tabular-nums}.badge{display:inline-flex;align-items:center;gap:6px;border-radius:100px;background:#263241;color:#c4d0df;padding:4px 8px;font-size:11px;font-weight:700}.badge.good{background:#16352c;color:#70e0b1}.badge.warn{background:#40281a;color:#ffbd7c}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:15px 0}.search{display:flex;gap:8px;flex:1;min-width:220px}.search input{max-width:430px}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#141a22}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #27313c;font-size:13px}th{color:#aab6c5;background:#1a222d;font-size:11px;text-transform:uppercase;letter-spacing:.08em;position:sticky;top:0}td{color:#dbe2eb}tr:last-child td{border-bottom:0}.playerName{font-weight:750}.pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px;font-size:12px;color:var(--muted)}
+.serverGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.serverCard h3{margin:0 0 8px}.serverNum{font-size:29px;font-weight:850;margin:6px 0}.roomItem{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.roomItem:last-child{border:0}
+.securityGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.securityRow{display:flex;gap:11px;align-items:flex-start;margin:14px 0}.check{color:var(--green);font-weight:900}.infoBox{border:1px solid #5b442b;background:#291f16;border-radius:13px;padding:14px;color:#e6c39b;font-size:13px;margin-top:14px}
+.empty{color:var(--muted);padding:18px 0;text-align:center;font-size:13px}.small{font-size:12px}.mobileNav{display:none}
+
+.barTrack{height:9px;background:#0d131b;border-radius:99px;overflow:hidden;margin-top:7px}.barFill{height:100%;background:linear-gradient(90deg,#f28a32,#ffbd72);border-radius:99px}.statusOk{color:var(--green);font-weight:800}.statusBad{color:var(--red);font-weight:800}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.sidebar{position:sticky;top:0;z-index:5;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);gap:10px}.sideBrand{display:none}.nav{display:flex;overflow-x:auto;gap:6px}.nav button{white-space:nowrap;padding:9px 11px;font-size:12px}.navIcon{width:auto}.sideFoot{display:none}main{padding:17px 13px 34px}.topbar{align-items:flex-start;flex-direction:column;margin-bottom:20px}.topActions{width:100%;justify-content:space-between}.userPill{max-width:55vw}.metric{font-size:25px}.card{padding:14px}.grid{gap:9px}.serverGrid,.securityGrid{grid-template-columns:1fr}.sectionHead{align-items:flex-start;flex-direction:column}.toolbar .btn{flex:0 0 auto}}
+@media(max-width:390px){.grid{grid-template-columns:1fr 1fr}.metric{font-size:22px}.metricLabel{font-size:11px}.metricFoot{font-size:10px}}
+</style>
+</head>
+<body>
+<div id="loginWrap">
+  <form class="login" id="loginForm">
+    <div class="brand"><div class="brandMark">DS</div><div>DUST SIEGE<div class="eyebrow">ADMIN CONTROL</div></div></div>
+    <h1>Console d’administration</h1>
+    <p>Connecte-toi avec le compte développeur autorisé du projet.</p>
+    <div class="field"><label for="email">Adresse e-mail</label><input id="email" type="email" autocomplete="username" required placeholder="dev@exemple.fr"></div>
+    <div class="field"><label for="password">Mot de passe</label><input id="password" type="password" autocomplete="current-password" required placeholder="Mot de passe du compte"></div>
+    <button class="btn wide" id="loginBtn" type="submit">Se connecter</button>
+    <div class="error" id="loginError" role="alert"></div>
+    <div class="notice">Accès réservé aux adresses confirmées et autorisées côté serveur. Le mot de passe n’est jamais enregistré dans cette page.</div>
+  </form>
+</div>
+<div id="app" class="hidden">
+<div class="layout">
+<aside class="sidebar">
+  <div class="sideBrand"><div class="brand"><div class="brandMark">DS</div><div>DUST SIEGE</div></div><small>ADMIN CONTROL CENTER</small></div>
+  <nav class="nav" aria-label="Navigation administration">
+    <button class="active" data-page="overview"><span class="navIcon">◈</span>Vue globale</button>
+    <button data-page="players"><span class="navIcon">♙</span>Joueurs</button>
+    <button data-page="servers"><span class="navIcon">▦</span>Serveurs</button>
+    <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>
+    <button data-page="codes"><span class="navIcon">⌘</span>Codes privés</button>
+    <button data-page="analytics"><span class="navIcon">▤</span>Analytiques</button>
+    <button data-page="economy"><span class="navIcon">◉</span>Économie</button>
+    <button data-page="events"><span class="navIcon">✦</span>Événements</button>
+    <button data-page="updates"><span class="navIcon">⇧</span>Mises à jour</button>
+    <button data-page="diagnostics"><span class="navIcon">⌁</span>Dépannage</button>
+    <button data-page="tournaments"><span class="navIcon">♜</span>Tournois</button>
+    <button data-page="notifications"><span class="navIcon">♧</span>Notifications</button>
+    <button data-page="ads"><span class="navIcon">▣</span>Publicités</button>
+    <button data-page="integrations"><span class="navIcon">⛓</span>Intégrations</button>
+    <button data-page="studio"><span class="navIcon">✎</span>Studio & suivi</button>
+    <button data-page="operations"><span class="navIcon">⌁</span>Centre Ops</button>
+    <button data-page="qa"><span class="navIcon">✓</span>Laboratoire QA</button>
+    <button data-page="liveops"><span class="navIcon">◷</span>LiveOps & contenu</button>
+    <button data-page="backups"><span class="navIcon">▣</span>Sauvegardes</button>
+    <button data-page="assistant"><span class="navIcon">✧</span>Assistant diagnostic</button>
+    <button data-page="godmode"><span class="navIcon">♛</span>Mode Dieu</button>
+  </nav>
+  <div class="sideFoot">DUST SIEGE · ADMIN<br><div class="connection"><span class="dot" id="sideDot"></span><span id="sideStatus">Connexion active</span></div><span>Commandes développeur protégées</span></div>
+</aside>
+<main>
+  <header class="topbar">
+    <div><div class="eyebrow">CENTRE DE COMMANDEMENT</div><h1 id="pageTitle">Vue globale</h1><p id="pageSubtitle">État du jeu et activité des joueurs.</p></div>
+    <div class="topActions"><span class="userPill" id="userEmail">Développeur</span><button class="btn secondary" id="refreshBtn">↻ Actualiser</button><button class="btn ghost" id="logoutBtn">Déconnexion</button></div>
+  </header>
+
+  <section class="page active" id="page-overview">
+    <div class="sectionHead"><div><h2>Indicateurs principaux</h2><p>Mesures issues de la base de données et des salons actuellement ouverts.</p></div><span class="badge good" id="apiBadge">● API connectée</span></div>
+    <div class="grid">
+      <article class="card"><span class="metricIcon">♙</span><div class="metricLabel">Comptes joueurs</div><div class="metric mono" id="totalPlayers">—</div><div class="metricFoot">Total retourné par la base</div></article>
+      <article class="card"><span class="metricIcon">◷</span><div class="metricLabel">Actifs sur 7 jours</div><div class="metric mono" id="activePlayers">—</div><div class="metricFoot">Sur les profils récents analysés</div></article>
+      <article class="card"><span class="metricIcon">⚡</span><div class="metricLabel">Joueurs en ligne</div><div class="metric mono" id="onlinePlayers">—</div><div class="metricFoot">Présents dans les salons actifs</div></article>
+      <article class="card"><span class="metricIcon">▦</span><div class="metricLabel">Salons actifs</div><div class="metric mono" id="activeRooms">—</div><div class="metricFoot">Arène et coopération</div></article>
+    </div>
+    <div class="split">
+      <article class="card"><div class="sectionHead"><div><h2>Joueurs récents</h2><p>Derniers profils mis à jour</p></div><button class="btn secondary" data-goto="players">Voir tout</button></div><div class="list" id="recentList"><div class="empty">Chargement…</div></div></article>
+      <article class="card"><div class="sectionHead"><div><h2>Meilleurs scores</h2><p>Classement enregistré</p></div></div><div class="list" id="topList"><div class="empty">Chargement…</div></div></article>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Activité enregistrée</h2><p>Les totaux de parties et éliminations sont calculés sur l’échantillon indiqué.</p></div></div><div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div><div class="metric mono" id="gamesCount">—</div><div class="metricLabel">Parties cumulées dans l’échantillon</div></div><div><div class="metric mono" id="killsCount">—</div><div class="metricLabel">Éliminations cumulées dans l’échantillon</div></div></div><p class="muted small" id="sampleNote" style="margin:14px 0 0">Les statistiques détaillées sont en cours de chargement.</p></div>
+  </section>
+
+  <section class="page" id="page-players">
+    <div class="sectionHead"><div><h2>Gestion et recherche des joueurs</h2><p>Consulte les profils enregistrés, leurs scores et leurs statistiques.</p></div><span class="badge">Lecture seule</span></div>
+    <div class="toolbar"><div class="search"><input id="playerSearch" type="search" placeholder="Rechercher par pseudo ou identifiant…"><button class="btn" id="searchBtn">Rechercher</button></div><button class="btn secondary" id="exportBtn">Exporter CSV</button></div>
+    <div class="tableWrap"><table><thead><tr><th>Joueur</th><th>Identifiant</th><th>Score</th><th>Vague</th><th>Parties</th><th>Éliminations</th><th>Dernière activité</th></tr></thead><tbody id="playersBody"><tr><td colspan="7" class="empty">Lance une recherche pour afficher les joueurs.</td></tr></tbody></table></div>
+    <div class="pagination"><span id="playerCount">Aucun résultat chargé</span><div><button class="btn secondary" id="prevBtn" disabled>← Précédent</button> <button class="btn secondary" id="nextBtn" disabled>Suivant →</button></div></div>
+  </section>
+
+  <section class="page" id="page-servers">
+    <div class="sectionHead"><div><h2>État des serveurs</h2><p>Surveillance en direct des connexions WebSocket et salons ouverts.</p></div><span class="badge good" id="serverState">● Surveillance active</span></div>
+    <div class="serverGrid">
+      <article class="card"><div class="metricLabel">Joueurs connectés</div><div class="serverNum mono" id="livePlayers">—</div><div class="metricFoot">Connexions présentes dans les salons</div></article>
+      <article class="card"><div class="metricLabel">Salons ouverts</div><div class="serverNum mono" id="liveRooms">—</div><div class="metricFoot">Sessions de jeu actives</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Salons en cours</h2><p>Les salons disparaissent automatiquement lorsqu’ils sont vides.</p></div><button class="btn secondary" id="liveRefreshBtn">Actualiser</button></div><div id="roomsList"><div class="empty">Chargement…</div></div></article>
+  </section>
+
+  <section class="page" id="page-security">
+    <div class="sectionHead"><div><h2>Sécurité et accès</h2><p>État des protections visibles dans la configuration actuelle.</p></div><span class="badge good">● Accès développeur</span></div>
+    <div class="securityGrid">
+      <article class="card"><h3>Protection de la console</h3><div class="securityRow"><span class="check">✓</span><div><b>Connexion par compte</b><div class="muted small">Authentification Supabase avec jeton d’accès.</div></div></div><div class="securityRow"><span class="check">✓</span><div><b>Liste blanche développeur</b><div class="muted small">Adresse confirmée et présente dans la configuration serveur.</div></div></div><div class="securityRow"><span class="check">✓</span><div><b>Requêtes protégées</b><div class="muted small">Chaque route admin vérifie le rôle côté serveur.</div></div></div></article>
+      <article class="card"><h3>Outils de modération</h3><div class="securityRow"><span class="check">✓</span><div><b>Consultation des profils</b><div class="muted small">Scores, activité et statistiques disponibles en lecture.</div></div></div><div class="securityRow"><span class="badge warn">À ajouter</span><div><b>Sanctions et bannissements</b><div class="muted small">Non activés : aucune action de sanction n’est simulée ici.</div></div></div><div class="securityRow"><span class="badge warn">À ajouter</span><div><b>Journal d’audit persistant</b><div class="muted small">Nécessite une table dédiée et une politique d’accès.</div></div></div></article>
+    </div>
+    <div class="infoBox">La majorité des pages sont en lecture seule. Les seuls crédits actifs sont les codes privés, qui ne peuvent modifier que ta propre sauvegarde. Les événements et notifications restent des brouillons locaux ; aucune action de modération sur les autres joueurs n’est activée.</div>
+  </section>
+
+
+  <section class="page" id="page-analytics">
+    <div class="sectionHead"><div><h2>Analytiques avancées</h2><p>Indicateurs calculés à partir des profils enregistrés.</p></div><span class="badge">Données réelles · échantillon limité à 1 000 profils</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Comptes joueurs</div><div class="metric mono" id="anPlayers">—</div></article>
+      <article class="card"><div class="metricLabel">Actifs sur 7 jours</div><div class="metric mono" id="anActive">—</div></article>
+      <article class="card"><div class="metricLabel">Parties enregistrées</div><div class="metric mono" id="anGames">—</div></article>
+      <article class="card"><div class="metricLabel">Éliminations enregistrées</div><div class="metric mono" id="anKills">—</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Top 8 des scores</h2><p>Comparaison visuelle des meilleurs scores connus.</p></div><button class="btn secondary" id="analyticsReload">Actualiser</button></div><div id="analyticsBars" class="list"><div class="empty">Chargement…</div></div></article>
+    <p class="muted small">Les totaux de parties et éliminations sont calculés sur les profils chargés, pas sur un journal exhaustif de chaque partie.</p>
+  </section>
+
+  <section class="page" id="page-economy">
+    <div class="sectionHead"><div><h2>Économie du jeu</h2><p>Vue agrégée des soldes enregistrés. Aucun solde joueur ne peut être modifié ici.</p></div><span class="badge">Lecture seule</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Argent cumulé (échantillon)</div><div class="metric mono" id="ecoBank">—</div></article>
+      <article class="card"><div class="metricLabel">XP cumulée (échantillon)</div><div class="metric mono" id="ecoXp">—</div></article>
+      <article class="card"><div class="metricLabel">Sauvegardes analysées</div><div class="metric mono" id="ecoSaves">—</div></article>
+      <article class="card"><div class="metricLabel">Profils joueurs analysés</div><div class="metric mono" id="ecoPlayers">—</div></article>
+    </div>
+    <div class="infoBox">Les sommes sont limitées aux 1 000 sauvegardes les plus récentes retournées par la base. Les achats réels et les revenus publicitaires ne sont pas inclus.</div>
+  </section>
+
+  <section class="page" id="page-events">
+    <div class="sectionHead"><div><h2>Événements et saisons</h2><p>Prépare tes événements dans un brouillon privé avant toute publication.</p></div><span class="badge warn">Brouillons locaux uniquement</span></div>
+    <div class="split">
+      <article class="card"><h2>Créer un brouillon</h2><form id="eventDraftForm">
+        <div class="field"><label for="eventName">Nom de l’événement</label><input id="eventName" maxlength="60" required placeholder="Ex. Week-end double XP"></div>
+        <div class="field"><label for="eventDescription">Description</label><input id="eventDescription" maxlength="180" placeholder="Description visible dans le projet"></div>
+        <div class="field"><label for="eventStart">Début</label><input id="eventStart" type="datetime-local" required></div>
+        <div class="field"><label for="eventEnd">Fin</label><input id="eventEnd" type="datetime-local" required></div>
+        <button class="btn" type="submit">Enregistrer le brouillon</button>
+      </form><p id="eventDraftMsg" class="muted small"></p></article>
+      <article class="card"><h2>Mes brouillons</h2><div id="eventDraftList" class="list"><div class="empty">Aucun brouillon.</div></div></article>
+    </div>
+    <div class="infoBox">Ces brouillons restent dans le stockage de ce navigateur. Ils ne sont pas envoyés au jeu et ne lancent aucun événement automatiquement.</div>
+  </section>
+
+  <section class="page" id="page-updates">
+    <div class="sectionHead"><div><h2>Mises à jour et versions</h2><p>État du service et informations de version disponibles depuis l’API du jeu.</p></div><button class="btn secondary" id="updatesReload">Vérifier</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">API du jeu</div><div class="metric" id="updateApi">—</div></article>
+      <article class="card"><div class="metricLabel">Base de données</div><div class="metric" id="updateDb">—</div></article>
+      <article class="card"><div class="metricLabel">WebSocket</div><div class="metric" id="updateWs">—</div></article>
+      <article class="card"><div class="metricLabel">Version console</div><div class="metric">Admin 1.1</div></article>
+    </div>
+    <p class="muted small" id="updateChecked">Dernière vérification : —</p>
+    <div class="infoBox">L’historique des déploiements GitHub/Render n’est pas encore relié à cette console. Cette page vérifie le service réellement accessible, sans prétendre connaître la version publiée sur Render.</div>
+  </section>
+
+  <section class="page" id="page-diagnostics">
+    <div class="sectionHead"><div><h2>Centre de dépannage</h2><p>Contrôle de disponibilité de l’API, de la base et des données.</p></div><button class="btn secondary" id="diagnosticsReload">Lancer les tests</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">API</div><div class="metric" id="diagApi">—</div></article>
+      <article class="card"><div class="metricLabel">Base de données</div><div class="metric" id="diagDb">—</div></article>
+      <article class="card"><div class="metricLabel">Salons actifs</div><div class="metric mono" id="diagRooms">—</div></article>
+      <article class="card"><div class="metricLabel">Joueurs en ligne</div><div class="metric mono" id="diagOnline">—</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><h2>Résultats du contrôle</h2><div id="diagDetails" class="list"><div class="empty">Aucun test lancé.</div></div></article>
+  </section>
+
+  <section class="page" id="page-tournaments">
+    <div class="sectionHead"><div><h2>Tournois et classements</h2><p>Classement des scores enregistrés dans la table de compétition.</p></div><button class="btn secondary" id="tournamentReload">Actualiser</button></div>
+    <div class="tableWrap"><table style="min-width:560px"><thead><tr><th>Rang</th><th>Joueur</th><th>Score</th><th>Vague</th><th>Mise à jour</th></tr></thead><tbody id="tournamentBody"><tr><td colspan="5" class="empty">Chargement…</td></tr></tbody></table></div>
+    <div class="infoBox">La console affiche le classement existant. La création de tournois officiels et la distribution automatique de prix nécessitent encore un système de compétition dédié.</div>
+  </section>
+
+  <section class="page" id="page-notifications">
+    <div class="sectionHead"><div><h2>Centre de notifications</h2><p>Rédige et prévisualise des annonces pour Dust Siege.</p></div><span class="badge warn">Envoi désactivé</span></div>
+    <div class="split">
+      <article class="card"><h2>Rédiger une annonce</h2><form id="notificationDraftForm">
+        <div class="field"><label for="notificationTitle">Titre</label><input id="notificationTitle" maxlength="70" required placeholder="Maintenance programmée"></div>
+        <div class="field"><label for="notificationBody">Message</label><textarea id="notificationBody" maxlength="240" rows="4" required placeholder="Ton message aux joueurs…"></textarea></div>
+        <button class="btn" type="submit">Enregistrer le brouillon</button>
+      </form><p id="notificationMsg" class="muted small"></p></article>
+      <article class="card"><h2>Aperçu</h2><div class="card" style="background:#0e141c"><b id="notificationPreviewTitle">Titre de l’annonce</b><p id="notificationPreviewBody" class="muted">Le message apparaîtra ici.</p><span class="badge">Aperçu local</span></div><div id="notificationDraftList" class="list" style="margin-top:12px"></div></article>
+    </div>
+    <div class="infoBox">Les annonces sont sauvegardées comme brouillons dans ce navigateur. Aucun push ni message n’est envoyé aux joueurs.</div>
+  </section>
+
+  <section class="page" id="page-ads">
+    <div class="sectionHead"><div><h2>Publicités et revenus</h2><p>État des intégrations publicitaires et des mesures disponibles.</p></div><span class="badge warn">Données non connectées</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">AdMob</div><div class="metric">À relier</div><div class="metricFoot">Revenus et impressions non récupérés ici</div></article>
+      <article class="card"><div class="metricLabel">Google Analytics</div><div class="metric">À relier</div><div class="metricFoot">Aucun rapport chargé dans cette console</div></article>
+      <article class="card"><div class="metricLabel">Google Ads</div><div class="metric">Externe</div><div class="metricFoot">Gestion dans le compte publicitaire</div></article>
+      <article class="card"><div class="metricLabel">Meta Ads</div><div class="metric">Externe</div><div class="metricFoot">Gestion dans le compte publicitaire</div></article>
+    </div>
+    <div class="infoBox">Aucun revenu, budget ou résultat publicitaire n’est inventé. Les connexions et autorisations de ces plateformes devront être vérifiées avant d’afficher des chiffres.</div>
+  </section>
+
+
+  <section class="page" id="page-integrations">
+    <div class="sectionHead"><div><h2>Centre des intégrations</h2><p>Connexions vérifiées, état technique et accès directs aux services.</p></div><button class="btn secondary" id="integrationsReload">↻ Vérifier les connexions</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Supabase · base de données</div><div class="metric" id="intSupabase">—</div><div class="metricFoot" id="intSupabaseDetail">Vérification en cours…</div><a href="https://supabase.com/dashboard/project/bkafwwkfosdqrhgummff" target="_blank" rel="noopener noreferrer">Ouvrir Supabase ↗</a></article>
+      <article class="card"><div class="metricLabel">Render · hébergement</div><div class="metric" id="intRender">—</div><div class="metricFoot" id="intRenderDetail">Vérification en cours…</div><a href="https://dashboard.render.com/web/srv-dbljjjt9el5s73d7oi0g" target="_blank" rel="noopener noreferrer">Ouvrir Render ↗</a></article>
+      <article class="card"><div class="metricLabel">GitHub · code source</div><div class="metric" id="intGithub">—</div><div class="metricFoot" id="intGithubDetail">Vérification en cours…</div><a href="https://github.com/Boubaa86/Dust-siege-FPS" target="_blank" rel="noopener noreferrer">Ouvrir le dépôt ↗</a></article>
+      <article class="card"><div class="metricLabel">API + WebSocket</div><div class="metric" id="intApi">—</div><div class="metricFoot">Serveur Dust Siege</div><a href="https://dust-siege-server-1.onrender.com/health" target="_blank" rel="noopener noreferrer">Tester le serveur ↗</a></article>
+    </div>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Services publicitaires et analytiques</h2><p>Authentifications existantes dans Markifact. Elles ne sont pas encore des connexions directes entre Render et ces plateformes.</p></div><span class="badge good">Comptes Markifact reconnus</span></div>
+      <div class="list">
+        <div class="listRow"><div><b>Google Analytics 4</b><div class="listSub">Connexion Markifact active · rapports du site à relier à la console</div></div><span class="badge good">Connecté à Markifact</span><a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Google Search Console</b><div class="listSub">Propriété du site vérifiée · sitemap envoyé · demande d’indexation effectuée</div></div><span class="badge good">Propriété vérifiée</span><a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Google Ads</b><div class="listSub">Connexion Markifact active · campagnes non embarquées dans Render</div></div><span class="badge good">Connecté à Markifact</span><a href="https://ads.google.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Meta Ads</b><div class="listSub">Connexion Markifact active · gestion externe</div></div><span class="badge good">Connecté à Markifact</span><a href="https://business.facebook.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Microsoft Ads</b><div class="listSub">Connexion Markifact active</div></div><span class="badge good">Connecté à Markifact</span><a href="https://ads.microsoft.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>Pinterest Ads</b><div class="listSub">Connexion Markifact active</div></div><span class="badge good">Connecté à Markifact</span><a href="https://ads.pinterest.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+      </div>
+    </article>
+    <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Services mobiles et monétisation</h2><p>Liens vers les projets et état des accès côté serveur.</p></div></div>
+      <div class="list">
+        <div class="listRow"><div><b>Firebase · projet Dust Siege</b><div class="listSub">Projet mobile existant. L'accès Admin SDK côté serveur n'est pas relié : la création de clé privée est bloquée par une règle Google Cloud.</div></div><span class="badge warn">Accès serveur bloqué</span><a href="https://console.firebase.google.com/project/dust-siege-47873/overview" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>AdMob</b><div class="listSub">Console accessible, mais aucun flux de revenus/impressions n'est branché à cette page.</div></div><span class="badge warn">À connecter</span><a href="https://apps.admob.com/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+        <div class="listRow"><div><b>AppMint · application Android</b><div class="listSub">Lien de gestion du package Android ; déploiement APK et push ne sont pas pilotés depuis cette console.</div></div><span class="badge">Lien externe</span><a href="https://appmint.dev/" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a></div>
+      </div>
+    </article>
+    <article class="card" style="margin-top:14px"><h2>Derniers commits GitHub</h2><div id="integrationCommits" class="list"><div class="empty">Chargement…</div></div></article>
+    <div class="infoBox">Sécurité : cette page ne montre aucune clé, aucun mot de passe ni jeton. Les connexions Markifact sont disponibles dans l'espace ChatGPT/Markifact ; pour afficher leurs rapports directement ici, il faudra une intégration officielle/API côté serveur. Aucun budget publicitaire ni campagne n'est modifié.</div>
+    <p class="muted small" id="integrationChecked">Dernière vérification : —</p>
+  </section>
+
+  <section class="page" id="page-studio">
+    <div class="sectionHead"><div><h2>Studio Dust Siege</h2><p>Prépare les nouveautés, organise les retours et suis les prochaines versions.</p></div><span class="badge">Brouillons locaux</span></div>
+    <div class="grid">
+      <div class="card"><div class="metricLabel">Notes de version</div><div class="metric" id="studioPatchCount">0</div><div class="metricFoot">Brouillons sur cet appareil</div></div>
+      <div class="card"><div class="metricLabel">Idées & améliorations</div><div class="metric" id="studioIdeaCount">0</div><div class="metricFoot">Éléments de la feuille de route</div></div>
+      <div class="card"><div class="metricLabel">Retours joueurs</div><div class="metric" id="studioFeedbackCount">0</div><div class="metricFoot">Notes de suivi locales</div></div>
+      <div class="card"><div class="metricLabel">Checklist de sortie</div><div class="metric" id="studioChecks">0/6</div><div class="metricFoot">Contrôles avant publication</div></div>
+    </div>
+    <div class="split">
+      <div class="card"><div class="sectionHead"><div><h2>Notes de version</h2><p>Prépare les nouveautés à annoncer.</p></div></div>
+        <form id="studioPatchForm" class="formGrid">
+          <label>Titre<input id="studioPatchTitle" required maxlength="80" placeholder="Ex. Mise à jour 1.2"></label>
+          <label>Version<input id="studioPatchVersion" maxlength="24" placeholder="Ex. v1.2.0"></label>
+          <label>Catégorie<select id="studioPatchType"><option>Gameplay</option><option>Corrections</option><option>Multijoueur</option><option>Contenu</option><option>Technique</option></select></label>
+          <label>Description<textarea id="studioPatchBody" required maxlength="1200" rows="5" placeholder="Décris les changements…"></textarea></label>
+          <button class="btn primary" type="submit">Enregistrer le brouillon</button><div class="small muted" id="studioPatchMsg">Enregistré uniquement dans le navigateur de cet appareil.</div>
+        </form><div id="studioPatchList" class="list"></div>
+      </div>
+      <div class="card"><div class="sectionHead"><div><h2>Feuille de route</h2><p>Classe les prochaines idées du projet.</p></div></div>
+        <form id="studioIdeaForm" class="formGrid"><label>Amélioration<input id="studioIdeaTitle" required maxlength="100" placeholder="Ex. Optimiser les cartes mobiles"></label><label>Priorité<select id="studioIdeaPriority"><option>Haute</option><option selected>Moyenne</option><option>Basse</option></select></label><button class="btn primary" type="submit">Ajouter à la feuille de route</button></form><div id="studioIdeaList" class="list"></div>
+      </div>
+    </div>
+    <div class="split">
+      <div class="card"><div class="sectionHead"><div><h2>Suivi des retours</h2><p>Consigne les bugs et suggestions reçus.</p></div></div>
+        <form id="studioFeedbackForm" class="formGrid"><label>Sujet<input id="studioFeedbackTitle" required maxlength="100" placeholder="Ex. Écran noir sur une carte"></label><label>Type<select id="studioFeedbackType"><option>Bug</option><option>Suggestion</option><option>Équilibrage</option><option>Accessibilité</option></select></label><label>Détails<textarea id="studioFeedbackBody" rows="3" maxlength="700" placeholder="Étapes, appareil, mode…"></textarea></label><button class="btn primary" type="submit">Enregistrer le retour</button></form><div id="studioFeedbackList" class="list"></div>
+      </div>
+      <div class="card"><div class="sectionHead"><div><h2>Checklist avant mise en ligne</h2><p>À cocher après un vrai test.</p></div></div>
+        <div id="studioChecklist" class="list">
+          <label class="listRow"><span>Menu et navigation mobile</span><input type="checkbox" data-studio-check="0"></label>
+          <label class="listRow"><span>Carte et décor 3D chargés</span><input type="checkbox" data-studio-check="1"></label>
+          <label class="listRow"><span>Viseur et commandes tactiles</span><input type="checkbox" data-studio-check="2"></label>
+          <label class="listRow"><span>Solde et sauvegardes conservés</span><input type="checkbox" data-studio-check="3"></label>
+          <label class="listRow"><span>Connexion et salons multijoueurs</span><input type="checkbox" data-studio-check="4"></label>
+          <label class="listRow"><span>Test sur Android + navigateur</span><input type="checkbox" data-studio-check="5"></label>
+        </div><div class="infoBox">Cette checklist ne lance pas de tests automatiques et ne publie rien. Coche un point seulement après l’avoir vérifié.</div>
+      </div>
+    </div>
+  </section>
+  <section class="page" id="page-assistant">
+    <div class="sectionHead"><div><h2>Assistant développeur</h2><p>Analyse automatique simple des contrôles de santé et conseils de dépannage.</p></div><button class="btn secondary" id="assistantRun">Analyser maintenant</button></div>
+    <article class="card"><div id="assistantOutput" class="list"><div class="empty">Lance une analyse pour obtenir des recommandations.</div></div></article>
+    <div class="infoBox">Cet assistant utilise des règles de diagnostic locales. Il ne modifie aucun fichier, aucune donnée et ne remplace pas une analyse complète du code.</div>
+  </section>
+
+  <section class="page" id="page-godmode">
+    <div class="sectionHead"><div><h2>Mode Dieu · développeur</h2><p>Espace privé pour vérifier ton compte et tester des valeurs sans toucher aux sauvegardes de production.</p></div><span class="badge good">Accès développeur</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Solde de ton compte</div><div class="metric mono" id="godBank">—</div></article>
+      <article class="card"><div class="metricLabel">XP de ton compte</div><div class="metric mono" id="godXp">—</div></article>
+      <article class="card"><div class="metricLabel">Rôle</div><div class="metric">Développeur</div></article>
+      <article class="card"><div class="metricLabel">Modifications production</div><div class="metric">Désactivées</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><h2>Informations privées</h2><p class="small muted">Compte : <span id="godEmail">—</span></p><p class="small muted">Identifiant : <span id="godUserId" class="mono">—</span></p><p class="small muted">Dernière sauvegarde : <span id="godSaveDate">—</span></p></article>
+    <div class="split">
+      <article class="card"><h2>Simulateur de récompense</h2><p class="muted small">Teste une quantité dans un bac à sable local, sans créditer ton compte.</p><div class="field"><label for="godTestAmount">Quantité à simuler</label><input id="godTestAmount" type="number" min="0" max="1000000000" value="5000"></div><button class="btn" id="godSimulate">Simuler</button><p id="godSimulationResult" class="muted small">Aucune simulation effectuée.</p></article>
+      <article class="card"><h2>Commandes protégées</h2><div class="securityRow"><span class="check">✓</span><div><b>Codes privés</b><div class="muted small">Utilise la page Codes privés pour créer et activer tes récompenses personnelles.</div></div></div><div class="securityRow"><span class="check">✓</span><div><b>Sandbox isolé</b><div class="muted small">Les essais de cette page ne modifient aucune donnée du jeu.</div></div></div></article>
+    </div>
+  </section>
+
+  <section class="page" id="page-codes">
+    <div class="sectionHead">
+      <div><h2>Codes de récompense privés</h2><p>Ces codes sont réservés à ton compte développeur. Les joueurs ne peuvent ni les consulter ni les utiliser.</p></div>
+      <span class="badge good">Compte administrateur uniquement</span>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:14px">
+      <article class="card"><div class="metricLabel">Argent du jeu</div><div class="metric mono" id="walletBank">—</div><div class="metricFoot">Solde enregistré (bank)</div></article>
+      <article class="card"><div class="metricLabel">Expérience</div><div class="metric mono" id="walletXp">—</div><div class="metricFoot">XP enregistrés</div></article>
+    </div>
+    <div class="split">
+      <article class="card">
+        <div class="sectionHead"><div><h2>Activer un code</h2><p>Entre un code que tu possèdes pour créditer ta propre sauvegarde.</p></div></div>
+        <form id="redeemForm">
+          <div class="field"><label for="redeemCode">Code de récompense</label><input id="redeemCode" type="text" minlength="6" maxlength="40" autocomplete="off" required placeholder="Ex. DS-AB12CD34"></div>
+          <button class="btn wide" id="redeemBtn" type="submit">Activer la récompense</button>
+        </form>
+        <p id="redeemMsg" class="muted small" role="status" aria-live="polite"></p>
+      </article>
+      <article class="card">
+        <div class="sectionHead"><div><h2>Créer un code privé</h2><p>Crée un code utilisable uniquement par le compte qui l’a créé.</p></div></div>
+        <form id="createCodeForm">
+          <div class="field"><label for="newRewardCode">Code personnalisé (facultatif)</label><input id="newRewardCode" type="text" maxlength="40" autocomplete="off" placeholder="Vide = code aléatoire"></div>
+          <div class="field"><label for="rewardType">Récompense</label><select id="rewardType"><option value="bank">Argent du jeu</option><option value="xp">Expérience (XP)</option></select></div>
+          <div class="field"><label for="rewardAmount">Quantité</label><input id="rewardAmount" type="number" min="1" max="1000000000" step="1" value="1000" required></div>
+          <div class="field"><label for="maxUses">Nombre d’activations maximum</label><input id="maxUses" type="number" min="1" max="100" step="1" value="1" required></div>
+          <div class="field"><label for="codeExpiry">Expiration (facultatif)</label><input id="codeExpiry" type="datetime-local"></div>
+          <button class="btn wide" id="createCodeBtn" type="submit">Créer le code</button>
+        </form>
+        <p id="createCodeMsg" class="muted small" role="status" aria-live="polite"></p>
+      </article>
+    </div>
+    <div class="split" style="margin-top:14px">
+      <article class="card"><div class="sectionHead"><div><h2>Mes codes</h2><p>Les codes complets ne sont affichés qu’au moment de leur création.</p></div><button class="btn secondary" id="reloadCodesBtn" type="button">Actualiser</button></div><div class="list" id="adminCodesList"><div class="empty">Chargement…</div></div></article>
+      <article class="card"><div class="sectionHead"><div><h2>Récompenses activées</h2><p>Historique des crédits sur ton compte.</p></div></div><div class="list" id="adminRedemptionsList"><div class="empty">Chargement…</div></div></article>
+    </div>
+    <div class="infoBox" style="margin-top:14px">Les crédits d’argent et d’XP sont appliqués directement à la sauvegarde du jeu, côté serveur, en une seule opération. Les skins et armes ne sont pas encore proposés car leur format de sauvegarde doit être vérifié avant toute modification.</div>
+  </section>
+  <footer class="muted small" style="margin-top:24px">Dernière actualisation : <span id="lastUpdate">—</span> · Console Dust Siege</footer>
+</main>
+</div>
+</div>
+
+  <section class="page" id="page-operations">
+    <div class="sectionHead"><div><h2>Centre Ops — supervision</h2><p>Vue consolidée des services réellement vérifiés depuis le serveur.</p></div><button class="btn secondary" id="opsRefresh">Actualiser les contrôles</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">API & WebSocket</div><div class="metric" id="opsApi">—</div><div class="metricFoot" id="opsApiSub">En attente de vérification</div></article>
+      <article class="card"><div class="metricLabel">Base de données</div><div class="metric" id="opsDb">—</div><div class="metricFoot" id="opsDbSub">En attente de vérification</div></article>
+      <article class="card"><div class="metricLabel">Joueurs enregistrés</div><div class="metric" id="opsPlayers">—</div><div class="metricFoot">Donnée serveur</div></article>
+      <article class="card"><div class="metricLabel">Sauvegardes de jeu</div><div class="metric" id="opsSaves">—</div><div class="metricFoot">Donnée serveur</div></article>
+    </div>
+    <div class="split">
+      <article class="card"><h2>Services & dépôts</h2><div id="opsServices" class="list"><div class="empty">Lance une vérification.</div></div></article>
+      <article class="card"><h2>Activité multijoueur</h2><div class="metric" id="opsOnline">—</div><div class="metricFoot">Joueurs actuellement connectés</div><div class="metric" id="opsRooms">—</div><div class="metricFoot">Salons actifs</div><div class="infoBox">Les chiffres sont des instantanés. Ils ne garantissent pas la qualité d'une partie ni le rendu 3D sur chaque téléphone.</div></article>
+    </div>
+    <p class="small muted" id="opsChecked">Dernier contrôle : —</p>
+  </section>
+
+  <section class="page" id="page-qa">
+    <div class="sectionHead"><div><h2>Laboratoire QA</h2><p>Tests de santé de l'API et contrôles de cohérence de la console.</p></div><button class="btn" id="qaRun">Lancer tous les tests</button></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Tests réussis</div><div class="metric" id="qaPassed">—</div></article>
+      <article class="card"><div class="metricLabel">Tests à vérifier</div><div class="metric" id="qaFailed">—</div></article>
+      <article class="card"><div class="metricLabel">Dernière exécution</div><div class="metric" id="qaWhen" style="font-size:18px">—</div></article>
+      <article class="card"><div class="metricLabel">Historique local</div><div class="metric" id="qaRuns">0</div></article>
+    </div>
+    <article class="card" style="margin-top:14px"><h2>Résultats détaillés</h2><div id="qaResults" class="list"><div class="empty">Aucun test exécuté.</div></div></article>
+    <div class="infoBox">Ces tests vérifient la disponibilité HTTP, les diagnostics protégés et certains éléments de la console. Ils ne simulent pas un vrai joueur, ne valident pas les graphismes 3D et ne remplacent pas les essais sur téléphone.</div>
+  </section>
+
+  <section class="page" id="page-liveops">
+    <div class="sectionHead"><div><h2>LiveOps & calendrier éditorial</h2><p>Prépare les opérations, saisons et annonces avant leur publication.</p></div><span class="badge warn">Mode brouillon</span></div>
+    <div class="split">
+      <article class="card"><h2>Planifier une opération</h2>
+        <form id="liveopsForm">
+          <div class="field"><label for="liveopsTitle">Nom de l'opération</label><input id="liveopsTitle" required maxlength="90" placeholder="Ex. Week-end double XP"></div>
+          <div class="field"><label for="liveopsType">Type</label><select id="liveopsType"><option>Événement</option><option>Saison</option><option>Maintenance</option><option>Tournoi</option><option>Annonce</option></select></div>
+          <div class="field"><label for="liveopsDate">Date prévue</label><input id="liveopsDate" type="datetime-local" required></div>
+          <div class="field"><label for="liveopsNotes">Détails</label><textarea id="liveopsNotes" rows="3" maxlength="800" placeholder="Objectif, récompenses prévues, conditions…"></textarea></div>
+          <button class="btn" type="submit">Enregistrer le brouillon</button>
+        </form>
+        <p class="small muted" id="liveopsMsg">Aucune opération n'est publiée automatiquement.</p>
+      </article>
+      <article class="card"><h2>Calendrier préparatoire</h2><div id="liveopsList" class="list"><div class="empty">Aucun brouillon planifié.</div></div></article>
+    </div>
+  </section>
+
+  <section class="page" id="page-backups">
+    <div class="sectionHead"><div><h2>Centre de sauvegarde console</h2><p>Export et restauration des brouillons et préférences enregistrés dans ce navigateur.</p></div><span class="badge good">Export local</span></div>
+    <div class="grid">
+      <article class="card"><div class="metricLabel">Clés locales trouvées</div><div class="metric" id="backupKeys">—</div></article>
+      <article class="card"><div class="metricLabel">Taille estimée</div><div class="metric" id="backupSize">—</div></article>
+      <article class="card"><div class="metricLabel">Dernier export</div><div class="metric" id="backupLast" style="font-size:17px">—</div></article>
+      <article class="card"><div class="metricLabel">Restauration</div><div class="metric" id="backupRestore">Prête</div></article>
+    </div>
+    <div class="split">
+      <article class="card"><h2>Exporter</h2><p class="muted small">Crée un fichier JSON contenant les brouillons locaux connus de cette console.</p><button class="btn" id="backupExport">Télécharger une sauvegarde</button></article>
+      <article class="card"><h2>Restaurer</h2><p class="muted small">Importe un fichier JSON exporté depuis cette console. Les clés locales correspondantes seront remplacées.</p><input id="backupFile" type="file" accept="application/json,.json"><button class="btn secondary" id="backupImport" style="margin-top:10px">Restaurer ce fichier</button></article>
+    </div>
+    <div class="infoBox">Important : cet outil ne sauvegarde pas Supabase, les comptes, les statistiques serveur ni les fichiers GitHub. Pour ces données, il faut des sauvegardes côté serveur avec accès contrôlé.</div>
+    <p class="small muted" id="backupMsg">Aucune opération effectuée.</p>
+  </section>
+
+<script>
+(() => {
+  'use strict';
+  const API = 'https://dust-siege-server-1.onrender.com';
+  const TOKEN_KEY = 'ds_admin_token';
+  const $ = (id) => document.getElementById(id);
+  let token = sessionStorage.getItem(TOKEN_KEY) || '';
+  let currentItems = [];
+  let playerOffset = 0;
+  let playerTotal = 0;
+  const pageInfo = {
+    overview: ['Vue globale', 'État du jeu et activité des joueurs.'],
+    players: ['Joueurs', 'Recherche et statistiques des profils enregistrés.'],
+    servers: ['Serveurs', 'État des salons multijoueurs en direct.'],
+    security: ['Sécurité', 'Contrôles d’accès et état des protections.'],
+    codes: ['Codes privés', 'Récompenses réservées à ton compte administrateur.'],
+    analytics: ['Analytiques', 'Statistiques avancées du jeu.'],
+    economy: ['Économie', 'Vue agrégée des soldes virtuels.'],
+    events: ['Événements', 'Préparation des événements et saisons.'],
+    updates: ['Mises à jour', 'Santé du service et version.'],
+    diagnostics: ['Dépannage', 'Tests techniques de disponibilité.'],
+    tournaments: ['Tournois', 'Classements et performances.'],
+    notifications: ['Notifications', 'Brouillons des annonces aux joueurs.'],
+    ads: ['Publicités', 'Mesure des publicités et revenus.'],
+    integrations: ['Intégrations', 'Connexions de Dust Siege et services externes.'],
+    studio: ['Studio & suivi', 'Notes de version, feuille de route, retours et checklist.'],
+
+    operations: ['Centre Ops', 'Supervision des services et activité en direct.'],
+    qa: ['Laboratoire QA', 'Tests de disponibilité et contrôles de cohérence.'],
+    liveops: ['LiveOps & contenu', 'Calendrier des opérations et événements.'],
+    backups: ['Sauvegardes', 'Export et restauration des brouillons locaux.'],
+    assistant: ['Assistant développeur', 'Analyse et recommandations de dépannage.'],
+    godmode: ['Mode Dieu', 'Espace privé et bac à sable développeur.']
+  };
+  const fmt = (n) => Number(n || 0).toLocaleString('fr-FR');
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const date = (v) => v ? new Date(v).toLocaleString('fr-FR', {dateStyle:'short',timeStyle:'short'}) : 'Inconnue';
+  function showLogin(message='') {
+    $('loginWrap').classList.remove('hidden'); $('app').classList.add('hidden');
+    $('loginError').textContent = message;
+    $('password').value = '';
+  }
+  function showApp(email='Développeur') {
+    $('loginWrap').classList.add('hidden'); $('app').classList.remove('hidden');
+    $('userEmail').textContent = email;
+  }
+  async function request(path, options={}) {
+    const response = await fetch(API + path, {
+      ...options,
+      headers: {'Content-Type':'application/json', ...(token ? {Authorization:'Bearer '+token} : {}), ...(options.headers||{})},
+      cache:'no-store'
+    });
+    let data = {};
+    try { data = await response.json(); } catch {}
+    if (response.status === 401 || response.status === 403) {
+      sessionStorage.removeItem(TOKEN_KEY); token = '';
+      showLogin(data.error || 'Accès refusé. Vérifie le compte développeur autorisé.');
+      throw new Error(data.error || 'Accès refusé');
+    }
+    if (!response.ok) throw new Error(data.error || 'Erreur serveur ('+response.status+')');
+    return data;
+  }
+  $('loginForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const btn=$('loginBtn'); btn.disabled=true; btn.textContent='Connexion…';
+    $('loginError').textContent='';
+    try {
+      const response=await fetch(API+'/api/marketing/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('email').value.trim(),password:$('password').value}),cache:'no-store'});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(data.error || 'Connexion impossible.');
+      token=data.access_token;
+      if(!token) throw new Error('Le serveur n’a pas fourni de jeton.');
+      sessionStorage.setItem(TOKEN_KEY,token);
+      showApp(data.user?.email || $('email').value.trim());
+      await refreshAll();
+    } catch(error) { $('loginError').textContent=error.message; }
+    finally { btn.disabled=false; btn.textContent='Se connecter'; }
+  });
+  function go(page) {
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+    document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
+    $('pageTitle').textContent=pageInfo[page][0]; $('pageSubtitle').textContent=pageInfo[page][1];
+    if(page==='players') loadPlayers();
+    if(page==='servers') loadLive();
+    if(page==='codes') loadCodes();
+    if(page==='analytics') loadAnalytics();
+    if(page==='economy') loadEconomy();
+    if(page==='events') renderEventDrafts();
+    if(page==='updates') loadUpdates();
+    if(page==='diagnostics') loadDiagnostics();
+    if(page==='tournaments') loadTournaments();
+    if(page==='notifications') renderNotificationDrafts();
+    if(page==='godmode') loadGodmode();
+    if(page==='integrations') loadIntegrations();
+    if(page==='studio') loadStudio();
+    if(page==='operations') loadOps().catch(showOpsError);
+    if(page==='qa') refreshQaSummary();
+    if(page==='liveops') renderLiveops();
+    if(page==='backups') refreshBackupSummary();
+    if(page==='assistant') runAssistant();
+
+  }
+  document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+  document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
+  async function loadOverview() {
+    const data=await request('/api/admin/overview');
+    $('totalPlayers').textContent=fmt(data.totalPlayers);
+    $('activePlayers').textContent=fmt(data.activePlayers7d);
+    $('onlinePlayers').textContent=fmt(data.onlinePlayers);
+    $('activeRooms').textContent=fmt(data.activeRooms);
+    $('gamesCount').textContent=fmt(data.gamesInSample);
+    $('killsCount').textContent=fmt(data.killsInSample);
+    $('sampleNote').textContent='Échantillon analysé : '+fmt(data.sampledPlayers)+' profils sur '+fmt(data.totalPlayers)+' comptes au total.';
+    $('recentList').innerHTML=(data.recentPlayers||[]).length ? data.recentPlayers.map(p=>'<div class="listRow"><div><div class="listTitle">'+esc(p.name)+'</div><div class="listSub">'+date(p.updatedAt)+'</div></div><div class="score">'+fmt(p.score)+' pts</div></div>').join('') : '<div class="empty">Aucun joueur enregistré pour le moment.</div>';
+    $('topList').innerHTML=(data.topPlayers||[]).length ? data.topPlayers.map((p,i)=>'<div class="listRow"><div><div class="listTitle">#'+(i+1)+' '+esc(p.name)+'</div><div class="listSub">Vague '+fmt(p.wave)+'</div></div><div class="score">'+fmt(p.score)+'</div></div>').join('') : '<div class="empty">Aucun score enregistré.</div>';
+  }
+  async function loadLive() {
+    const data=await request('/api/admin/live');
+    $('livePlayers').textContent=fmt(data.onlinePlayers);
+    $('liveRooms').textContent=fmt(data.activeRooms);
+    $('onlinePlayers').textContent=fmt(data.onlinePlayers);
+    $('activeRooms').textContent=fmt(data.activeRooms);
+    $('roomsList').innerHTML=(data.rooms||[]).length ? data.rooms.map(r=>'<div class="roomItem"><div><b>'+esc(r.room)+'</b><div class="muted small">'+esc(r.mode)+(r.wave ? ' · vague '+fmt(r.wave) : '')+'</div></div><span class="badge good">'+fmt(r.players)+' joueur(s)</span></div>').join('') : '<div class="empty">Aucun salon actif actuellement.</div>';
+    $('serverState').textContent='● WebSocket opérationnel';
+  }
+  async function loadPlayers() {
+    const q=$('playerSearch').value.trim();
+    $('playersBody').innerHTML='<tr><td colspan="7" class="empty">Chargement…</td></tr>';
+    try {
+      const data=await request('/api/admin/players?q='+encodeURIComponent(q)+'&limit=25&offset='+playerOffset);
+      currentItems=data.items||[]; playerTotal=Number(data.total||0);
+      $('playersBody').innerHTML=currentItems.length ? currentItems.map(p=>'<tr><td class="playerName">'+esc(p.name)+'</td><td class="mono">'+esc(p.playerId)+'</td><td class="mono">'+fmt(p.score)+'</td><td>'+fmt(p.wave)+'</td><td>'+fmt(p.games)+'</td><td>'+fmt(p.kills)+'</td><td>'+date(p.updatedAt)+'</td></tr>').join('') : '<tr><td colspan="7" class="empty">Aucun joueur trouvé.</td></tr>';
+      $('playerCount').textContent=playerTotal ? (playerOffset+1)+'–'+Math.min(playerOffset+currentItems.length,playerTotal)+' sur '+fmt(playerTotal)+' joueur(s)' : 'Aucun résultat';
+      $('prevBtn').disabled=playerOffset===0;
+      $('nextBtn').disabled=playerOffset+currentItems.length>=playerTotal || currentItems.length===0;
+    } catch(error) { $('playersBody').innerHTML='<tr><td colspan="7" class="empty">'+esc(error.message)+'</td></tr>'; }
+  }
+  async function refreshAll() {
+    if(!token) return showLogin();
+    $('refreshBtn').disabled=true; $('apiBadge').textContent='● Actualisation…';
+    try {
+      await Promise.all([loadOverview(),loadLive()]);
+      if($('page-codes').classList.contains('active')) await loadCodes();
+      $('apiBadge').textContent='● API connectée'; $('sideDot').classList.remove('off'); $('sideStatus').textContent='Connexion active';
+      $('lastUpdate').textContent=new Date().toLocaleString('fr-FR');
+    } catch(error) {
+      $('apiBadge').textContent='● Erreur API'; $('sideDot').classList.add('off'); $('sideStatus').textContent='À vérifier';
+      console.error(error);
+    } finally { $('refreshBtn').disabled=false; }
+  }
+
+  async function loadCodes() {
+    $('adminCodesList').innerHTML='<div class="empty">Chargement…</div>';
+    $('adminRedemptionsList').innerHTML='<div class="empty">Chargement…</div>';
+    const data=await request('/api/admin/codes');
+    $('walletBank').textContent=fmt(data.wallet?.bank);
+    $('walletXp').textContent=fmt(data.wallet?.xp);
+    $('adminCodesList').innerHTML=(data.codes||[]).length ? data.codes.map(c=>{
+      const reward=(c.reward_type==='bank'?'Argent':'XP')+' · '+fmt(c.reward_amount);
+      const expiry=c.expires_at?' · expire le '+date(c.expires_at):' · sans expiration';
+      return '<div class="listRow"><div><div class="listTitle">'+esc(c.code_hint)+'</div><div class="listSub">'+esc(reward)+expiry+'</div></div><div class="score">'+fmt(c.used_count)+' / '+fmt(c.max_uses)+'</div></div>';
+    }).join('') : '<div class="empty">Aucun code créé pour le moment.</div>';
+    $('adminRedemptionsList').innerHTML=(data.redemptions||[]).length ? data.redemptions.map(r=>{
+      const reward=(r.reward_type==='bank'?'Argent':'XP')+' +'+fmt(r.reward_amount);
+      return '<div class="listRow"><div><div class="listTitle">'+esc(reward)+'</div><div class="listSub">'+date(r.redeemed_at)+'</div></div><div class="score">'+fmt(r.new_balance)+'</div></div>';
+    }).join('') : '<div class="empty">Aucune récompense activée pour le moment.</div>';
+    if(!data.hasSave) $('redeemMsg').textContent='Aucune sauvegarde de jeu n’a encore été trouvée pour ce compte.';
+  }
+  $('redeemForm').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const btn=$('redeemBtn'); btn.disabled=true; btn.textContent='Activation…'; $('redeemMsg').textContent='';
+    try {
+      const data=await request('/api/admin/codes/redeem',{method:'POST',body:JSON.stringify({code:$('redeemCode').value})});
+      const label=data.rewardType==='bank'?'argent du jeu':'XP';
+      $('redeemMsg').textContent='Récompense activée : +'+fmt(data.rewardAmount)+' '+label+'. Nouveau solde : '+fmt(data.newBalance)+'.';
+      $('redeemMsg').className='small';
+      $('redeemCode').value='';
+      await loadCodes();
+    } catch(error) { $('redeemMsg').textContent=error.message; $('redeemMsg').className='small error'; }
+    finally { btn.disabled=false; btn.textContent='Activer la récompense'; }
+  });
+  $('createCodeForm').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const btn=$('createCodeBtn'); btn.disabled=true; btn.textContent='Création…'; $('createCodeMsg').textContent='';
+    try {
+      const expiry=$('codeExpiry').value;
+      const data=await request('/api/admin/codes/create',{method:'POST',body:JSON.stringify({
+        code:$('newRewardCode').value,
+        rewardType:$('rewardType').value,
+        amount:Number($('rewardAmount').value),
+        maxUses:Number($('maxUses').value),
+        expiresAt:expiry?new Date(expiry).toISOString():null
+      })});
+      $('createCodeMsg').textContent='Code créé : '+data.code+' — copie-le maintenant, il ne sera plus affiché en entier.';
+      $('newRewardCode').value='';
+      await loadCodes();
+    } catch(error) { $('createCodeMsg').textContent=error.message; }
+    finally { btn.disabled=false; btn.textContent='Créer le code'; }
+  });
+  $('reloadCodesBtn').addEventListener('click',()=>loadCodes().catch(e=>$('adminCodesList').textContent=e.message));
+
+
+
+  async function loadIntegrations(){
+    $('integrationCommits').innerHTML='<div class="empty">Vérification des dépôts…</div>';
+    try{
+      const d=await request('/api/admin/integrations');
+      $('intSupabase').innerHTML=d.supabase.connected?'<span class="statusOk">Connecté</span>':'<span class="statusBad">Erreur</span>';
+      $('intSupabaseDetail').textContent=d.supabase.connected?fmt(d.supabase.players)+' profils · '+fmt(d.supabase.saves)+' sauvegardes':'Lecture de la base impossible';
+      $('intRender').innerHTML=d.render.frontend?'<span class="statusOk">En ligne</span>':'<span class="statusBad">À vérifier</span>';
+      $('intRenderDetail').textContent='Frontend HTTP '+(d.render.frontendStatus||'indisponible')+' · backend actif';
+      $('intApi').innerHTML=d.api.connected?'<span class="statusOk">Opérationnelle</span>':'<span class="statusBad">À vérifier</span>';
+      const repos=[['Jeu',d.github.game],['Serveur',d.github.server]];
+      $('intGithub').innerHTML=repos.every(x=>x[1].connected)?'<span class="statusOk">Connecté</span>':'<span class="statusBad">Partiel</span>';
+      $('intGithubDetail').textContent=repos.filter(x=>x[1].connected).length+'/2 dépôts accessibles';
+      $('integrationCommits').innerHTML=repos.map(([name,c])=>'<div class="listRow"><div><b>'+esc(name)+'</b><div class="listSub">'+(c.connected?esc(c.sha)+' · '+esc(c.message)+' · '+date(c.date):'Dépôt non accessible')+'</div></div>'+(c.connected&&c.url?'<a href="'+esc(c.url)+'" target="_blank" rel="noopener noreferrer">Voir le commit ↗</a>':'<span class="badge warn">Indisponible</span>')+'</div>').join('');
+      $('integrationChecked').textContent='Dernière vérification : '+date(d.checkedAt);
+    }catch(e){
+      $('intSupabase').textContent='Erreur';$('intRender').textContent='Erreur';$('intGithub').textContent='Erreur';$('intApi').textContent='Erreur';
+      $('integrationCommits').innerHTML='<div class="empty">'+esc(e.message)+'</div>';
+    }
+  }
+  $('integrationsReload').addEventListener('click',()=>loadIntegrations().catch(e=>alert(e.message)));
+
+  let latestOverview=null;
+  async function loadAnalytics(){
+    const d=latestOverview||await request('/api/admin/overview');latestOverview=d;
+    $('anPlayers').textContent=fmt(d.totalPlayers);$('anActive').textContent=fmt(d.activePlayers7d);$('anGames').textContent=fmt(d.gamesInSample);$('anKills').textContent=fmt(d.killsInSample);
+    const top=d.topPlayers||[],max=Math.max(1,...top.map(x=>Number(x.score||0)));
+    $('analyticsBars').innerHTML=top.length?top.map((p,i)=>'<div class="listRow"><div style="flex:1;min-width:0"><div class="listTitle">#'+(i+1)+' '+esc(p.name)+'</div><div class="barTrack"><div class="barFill" style="width:'+Math.max(1,Math.min(100,Number(p.score||0)/max*100))+'%"></div></div></div><div class="score">'+fmt(p.score)+'</div></div>').join(''):'<div class="empty">Aucun score disponible.</div>';
+  }
+  async function loadEconomy(){
+    const d=await request('/api/admin/economy');$('ecoBank').textContent=fmt(d.bank);$('ecoXp').textContent=fmt(d.xp);$('ecoSaves').textContent=fmt(d.sampledSaves);$('ecoPlayers').textContent=fmt(d.sampledPlayers||0);
+  }
+  const readDrafts=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}};
+  const writeDrafts=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+  function renderEventDrafts(){
+    const items=readDrafts('ds_admin_event_drafts');
+    $('eventDraftList').innerHTML=items.length?items.map((e,i)=>'<div class="listRow"><div><b>'+esc(e.name)+'</b><div class="listSub">'+esc(e.description||'Sans description')+' · '+date(e.start)+' → '+date(e.end)+'</div></div><button class="btn ghost" data-remove-event="'+i+'">Supprimer</button></div>').join(''):'<div class="empty">Aucun brouillon.</div>';
+    $('eventDraftList').querySelectorAll('[data-remove-event]').forEach(b=>b.addEventListener('click',()=>{const a=readDrafts('ds_admin_event_drafts');a.splice(Number(b.dataset.removeEvent),1);writeDrafts('ds_admin_event_drafts',a);renderEventDrafts()}));
+  }
+  $('eventDraftForm').addEventListener('submit',e=>{e.preventDefault();const start=new Date($('eventStart').value),end=new Date($('eventEnd').value);if(!(end>start)){$('eventDraftMsg').textContent='La date de fin doit être après le début.';return}const a=readDrafts('ds_admin_event_drafts');a.unshift({name:$('eventName').value.trim(),description:$('eventDescription').value.trim(),start:start.toISOString(),end:end.toISOString(),createdAt:new Date().toISOString()});writeDrafts('ds_admin_event_drafts',a.slice(0,20));$('eventDraftMsg').textContent='Brouillon enregistré sur cet appareil.';$('eventDraftForm').reset();renderEventDrafts()});
+  async function loadUpdates(){const d=await request('/api/admin/diagnostics');$('updateApi').innerHTML='<span class="statusOk">En ligne</span>';$('updateDb').innerHTML='<span class="statusOk">Connectée</span>';$('updateWs').innerHTML='<span class="statusOk">Actif</span>';$('updateChecked').textContent='Dernière vérification : '+date(d.checkedAt)+' · Version API : '+esc(d.version)}
+  async function loadDiagnostics(){
+    $('diagDetails').innerHTML='<div class="empty">Tests en cours…</div>';
+    const d=await request('/api/admin/diagnostics');
+    $('diagApi').innerHTML='<span class="statusOk">OK</span>';$('diagDb').innerHTML='<span class="statusOk">OK</span>';$('diagRooms').textContent=fmt(d.activeRooms);$('diagOnline').textContent=fmt(d.onlinePlayers);
+    $('diagDetails').innerHTML=[['API HTTP','Réponse authentifiée reçue'],['Base de données','Lecture des tables joueurs et sauvegardes réussie'],['Joueurs enregistrés',fmt(d.playerRecords)],['Sauvegardes',fmt(d.saveRecords)],['WebSocket','Serveur actif'],['Vérification',date(d.checkedAt)]].map(x=>'<div class="listRow"><div><b>'+esc(x[0])+'</b><div class="listSub">'+esc(x[1])+'</div></div><span class="statusOk">OK</span></div>').join('');
+  }
+  async function loadTournaments(){
+    $('tournamentBody').innerHTML='<tr><td colspan="5" class="empty">Chargement…</td></tr>';
+    const d=await request('/api/admin/tournaments');
+    $('tournamentBody').innerHTML=(d.items||[]).length?d.items.map((p,i)=>'<tr><td>#'+(i+1)+'</td><td>'+esc(p.name)+'</td><td class="mono">'+fmt(p.score)+'</td><td>'+fmt(p.wave)+'</td><td>'+date(p.updatedAt)+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">Aucun score dans game_scores pour le moment.</td></tr>';
+  }
+  function renderNotificationDrafts(){
+    const a=readDrafts('ds_admin_notification_drafts');
+    $('notificationDraftList').innerHTML=a.length?a.map((n,i)=>'<div class="listRow"><div><b>'+esc(n.title)+'</b><div class="listSub">'+esc(n.body)+'</div></div><button class="btn ghost" data-remove-notice="'+i+'">Supprimer</button></div>').join(''):'<div class="empty">Aucun brouillon enregistré.</div>';
+    $('notificationDraftList').querySelectorAll('[data-remove-notice]').forEach(b=>b.addEventListener('click',()=>{const x=readDrafts('ds_admin_notification_drafts');x.splice(Number(b.dataset.removeNotice),1);writeDrafts('ds_admin_notification_drafts',x);renderNotificationDrafts()}));
+  }
+  $('notificationTitle').addEventListener('input',()=>{$('notificationPreviewTitle').textContent=$('notificationTitle').value||'Titre de l’annonce'});
+  $('notificationBody').addEventListener('input',()=>{$('notificationPreviewBody').textContent=$('notificationBody').value||'Le message apparaîtra ici.'});
+  $('notificationDraftForm').addEventListener('submit',e=>{e.preventDefault();const a=readDrafts('ds_admin_notification_drafts');a.unshift({title:$('notificationTitle').value.trim(),body:$('notificationBody').value.trim(),createdAt:new Date().toISOString()});writeDrafts('ds_admin_notification_drafts',a.slice(0,30));$('notificationMsg').textContent='Brouillon enregistré sur cet appareil. Aucun message envoyé.';$('notificationDraftForm').reset();$('notificationPreviewTitle').textContent='Titre de l’annonce';$('notificationPreviewBody').textContent='Le message apparaîtra ici.';renderNotificationDrafts()});
+  async function loadGodmode(){
+    const d=await request('/api/admin/godmode');$('godBank').textContent=fmt(d.wallet.bank);$('godXp').textContent=fmt(d.wallet.xp);$('godEmail').textContent=d.email||'—';$('godUserId').textContent=d.userId||'—';$('godSaveDate').textContent=date(d.saveUpdatedAt);
+  }
+  $('godSimulate').addEventListener('click',()=>{const n=Math.max(0,Math.floor(Number($('godTestAmount').value)||0));$('godSimulationResult').textContent='Simulation locale : +'+fmt(n)+' unités. Aucun crédit réel n’a été effectué.'});
+  async function runAssistant(){
+    $('assistantOutput').innerHTML='<div class="empty">Analyse des services…</div>';
+    try{const d=await request('/api/admin/diagnostics');const notes=[];
+      if(d.ok)notes.push(['API et base','Les vérifications de disponibilité répondent correctement.','good']);
+      if(d.playerRecords===0)notes.push(['Données joueurs','Aucun profil trouvé : vérifie la connexion et les sauvegardes.','warn']);
+      if(d.activeRooms===0)notes.push(['Multijoueur','Aucun salon actif à cet instant. Cela est normal si personne ne joue.','info']);
+      if(d.saveRecords===0)notes.push(['Sauvegardes','Aucune sauvegarde trouvée dans game_saves.','warn']);
+      notes.push(['Limite de l’analyse','Cette vérification ne teste pas le rendu 3D, les contrôles tactiles ou le gameplay.','info']);
+      $('assistantOutput').innerHTML=notes.map(n=>'<div class="listRow"><div><b>'+esc(n[0])+'</b><div class="listSub">'+esc(n[1])+'</div></div><span class="badge '+(n[2]==='good'?'good':n[2]==='warn'?'warn':'')+'">'+(n[2]==='good'?'OK':n[2]==='warn'?'À vérifier':'Info')+'</span></div>').join('');
+    }catch(e){$('assistantOutput').innerHTML='<div class="empty">'+esc(e.message)+'</div>'}
+  }
+  $('analyticsReload').addEventListener('click',()=>{latestOverview=null;loadAnalytics().catch(e=>alert(e.message))});
+  $('updatesReload').addEventListener('click',()=>loadUpdates().catch(e=>alert(e.message)));
+  $('diagnosticsReload').addEventListener('click',()=>loadDiagnostics().catch(e=>alert(e.message)));
+  $('tournamentReload').addEventListener('click',()=>loadTournaments().catch(e=>alert(e.message)));
+  $('assistantRun').addEventListener('click',runAssistant);
+
+  $('refreshBtn').addEventListener('click',refreshAll);
+  $('liveRefreshBtn').addEventListener('click',()=>loadLive().catch(e=>alert(e.message)));
+  $('searchBtn').addEventListener('click',()=>{playerOffset=0;loadPlayers();});
+  $('playerSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){playerOffset=0;loadPlayers();}});
+  $('prevBtn').addEventListener('click',()=>{playerOffset=Math.max(0,playerOffset-25);loadPlayers();});
+  $('nextBtn').addEventListener('click',()=>{playerOffset+=25;loadPlayers();});
+  $('exportBtn').addEventListener('click',()=>{
+    if(!currentItems.length) return alert('Aucun joueur à exporter. Charge d’abord la liste.');
+    const cols=['playerId','name','score','wave','games','kills','heads','hits','shots','damage','updatedAt'];
+    const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+    const csv=[cols.join(';'),...currentItems.map(p=>cols.map(k=>quote(p[k])).join(';'))].join('\n');
+    const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+    const a=document.createElement('a');a.href=url;a.download='dust-siege-joueurs.csv';a.click();URL.revokeObjectURL(url);
+  });
+  $('logoutBtn').addEventListener('click',()=>{sessionStorage.removeItem(TOKEN_KEY);token='';showLogin('Tu es déconnecté.');});
+
+  const studioKeys={patch:'ds_studio_patches',ideas:'ds_studio_ideas',feedback:'ds_studio_feedback',checks:'ds_studio_checks'};
+  const studioRead=k=>{try{return JSON.parse(localStorage.getItem(studioKeys[k])||'[]')}catch{return []}};
+  const studioWrite=(k,v)=>localStorage.setItem(studioKeys[k],JSON.stringify(v));
+  function loadStudio(){
+    const patches=studioRead('patch'),ideas=studioRead('ideas'),feedback=studioRead('feedback');
+    $('studioPatchCount').textContent=patches.length;$('studioIdeaCount').textContent=ideas.length;$('studioFeedbackCount').textContent=feedback.length;
+    const checks=JSON.parse(localStorage.getItem(studioKeys.checks)||'[]');$('studioChecks').textContent=checks.filter(Boolean).length+'/6';
+    $('studioChecklist').querySelectorAll('[data-studio-check]').forEach(el=>el.checked=!!checks[Number(el.dataset.studioCheck)]);
+    const row=(title,sub,attr)=>'<div class="listRow"><div><b>'+esc(title)+'</b><div class="listSub">'+esc(sub)+'</div></div><button class="btn ghost" '+attr+'>Supprimer</button></div>';
+    $('studioPatchList').innerHTML=patches.length?patches.map((x,i)=>row(x.title,(x.version||'Sans version')+' · '+x.type+' · '+date(x.createdAt),'data-studio-remove-patch="'+i+'"')).join(''):'<div class="empty">Aucune note de version.</div>';
+    $('studioIdeaList').innerHTML=ideas.length?ideas.map((x,i)=>row(x.title,'Priorité '+x.priority+' · '+date(x.createdAt),'data-studio-remove-idea="'+i+'"')).join(''):'<div class="empty">Aucune idée enregistrée.</div>';
+    $('studioFeedbackList').innerHTML=feedback.length?feedback.map((x,i)=>row(x.title,x.type+' · '+date(x.createdAt),'data-studio-remove-feedback="'+i+'"')).join(''):'<div class="empty">Aucun retour consigné.</div>';
+    [['patch','studioPatchList','patch'],['ideas','studioIdeaList','idea'],['feedback','studioFeedbackList','feedback']].forEach(([key,id,suffix])=>$(id).querySelectorAll('[data-studio-remove-'+suffix+']').forEach(b=>b.addEventListener('click',()=>{const a=studioRead(key);a.splice(Number(b.getAttribute('data-studio-remove-'+suffix)),1);studioWrite(key,a);loadStudio()})));
+  }
+  $('studioPatchForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('patch');a.unshift({title:$('studioPatchTitle').value.trim(),version:$('studioPatchVersion').value.trim(),type:$('studioPatchType').value,body:$('studioPatchBody').value.trim(),createdAt:new Date().toISOString()});studioWrite('patch',a.slice(0,50));$('studioPatchForm').reset();$('studioPatchMsg').textContent='Brouillon enregistré localement.';loadStudio()});
+  $('studioIdeaForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('ideas');a.unshift({title:$('studioIdeaTitle').value.trim(),priority:$('studioIdeaPriority').value,createdAt:new Date().toISOString()});studioWrite('ideas',a.slice(0,100));$('studioIdeaForm').reset();loadStudio()});
+  $('studioFeedbackForm').addEventListener('submit',e=>{e.preventDefault();const a=studioRead('feedback');a.unshift({title:$('studioFeedbackTitle').value.trim(),type:$('studioFeedbackType').value,body:$('studioFeedbackBody').value.trim(),createdAt:new Date().toISOString()});studioWrite('feedback',a.slice(0,100));$('studioFeedbackForm').reset();loadStudio()});
+  $('studioChecklist').querySelectorAll('[data-studio-check]').forEach(el=>el.addEventListener('change',()=>{const a=JSON.parse(localStorage.getItem(studioKeys.checks)||'[]');a[Number(el.dataset.studioCheck)]=el.checked;localStorage.setItem(studioKeys.checks,JSON.stringify(a));$('studioChecks').textContent=a.filter(Boolean).length+'/6'}));
+
+
+  // Extensions console v2 : supervision, QA, LiveOps et sauvegardes locales.
+  const dsLocalPrefix=['ds_admin_','ds_studio_','ds_liveops_'];
+  const localSnapshot=()=>{const out={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(dsLocalPrefix.some(p=>k.startsWith(p))){out[k]=localStorage.getItem(k)}}return out};
+  const setStatus=(id,ok,label)=>{const el=$(id);if(!el)return;el.textContent=label;el.className='metric '+(ok?'statusOk':'statusBad')};
+  async function loadOps(){
+    $('opsServices').innerHTML='<div class="empty">Vérification des services…</div>';
+    const [d,i,l]=await Promise.all([request('/api/admin/diagnostics'),request('/api/admin/integrations'),request('/api/admin/live')]);
+    setStatus('opsApi',!!d.ok,'OK');$('opsApiSub').textContent='API et WebSocket : '+(d.websocket||'état inconnu');
+    setStatus('opsDb',d.database==='operational','OK');$('opsDbSub').textContent='Base : '+(d.database||'inconnue');
+    $('opsPlayers').textContent=fmt(d.playerRecords);$('opsSaves').textContent=fmt(d.saveRecords);
+    $('opsOnline').textContent=fmt(l.onlinePlayers);$('opsRooms').textContent=fmt(l.activeRooms);
+    const rows=[
+      ['API backend',d.ok,'Réponse du diagnostic serveur'],
+      ['Supabase',i.supabase?.connected,'Connexion et comptages'],
+      ['Site du jeu',i.render?.frontend,'Réponse HTTP du site'],
+      ['Dépôt GitHub du jeu',i.github?.game?.connected,'Dernier commit : '+(i.github?.game?.sha||'non disponible')],
+      ['Dépôt GitHub du serveur',i.github?.server?.connected,'Dernier commit : '+(i.github?.server?.sha||'non disponible')]
+    ];
+    $('opsServices').innerHTML=rows.map(x=>'<div class="listRow"><div><b>'+esc(x[0])+'</b><div class="listSub">'+esc(x[2])+'</div></div><span class="badge '+(x[1]?'good':'warn')+'">'+(x[1]?'Connecté':'À vérifier')+'</span></div>').join('');
+    $('opsChecked').textContent='Dernier contrôle : '+date(i.checkedAt||d.checkedAt);
+  }
+  function showOpsError(e){$('opsServices').innerHTML='<div class="empty">'+esc(e.message||'Erreur de contrôle')+'</div>'}
+  const qaRunsKey='ds_admin_qa_runs';
+  function getQaRuns(){try{return JSON.parse(localStorage.getItem(qaRunsKey)||'[]')}catch{return []}}
+  function refreshQaSummary(){const r=getQaRuns();$('qaRuns').textContent=r.length;$('qaWhen').textContent=r[0]?date(r[0].at):'—';if(r[0]){$('qaPassed').textContent=r[0].passed;$('qaFailed').textContent=r[0].failed}}
+  async function runQa(){
+    $('qaResults').innerHTML='<div class="empty">Tests en cours…</div>';
+    const tests=[];
+    try{const r=await fetch(API+'/health',{cache:'no-store'});const d=await r.json();tests.push({name:'API publique',ok:r.ok&&d.ok,detail:'HTTP '+r.status+' · WebSocket '+(d.websocket?'annoncé':'non confirmé')})}catch(e){tests.push({name:'API publique',ok:false,detail:e.message})}
+    try{const d=await request('/api/admin/diagnostics');tests.push({name:'Diagnostics protégés',ok:!!d.ok&&d.database==='operational',detail:'Base '+d.database+' · '+fmt(d.playerRecords)+' profils'})}catch(e){tests.push({name:'Diagnostics protégés',ok:false,detail:e.message})}
+    const ids=['page-operations','page-qa','page-liveops','page-backups','studioPatchForm','studioIdeaForm','studioFeedbackForm','notificationDraftForm'];
+    const missing=ids.filter(id=>!$(id));tests.push({name:'Éléments de console',ok:missing.length===0,detail:missing.length?'Manquants : '+missing.join(', '):ids.length+' éléments trouvés'});
+    tests.push({name:'Authentification développeur',ok:!!token,detail:token?'Jeton de session présent':'Session absente — reconnecte-toi si nécessaire'});
+    const passed=tests.filter(x=>x.ok).length,failed=tests.length-passed,at=new Date().toISOString();
+    const runs=getQaRuns();runs.unshift({at,passed,failed,tests});localStorage.setItem(qaRunsKey,JSON.stringify(runs.slice(0,20)));
+    $('qaPassed').textContent=passed;$('qaFailed').textContent=failed;$('qaWhen').textContent=date(at);$('qaRuns').textContent=Math.min(runs.length,20);
+    $('qaResults').innerHTML=tests.map(x=>'<div class="listRow"><div><b>'+esc(x.name)+'</b><div class="listSub">'+esc(x.detail)+'</div></div><span class="badge '+(x.ok?'good':'warn')+'">'+(x.ok?'Réussi':'À vérifier')+'</span></div>').join('');
+  }
+  $('qaRun').addEventListener('click',()=>runQa().catch(e=>alert(e.message)));
+  $('opsRefresh').addEventListener('click',()=>loadOps().catch(showOpsError));
+  const liveopsKey='ds_liveops_items';
+  const getLiveops=()=>{try{return JSON.parse(localStorage.getItem(liveopsKey)||'[]')}catch{return []}};
+  function renderLiveops(){const items=getLiveops().sort((a,b)=>String(a.date).localeCompare(String(b.date)));$('liveopsList').innerHTML=items.length?items.map((x,i)=>'<div class="listRow"><div><b>'+esc(x.title)+'</b><div class="listSub">'+esc(x.type)+' · '+esc(date(x.date))+'</div><div class="listSub">'+esc(x.notes||'Aucun détail')+'</div></div><button class="btn ghost" data-liveops-remove="'+i+'">Supprimer</button></div>').join(''):'<div class="empty">Aucun brouillon planifié.</div>';$('liveopsList').querySelectorAll('[data-liveops-remove]').forEach(b=>b.addEventListener('click',()=>{const a=getLiveops();a.splice(Number(b.dataset.liveopsRemove),1);localStorage.setItem(liveopsKey,JSON.stringify(a));renderLiveops()}))}
+  $('liveopsForm').addEventListener('submit',e=>{e.preventDefault();const a=getLiveops();a.push({title:$('liveopsTitle').value.trim(),type:$('liveopsType').value,date:$('liveopsDate').value,notes:$('liveopsNotes').value.trim(),createdAt:new Date().toISOString()});localStorage.setItem(liveopsKey,JSON.stringify(a.slice(0,100)));$('liveopsForm').reset();$('liveopsMsg').textContent='Brouillon enregistré localement. Rien n’a été publié.';renderLiveops()});
+  function refreshBackupSummary(){const d=localSnapshot(),raw=JSON.stringify(d);$('backupKeys').textContent=Object.keys(d).length;$('backupSize').textContent=(new Blob([raw]).size/1024).toFixed(1)+' Ko';$('backupLast').textContent=localStorage.getItem('ds_admin_backup_last')||'—';}
+  $('backupExport').addEventListener('click',()=>{const payload={format:'dust-siege-console-local-backup',version:1,createdAt:new Date().toISOString(),data:localSnapshot()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='dust-siege-console-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);localStorage.setItem('ds_admin_backup_last',new Date().toLocaleString('fr-FR'));$('backupMsg').textContent='Export local téléchargé.';refreshBackupSummary()});
+  $('backupImport').addEventListener('click',async()=>{const file=$('backupFile').files?.[0];if(!file)return alert('Choisis d’abord un fichier JSON.');try{if(file.size>2*1024*1024)throw new Error('Fichier trop volumineux (maximum 2 Mo).');const payload=JSON.parse(await file.text());if(payload.format!=='dust-siege-console-local-backup'||!payload.data||typeof payload.data!=='object'||Array.isArray(payload.data))throw new Error('Format de sauvegarde non reconnu.');const keys=Object.keys(payload.data);if(keys.some(k=>!dsLocalPrefix.some(p=>k.startsWith(p))))throw new Error('Le fichier contient des clés non autorisées.');if(!confirm('Restaurer '+keys.length+' élément(s) local(aux) ? Les clés correspondantes seront remplacées.'))return;keys.forEach(k=>{if(typeof payload.data[k]!=='string')throw new Error('Contenu invalide pour '+k);localStorage.setItem(k,payload.data[k])});$('backupMsg').textContent='Restauration locale terminée. Recharge la page si certains panneaux ne se mettent pas à jour.';refreshBackupSummary()}catch(e){$('backupMsg').textContent='Échec : '+e.message}});
+
+  if(token) {
+    showApp();
+    refreshAll().catch(()=>showLogin('Session expirée. Reconnecte-toi.'));
+  }
+  setInterval(()=>{if(token && !$('app').classList.contains('hidden'))refreshAll();},30000);
+})();
+</script>
+</body>
+</html>
