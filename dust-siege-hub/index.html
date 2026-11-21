@@ -31,7 +31,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0;color:var
 </style>
 </head>
 <body>
-<header class="wrap"><a class="brand" href="#">DUST <span>SIEGE HUB</span></a><nav><a href="#joueurs">Joueurs</a><a href="#compte">Mon compte</a><a href="#communaute">Communauté</a><a href="#aide">Aide</a><a href="#liens">Liens</a></nav></header>
+<header class="wrap"><a class="brand" href="#">DUST <span>SIEGE HUB</span></a><nav><a href="#joueurs">Joueurs</a><a href="#compte">Mon compte</a><a href="#communaute">Communauté</a><a href="#idees">Idées & sondages</a><a href="#tournois">Tournois</a><a href="#aide">Aide</a><a href="#liens">Liens</a></nav></header>
 <main class="wrap">
 <section class="hero"><div><div class="eyebrow">Le centre communautaire officiel</div><h1>UN SEUL HUB.<br><span style="color:var(--orange)">TOUTE LA ZONE.</span></h1><p>Retrouve les accès au jeu, les informations du projet et les outils communautaires Dust Siege depuis un espace unique.</p><div class="actions"><a class="btn" href="https://dust-siege-game-v9.onrender.com">Jouer maintenant ↗</a><a class="btn alt" href="#communaute">Explorer le Hub</a></div></div><div class="hero-art"><div class="mark">DS</div></div></section>
 <section id="joueurs"><h2>Espace joueurs</h2><p class="lead">Les services communautaires à retrouver ici. Les fonctions nécessitant un compte ou un serveur seront activées séparément.</p><div class="grid">
@@ -67,12 +67,30 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0;color:var
 
 <section id="communaute"><h2>Communauté & activités</h2><p class="lead">Un espace pour faire vivre le projet avec les joueurs.</p><div class="grid">
 <div class="card"><div class="ico">📣</div><h3>Actualités</h3><p>Consulte les annonces et nouveautés du projet.</p><a class="tag" href="https://dust-siege-control.onrender.com/">Ouvrir le portail ↗</a></div>
-<div class="card"><div class="ico">💡</div><h3>Idées & sondages</h3><p>Proposer des améliorations et voter pour les prochaines priorités.</p><span class="status">À développer</span></div>
-<div class="card"><div class="ico">🏆</div><h3>Tournois & défis</h3><p>Préparer les événements, les inscriptions et les résultats.</p><span class="status">À développer</span></div>
+<a class="card" href="#idees"><div class="ico">💡</div><h3>Idées & sondages</h3><p>Propose tes idées et vote pour les prochaines évolutions.</p><span class="status">Participer</span></a>
+<a class="card" href="#tournois"><div class="ico">🏆</div><h3>Tournois & défis</h3><p>Découvre les événements et inscris ton équipe.</p><span class="status">Voir les tournois</span></a>
 <div class="card"><div class="ico">🎖️</div><h3>Succès & récompenses</h3><p>Suivre les trophées et les objectifs communautaires.</p><span class="status">À connecter</span></div>
 <div class="card"><div class="ico">🖼️</div><h3>Galerie</h3><p>Partager les captures et créations de la communauté, avec modération.</p><span class="status">À développer</span></div>
 <div class="card"><div class="ico">🛡️</div><h3>Règles & sécurité</h3><p>Respect, fair-play et protection des informations personnelles.</p><a class="tag" href="https://dust-siege-control.onrender.com/#fairplay">Consulter les règles ↗</a></div>
 </div></section>
+
+<section id="idees"><h2>Idées & sondages communautaires</h2><p class="lead">Les joueurs proposent, la communauté vote. Une seule voix par compte et par sondage.</p>
+<div class="split">
+<div class="panel"><h3>📊 Sondages ouverts</h3><div id="poll-list" class="form"><p class="muted">Chargement des sondages…</p></div></div>
+<div class="panel"><h3>💡 Proposer une idée</h3><form class="form" id="idea-form">
+<label>Titre de ton idée<input id="idea-title" required minlength="5" maxlength="100" placeholder="Ex. Ajouter une nouvelle carte"></label>
+<label>Catégorie<select id="idea-category"><option>Gameplay</option><option>Armes</option><option>Cartes</option><option>Modes</option><option>Communauté</option><option>Autre</option></select></label>
+<label>Description<textarea id="idea-details" maxlength="1200" placeholder="Explique ton idée en quelques phrases…"></textarea></label>
+<button class="btn" type="submit" id="idea-submit">Envoyer mon idée</button><div class="auth-message" id="idea-message" role="status"></div>
+</form></div>
+</div>
+<div class="panel" style="margin-top:14px"><h3>🔥 Idées de la communauté</h3><div id="idea-list" class="grid"><p class="muted">Chargement des idées…</p></div></div>
+</section>
+<section id="tournois"><h2>Tournois Dust Siege</h2><p class="lead">Consulte les événements et réserve ta place avec ton compte Dust Siege.</p>
+<div id="tournament-list" class="grid"><div class="panel"><p class="muted">Chargement des tournois…</p></div></div>
+<p class="note">Les inscriptions sont personnelles. Les dates et règles détaillées seront affichées sur chaque événement dès leur publication.</p>
+</section>
+
 <section id="aide"><h2>Centre d'aide</h2><p class="lead">Une question ou un bug ? Envoie un message à l'équipe Dust Siege.</p><div class="split"><div class="panel"><h3>Contacter l'équipe</h3><form class="form" id="help"><label>Pseudo *<input name="pseudo" required maxlength="30" placeholder="Ton pseudo"></label><label>E-mail (facultatif)<input name="email" type="email" maxlength="120" placeholder="Pour recevoir une réponse"></label><label>Message *<textarea name="message" required maxlength="3000" placeholder="Décris ta question ou ton problème…"></textarea></label><input name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px"><button class="btn" type="submit" id="send">Envoyer</button><div id="msg" role="status" aria-live="polite"></div></form><p class="note">Ne communique jamais ton mot de passe, ton adresse personnelle ou tes codes de connexion.</p></div><div class="panel"><h3>Liens utiles</h3><p class="muted">Le Hub est séparé du portail actuel. Tu peux toujours utiliser les deux.</p><p><a class="tag" href="https://dust-siege-control.onrender.com/">Centre de jeux / Portail ↗</a></p><p><a class="tag" href="https://dust-siege-game-v9.onrender.com">Lancer Dust Siege ↗</a></p><p><a class="tag" href="https://dust-siege-control.onrender.com/admin.html">Console d'administration ↗</a></p></div></div></section>
 <section id="liens"><h2>Accès rapides</h2><div class="grid"><a class="card" href="https://dust-siege-game-v9.onrender.com"><div class="ico">🎮</div><h3>Le jeu</h3><p>Ouvrir Dust Siege.</p></a><a class="card" href="https://dust-siege-control.onrender.com"><div class="ico">🌐</div><h3>Centre de jeux</h3><p>Actualités, guide et informations.</p></a><a class="card" href="https://dust-siege-control.onrender.com/admin.html"><div class="ico">⚙️</div><h3>Administration</h3><p>Accéder à la console existante.</p></a></div></section>
 </main>
@@ -96,6 +114,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 const $ = id => document.getElementById(id);
 const message = $('auth-message');
 const card = $('account-card');
+let currentUser = null;
 function say(text, error=false){ message.textContent=text; message.style.color=error?'#ff9b9b':'var(--green)'; }
 function switchTab(which){
  const login=which==='login';
@@ -106,6 +125,7 @@ function switchTab(which){
 $('tab-login').addEventListener('click',()=>switchTab('login'));
 $('tab-signup').addEventListener('click',()=>switchTab('signup'));
 function showUser(user){
+ currentUser = user || null;
  if(!user){card.innerHTML='<div class="ico">👤</div><strong>Pas encore connecté</strong><p class="muted">Connecte-toi pour accéder à ton espace joueur. Les profils, amis et classements seront reliés progressivement.</p>';return;}
  const name=(user.user_metadata&&user.user_metadata.display_name)||user.email||'Joueur';
  card.innerHTML='';
@@ -142,7 +162,78 @@ $('forgot-password').addEventListener('click',async()=>{
  if(error)say('Envoi impossible : '+error.message,true);else say('Lien de réinitialisation envoyé si cette adresse possède un compte.');
 });
 const {data:{session}}=await supabase.auth.getSession();showUser(session?.user||null);
-supabase.auth.onAuthStateChange((_event,session)=>showUser(session?.user||null));
+supabase.auth.onAuthStateChange((_event,session)=>{showUser(session?.user||null);refreshCommunity();});
+
+async function refreshCommunity(){ await Promise.all([loadPolls(),loadIdeas(),loadTournaments()]); }
+function node(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;}
+async function loadPolls(){
+ const host=$('poll-list');if(!host)return;host.replaceChildren();
+ const {data:polls,error}=await supabase.from('ds_community_polls').select('id,title,description,status,ends_at').eq('status','open').order('created_at',{ascending:false});
+ if(error){host.textContent='Impossible de charger les sondages.';return;}
+ if(!polls?.length){host.textContent='Aucun sondage ouvert pour le moment.';return;}
+ for(const poll of polls){
+  const wrap=node('div','panel');wrap.style.padding='14px';
+  wrap.append(node('strong','',poll.title),node('p','muted',poll.description||''));
+  const {data:opts}=await supabase.from('ds_community_poll_options').select('id,label').eq('poll_id',poll.id);
+  const {data:counts}=await supabase.rpc('ds_hub_poll_results',{p_poll_id:poll.id});
+  const {data:mine}=currentUser?await supabase.from('ds_community_poll_votes').select('option_id').eq('poll_id',poll.id).eq('user_id',currentUser.id).maybeSingle():{data:null};
+  const total=(counts||[]).reduce((n,x)=>n+Number(x.vote_count||0),0);
+  const form=node('div','form');let selected=null;
+  (opts||[]).forEach(opt=>{
+   const count=Number((counts||[]).find(x=>x.option_id===opt.id)?.vote_count||0);
+   const label=node('label','',opt.label+' — '+count+' vote(s)');
+   const radio=document.createElement('input');radio.type='radio';radio.name='poll-'+poll.id;radio.value=opt.id;radio.disabled=!!mine||!currentUser;radio.addEventListener('change',()=>selected=opt.id);
+   label.prepend(radio);form.append(label);
+   const bar=node('div','');bar.style.cssText='height:5px;background:#263747;border-radius:9px;overflow:hidden;margin:0 0 7px';
+   const fill=node('div','');fill.style.cssText='height:100%;width:'+(total?Math.round(count/total*100):0)+'%;background:var(--orange)';bar.append(fill);form.append(bar);
+  });
+  const btn=node('button','btn',mine?'Vote enregistré':(currentUser?'Voter':'Connecte-toi pour voter'));btn.type='button';btn.disabled=!!mine||!currentUser;
+  btn.addEventListener('click',async()=>{if(!selected){say('Choisis une réponse avant de voter.',true);return;}btn.disabled=true;const {error}=await supabase.from('ds_community_poll_votes').insert({poll_id:poll.id,option_id:selected,user_id:currentUser.id});if(error){say(error.code==='23505'?'Tu as déjà voté.':error.message,true);}else{say('Ton vote a été pris en compte !');await loadPolls();}});
+  form.append(btn);if(poll.ends_at)form.append(node('p','note','Fin : '+new Date(poll.ends_at).toLocaleDateString('fr-FR')));
+  wrap.append(form);host.append(wrap);
+ }
+}
+async function loadIdeas(){
+ const host=$('idea-list');if(!host)return;host.replaceChildren();
+ const {data:ideas,error}=await supabase.from('ds_community_ideas').select('id,title,details,category,status,created_at').order('created_at',{ascending:false}).limit(30);
+ if(error){host.textContent='Impossible de charger les idées.';return;}
+ if(!ideas?.length){host.textContent='Aucune idée pour le moment. Lance la première !';return;}
+ const {data:counts}=await supabase.rpc('ds_hub_idea_vote_counts');
+ const {data:mine}=currentUser?await supabase.from('ds_community_idea_votes').select('idea_id').eq('user_id',currentUser.id):{data:[]};
+ const voted=new Set((mine||[]).map(x=>x.idea_id));
+ ideas.forEach(idea=>{
+  const box=node('div','card');box.append(node('span','tag',idea.category),node('h3','',idea.title),node('p','',idea.details||'Pas de description.'));
+  const meta=node('p','note','Statut : '+({proposed:'Proposée',reviewing:'En étude',planned:'Prévue',done:'Réalisée',rejected:'Non retenue'}[idea.status]||idea.status));
+  const count=Number((counts||[]).find(x=>x.idea_id===idea.id)?.vote_count||0);
+  const vote=node('button','btn alt',voted.has(idea.id)?'👍 '+count+' · Déjà soutenue':'👍 Soutenir · '+count);
+  vote.type='button';vote.disabled=!currentUser||voted.has(idea.id);
+  vote.addEventListener('click',async()=>{vote.disabled=true;const {error}=await supabase.from('ds_community_idea_votes').insert({idea_id:idea.id,user_id:currentUser.id});if(error)say(error.message,true);else await loadIdeas();});
+  box.append(meta,vote);host.append(box);
+ });
+}
+$('idea-form').addEventListener('submit',async e=>{
+ e.preventDefault();const msg=$('idea-message'),btn=$('idea-submit');
+ if(!currentUser){msg.textContent='Connecte-toi pour proposer une idée.';return;}
+ btn.disabled=true;btn.textContent='Envoi…';
+ const {error}=await supabase.from('ds_community_ideas').insert({title:$('idea-title').value.trim(),details:$('idea-details').value.trim(),category:$('idea-category').value,created_by:currentUser.id});
+ if(error)msg.textContent='Envoi impossible : '+error.message;else{msg.textContent='Idée publiée. Merci pour ta proposition !';e.target.reset();await loadIdeas();}
+ btn.disabled=false;btn.textContent='Envoyer mon idée';
+});
+async function loadTournaments(){
+ const host=$('tournament-list');if(!host)return;host.replaceChildren();
+ const {data:events,error}=await supabase.from('ds_community_tournaments').select('id,title,description,game_mode,starts_at,max_players,status').in('status',['open','full']).order('starts_at',{ascending:true});
+ if(error){host.textContent='Impossible de charger les tournois.';return;}
+ if(!events?.length){const empty=node('div','panel');empty.append(node('h3','','Aucun tournoi annoncé'),node('p','muted','Les prochains événements seront publiés ici. Repasse bientôt !'));host.append(empty);return;}
+ for(const event of events){
+  const box=node('div','card');box.append(node('span','tag',event.game_mode),node('h3','',event.title),node('p','',event.description||'Règles communiquées prochainement.'),node('p','note','Début : '+new Date(event.starts_at).toLocaleString('fr-FR',{dateStyle:'medium',timeStyle:'short'})),node('p','note','Places maximum : '+event.max_players));
+  const {data:entry}=currentUser?await supabase.from('ds_community_tournament_entries').select('tournament_id').eq('tournament_id',event.id).eq('user_id',currentUser.id).maybeSingle():{data:null};
+  const btn=node('button','btn',entry?'Inscription confirmée':(currentUser?'S’inscrire':'Connecte-toi pour participer'));btn.type='button';btn.disabled=event.status!=='open'||!!entry||!currentUser;
+  btn.addEventListener('click',async()=>{btn.disabled=true;const {error}=await supabase.from('ds_community_tournament_entries').insert({tournament_id:event.id,user_id:currentUser.id});if(error)say(error.code==='23505'?'Tu es déjà inscrit.':error.message,true);else{say('Inscription au tournoi confirmée !');await loadTournaments();}});
+  box.append(btn);host.append(box);
+ }
+}
+
+refreshCommunity();
 </script>
 
 </body></html>
