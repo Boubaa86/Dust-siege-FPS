@@ -47,6 +47,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <button class="active" data-page="overview"><span class="navIcon">◈</span>Vue globale</button>
     <button data-page="players"><span class="navIcon">♙</span>Joueurs</button>
     <button data-page="servers"><span class="navIcon">▦</span>Serveurs</button>
+    <button data-page="messages"><span class="navIcon">✉</span>Messagerie en jeu</button>
     <button data-page="security"><span class="navIcon">⬡</span>Sécurité</button>
     <button data-page="codes"><span class="navIcon">⌘</span>Codes privés</button>
     <button data-page="analytics"><span class="navIcon">▤</span>Analytiques</button>
@@ -105,6 +106,27 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     <article class="card" style="margin-top:14px"><div class="sectionHead"><div><h2>Salons en cours</h2><p>Les salons disparaissent automatiquement lorsqu’ils sont vides.</p></div><button class="btn secondary" id="liveRefreshBtn">Actualiser</button></div><div id="roomsList"><div class="empty">Chargement…</div></div></article>
   </section>
 
+  <section class="page" id="page-messages">
+    <div class="sectionHead"><div><h2>Messagerie en direct</h2><p>Envoie une annonce à tous les joueurs connectés ou un message à un joueur précis.</p></div><span class="badge good">Connexion protégée</span></div>
+    <div class="split">
+      <article class="card">
+        <h3>Joueurs actuellement connectés</h3>
+        <p class="muted small">Les adresses e-mail ne s’affichent que si le joueur a activé volontairement leur partage.</p>
+        <div class="toolbar"><button class="btn secondary" id="onlineReload">↻ Actualiser la liste</button><span class="muted small" id="onlineCount">—</span></div>
+        <div id="onlinePlayersList"><div class="empty">Chargement…</div></div>
+      </article>
+      <article class="card">
+        <h3>Envoyer un message</h3>
+        <form id="adminMessageForm">
+          <div class="field"><label for="messageTarget">Destinataire</label><select id="messageTarget" required><option value="all">Tous les joueurs connectés</option></select></div>
+          <div class="field"><label for="adminMessageText">Message (500 caractères maximum)</label><textarea id="adminMessageText" rows="5" maxlength="500" required placeholder="Écris ton message pour les joueurs…"></textarea></div>
+          <button class="btn wide" id="adminMessageSend" type="submit">Envoyer dans le jeu</button>
+          <p class="muted small" id="adminMessageStatus" aria-live="polite"></p>
+        </form>
+      </article>
+    </div>
+    <div class="infoBox" style="margin-top:14px">Les messages sont transmis aux joueurs connectés. Un joueur hors ligne ne reçoit pas de message différé. Les envois sont journalisés pour la sécurité.</div>
+  </section>
   <section class="page" id="page-security">
     <div class="sectionHead"><div><h2>Sécurité et accès</h2><p>État des protections visibles dans la configuration actuelle.</p></div><span class="badge good">● Accès développeur</span></div>
     <div class="securityGrid">
@@ -410,6 +432,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
   let playerTotal = 0;
   const pageInfo = {
     overview: ['Vue globale', 'État du jeu et activité des joueurs.'],
+    messages: ['Messagerie en jeu', 'Joueurs connectés, partage volontaire des e-mails et annonces.'],
     players: ['Joueurs', 'Recherche et statistiques des profils enregistrés.'],
     servers: ['Serveurs', 'État des salons multijoueurs en direct.'],
     security: ['Sécurité', 'Contrôles d’accès et état des protections.'],
@@ -482,6 +505,7 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
     $('pageTitle').textContent=pageInfo[page][0]; $('pageSubtitle').textContent=pageInfo[page][1];
     if(page==='players') loadPlayers();
     if(page==='servers') loadLive();
+    if(page==='messages') loadAdminMessages();
     if(page==='codes') loadCodes();
     if(page==='analytics') loadAnalytics();
     if(page==='economy') loadEconomy();
@@ -765,6 +789,32 @@ main{min-width:0;padding:27px clamp(16px,3vw,42px) 48px}.topbar{display:flex;ali
   $('backupExport').addEventListener('click',()=>{const payload={format:'dust-siege-console-local-backup',version:1,createdAt:new Date().toISOString(),data:localSnapshot()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='dust-siege-console-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);localStorage.setItem('ds_admin_backup_last',new Date().toLocaleString('fr-FR'));$('backupMsg').textContent='Export local téléchargé.';refreshBackupSummary()});
   $('backupImport').addEventListener('click',async()=>{const file=$('backupFile').files?.[0];if(!file)return alert('Choisis d’abord un fichier JSON.');try{if(file.size>2*1024*1024)throw new Error('Fichier trop volumineux (maximum 2 Mo).');const payload=JSON.parse(await file.text());if(payload.format!=='dust-siege-console-local-backup'||!payload.data||typeof payload.data!=='object'||Array.isArray(payload.data))throw new Error('Format de sauvegarde non reconnu.');const keys=Object.keys(payload.data);if(keys.some(k=>!dsLocalPrefix.some(p=>k.startsWith(p))))throw new Error('Le fichier contient des clés non autorisées.');if(!confirm('Restaurer '+keys.length+' élément(s) local(aux) ? Les clés correspondantes seront remplacées.'))return;keys.forEach(k=>{if(typeof payload.data[k]!=='string')throw new Error('Contenu invalide pour '+k);localStorage.setItem(k,payload.data[k])});$('backupMsg').textContent='Restauration locale terminée. Recharge la page si certains panneaux ne se mettent pas à jour.';refreshBackupSummary()}catch(e){$('backupMsg').textContent='Échec : '+e.message}});
 
+  let onlineAdminPlayers=[];
+  async function loadAdminMessages(){
+    $('onlinePlayersList').innerHTML='<div class="empty">Chargement des joueurs connectés…</div>';
+    try{
+      const d=await request('/api/admin/online');onlineAdminPlayers=d.items||[];
+      $('onlineCount').textContent=fmt(d.total)+' connecté(s)';
+      $('onlinePlayersList').innerHTML=onlineAdminPlayers.length?onlineAdminPlayers.map(p=>
+        '<div class="listRow"><div><b>'+esc(p.name)+'</b><div class="listSub">'+esc(p.rooms.join(', '))+' · '+esc(p.userId.slice(0,8))+'</div><div class="listSub">'+(p.emailShared&&p.email?esc(p.email):'E-mail non partagé')+'</div></div><span class="badge '+(p.emailShared?'good':'')+'">'+(p.emailShared?'Partagé':'Privé')+'</span></div>'
+      ).join(''):'<div class="empty">Aucun compte authentifié connecté pour le moment.</div>';
+      const select=$('messageTarget'),selected=select.value;
+      select.innerHTML='<option value="all">Tous les joueurs connectés</option>'+onlineAdminPlayers.map(p=>'<option value="'+esc(p.userId)+'">'+esc(p.name)+' · '+esc(p.userId.slice(0,8))+'</option>').join('');
+      if([...select.options].some(o=>o.value===selected))select.value=selected;
+    }catch(e){$('onlinePlayersList').innerHTML='<div class="empty">'+esc(e.message)+'</div>'}
+  }
+  $('onlineReload').addEventListener('click',loadAdminMessages);
+  $('adminMessageForm').addEventListener('submit',async e=>{
+    e.preventDefault();const btn=$('adminMessageSend'),message=$('adminMessageText').value.trim(),target=$('messageTarget').value;
+    if(!message)return;
+    btn.disabled=true;btn.textContent='Envoi…';$('adminMessageStatus').textContent='';
+    try{
+      const d=await request('/api/admin/messages',{method:'POST',body:JSON.stringify({message,broadcast:target==='all',targetUserId:target==='all'?null:target})});
+      $('adminMessageStatus').textContent='Message envoyé à '+d.recipientCount+' connexion(s).';
+      $('adminMessageText').value='';
+    }catch(err){$('adminMessageStatus').textContent=err.message}
+    finally{btn.disabled=false;btn.textContent='Envoyer dans le jeu';}
+  });
   if(token) {
     showApp();
     refreshAll().catch(()=>showLogin('Session expirée. Reconnecte-toi.'));
