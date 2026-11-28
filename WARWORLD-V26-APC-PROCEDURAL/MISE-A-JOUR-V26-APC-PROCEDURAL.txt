@@ -1,0 +1,20 @@
+WARWORLD V26 — BLINDÉ APC PROCÉDURAL
+
+Cette version repart intégralement de WARWORLD-V25-Historique-Render-Postgres(1).zip.
+
+AJOUT
+- Remplacement du petit visuel de jeep par un blindé APC assemblé en primitives Three.js.
+- Caisse blindée, cabine vitrée, huit roues, moyeux, panneaux latéraux, phares, feux arrière, pare-chocs et tourelle décorative.
+- Le blindé reste dans le même groupe et à la même position que l'ancien véhicule.
+- Les fonctions de conduite, le joystick, la touche Y, le bouton tactile AUTO et le système de collision/écrasement existants restent utilisés.
+
+PRÉSERVATION
+- Aucun autre fichier de gameplay n'a été supprimé ou remplacé.
+- Les modèles GLB du soldat et les animations restent dans assets/.
+- Les menus, sauvegardes, carte, argent, viseur, commandes tactiles, multijoueur et correctifs V25 sont conservés.
+
+LIMITES DES TESTS
+- Vérification de syntaxe JavaScript effectuée sur tous les scripts intégrés au HTML avec Node.js.
+- Archive ZIP vérifiée après création.
+- Pas de test de partie en navigateur réel ni de déploiement Render effectué dans cette livraison.
+- Le modèle Meshy généré n'a pas pu être téléchargé, car Meshy a bloqué l'export GLB selon le forfait. Le blindé de cette version est donc un modèle procédural Three.js, et non le fichier Meshy.

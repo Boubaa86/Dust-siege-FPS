@@ -1,0 +1,14 @@
+WARWORLD V27 — FINITION GRAPHIQUE DE L’APC
+
+Cette mise à jour améliore le blindé existant sans modifier ses commandes, sa position,
+son système de collision ou le gameplay.
+
+AJOUTS VISUELS
+- Camouflage mat généré localement, sans téléchargement de texture.
+- Sculptures de pneus instanciées sur les huit roues et boulons sur les moyeux.
+- Plaques latérales, rangements, marchepieds et détails de fixation.
+- Calandre, protections de phares, prises d’air, trappe, antenne et crochets.
+- Marquage tactique bilatéral « WW / 08 ».
+
+Les ajouts sont chargés depuis v27_apc_graphics.js après l’initialisation du jeu.
+Cette livraison n’inclut pas encore de capture en jeu ni de test visuel sur appareil.

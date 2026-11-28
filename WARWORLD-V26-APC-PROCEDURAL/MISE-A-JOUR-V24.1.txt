@@ -1,0 +1,9 @@
+WARWORLD V24.2 — INTÉGRATION AGORA VOICE
+
+- Base V24.1 avec correctif de déclaration de paused conservé.
+- Chat vocal Agora : auto-join en multijoueur, micro automatique, push-to-talk, écoute seule.
+- Canaux Partie / Équipe / Clan (canal Clan réutilise l’équipe WARWORLD existante).
+- Réglage volume individuel et mute par joueur distant.
+- Préférences enregistrées localement et synchronisées dans la sauvegarde du compte si connecté.
+- Le serveur doit avoir AGORA_APP_ID et AGORA_APP_CERTIFICATE configurés dans Render.
+- Ne pas déployer avant configuration du certificat et test sur appareil réel.
