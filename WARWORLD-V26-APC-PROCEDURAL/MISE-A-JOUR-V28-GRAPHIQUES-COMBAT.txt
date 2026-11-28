@@ -1,0 +1,12 @@
+WARWORLD V28 — FINITION DES SOLDATS ET DE L’ARME
+
+AJOUTS VISUELS
+- Gilet modulaire, poches, sangles, protections d’épaules et de genoux.
+- Sac radio, antenne et dispositif de visée nocturne simplifié.
+- Marques d’escouade discrètes avec variantes de couleur.
+- Fusil de première personne avec garde-main ventilé, rails, hausse, guidon,
+  chargeur détaillé et frein de bouche.
+
+Les nouveaux accessoires sont décoratifs : les raycasts d’impact, les dégâts,
+les armes, les commandes et les déplacements restent ceux du jeu existant.
+Le script v28_combat_visuals.js est chargé après le correctif graphique V27.
